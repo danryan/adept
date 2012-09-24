@@ -1,0 +1,13 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+jQuery ->
+  $("#distribution_component_list").select2
+    tags: []
+    tokenSeparators: [ ",", " " ]
+    width: 'element'
+  $("#distribution_architecture_list").select2
+    tags: [ "amd64", "i386" ]
+    tokenSeparators: [ ",", " " ]
+    width: 'element'

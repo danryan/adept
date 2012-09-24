@@ -1,0 +1,5 @@
+= simple_form_for @package, :validate => true, :html => { :multipart => true, :class => 'form-horizontal' } do |f|
+  = f.input :component
+  = f.input :file, :as => :file
+  = f.input :distributions, :collection => Distribution.all, :as => :check_boxes
+  = f.button :submit

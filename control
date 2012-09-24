@@ -1,0 +1,22 @@
+Package: libpq-dev
+Source: postgresql-9.2
+Version: 9.2.0-1~lucid
+Architecture: amd64
+Maintainer: Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.debian.org>
+Installed-Size: 1548
+Depends: libc6 (>= 2.4), libpq5 (= 9.2.0-1~lucid), libssl-dev, libkrb5-dev, comerr-dev
+Suggests: postgresql-doc-9.2
+Homepage: http://www.postgresql.org/
+Priority: optional
+Section: libdevel
+Filename: pool/main/p/postgresql-9.2/libpq-dev_9.2.0-1~lucid_amd64.deb
+Size: 631456
+SHA256: 7cdf092cdea34d47cb04b46319b3d2f8a016dc467a4294de57a9ce2ff4ab062e
+SHA1: f456682238fff08963e56876a28dee5dc82b4ca3
+MD5sum: 759533531a17ffa64182dbf0a696810d
+Description: header files for libpq5 (PostgreSQL library)
+ Header files and static library for compiling C programs to link
+ with the libpq library in order to communicate with a PostgreSQL
+ database backend.
+ .
+ PostgreSQL is an object-relational SQL database management system.

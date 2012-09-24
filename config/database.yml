@@ -1,0 +1,22 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: adept_development
+  pool: 5
+  username: adept
+  password:
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: adept_test
+  pool: 5
+  username: adept
+  password:
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: adept_production
+  pool: 5
+  username: adept
+  password:
