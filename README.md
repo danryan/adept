@@ -1,3 +1,15 @@
+# Adept
+
+**a·dept**   [***adj***. *uh*-**dept**; ***n***. **ad**-ept, *uh*-**dept**]
+
+1. very skilled; proficient; expert: **an adept juggler.**
+2. synonym for **apt**: *a package manager.*
+
+
+## Is it any good?
+
+[Yes.](http://news.ycombinator.com/item?id=3067434)
+
 hook to github
 - grab repo, build on x86 and amd64,push to apt
 
