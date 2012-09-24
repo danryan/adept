@@ -15,6 +15,7 @@ hook to github
 
 # Directory structure
 
+```
 dists/
   codename (lucid)/
     Release (https://gist.github.com/3759886)
@@ -28,7 +29,7 @@ pool/
     letter (p)/
       source-or-package (postgresql-9.0)/
         packagename_upstreamversion-pkgversion~codename_arch.deb (postgresql-9.0_9.0.5-1~lucid_amd64.deb)
-
+```
 
 
 ## dists/lucid/Release
