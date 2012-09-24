@@ -2,8 +2,8 @@
 
 **a·dept**   [***adj***. *uh*-**dept**; ***n***. **ad**-ept, *uh*-**dept**]
 
-1. very skilled; proficient; expert: **an adept juggler.**
-2. synonym for **apt**: *a package manager.*
+1. very skilled; proficient; expert: *an adept juggler.*
+2. synonym for **apt**; a package manager: *an adept package repository manager.*
 
 
 ## Is it any good?
