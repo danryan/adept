@@ -14,7 +14,9 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require select2
+//= require jquery.validate
+//= require jquery.validate.additional-methods
 //= require rails.validations
 //= require rails.validations.simple_form
-//= require rails.validations.simple_form.overrides
+////======///= require rails.validations.simple_form.overrides
 //= require_tree .

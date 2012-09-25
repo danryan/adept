@@ -26,7 +26,9 @@ end
 gem 'sass-rails', '~> 3.2.3'
 gem 'bootstrap-sass', '~> 2.1.0.0'
 gem 'jquery-rails'
-gem 'select2-rails', :git => "https://github.com/danryan/select2-rails"
+gem 'select2-rails', '~> 3.2.1'
+gem 'underscore-rails'
+gem 'jquery-validation-rails', '~> 1.10.0'
 
 group :development do
   gem 'pry-rails'
