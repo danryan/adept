@@ -1,0 +1,3 @@
+%ul
+  - @packages.map(&:component).uniq.each do |component|
+    %li= link_to "#{component}/", apt_component_path(component)

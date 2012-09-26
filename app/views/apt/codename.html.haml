@@ -1,0 +1,3 @@
+%ul
+  - @distribution.component_list.sort.each do |component|
+    %li= link_to "#{component}/", apt_dist_component_path(@distribution.codename, component)

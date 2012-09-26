@@ -5,6 +5,9 @@ development:
   pool: 5
   username: adept
   password:
+  host: localhost
+  port: 5432
+
 test:
   adapter: postgresql
   encoding: unicode
@@ -12,6 +15,8 @@ test:
   pool: 5
   username: adept
   password:
+  host: localhost
+  port: 5432
 
 production:
   adapter: postgresql
@@ -20,3 +25,5 @@ production:
   pool: 5
   username: adept
   password:
+  host: localhost
+  port: 5432

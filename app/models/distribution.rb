@@ -19,8 +19,11 @@ class Distribution < ActiveRecord::Base
       :message => "is not a valid FQDN"
     }
     
+  validates :codename,
+    :uniqueness => {
+      :scope => :repository_id
+    }
   validate :validate_architecture_list
-  
 
   def to_param
     codename
