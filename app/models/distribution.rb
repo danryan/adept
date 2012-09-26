@@ -3,16 +3,25 @@ class Distribution < ActiveRecord::Base
   attr_accessible :codename, :description, :label, :origin, :sign_with, 
     :component_list, :architecture_list
 
+  belongs_to :repository
+  
   has_many :references
   has_many :packages, :through => :references
 
   acts_as_taggable_on :architectures, :components
 
-  validates :codename, :description, :label, :origin,
+  validates :codename, :description, :label, :origin, :architecture_list, :component_list,
     :presence => true
 
+  validates :origin, 
+    :format => {
+      :with => /^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/,
+      :message => "is not a valid FQDN"
+    }
+    
   validate :validate_architecture_list
   
+
   def to_param
     codename
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120923232352) do
+ActiveRecord::Schema.define(:version => 20120925183925) do
 
   create_table "distributions", :force => true do |t|
     t.string   "origin"
@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(:version => 20120923232352) do
     t.string   "codename"
     t.string   "description"
     t.string   "sign_with"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "repository_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "packages", :force => true do |t|
@@ -29,7 +30,7 @@ ActiveRecord::Schema.define(:version => 20120923232352) do
     t.string   "component"
     t.string   "letter"
     t.string   "original_filename"
-    t.integer  "distribution_id"
+    t.integer  "repository_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "file"
@@ -44,6 +45,12 @@ ActiveRecord::Schema.define(:version => 20120923232352) do
 
   add_index "references", ["distribution_id"], :name => "index_references_on_distribution_id"
   add_index "references", ["package_id"], :name => "index_references_on_package_id"
+
+  create_table "repositories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

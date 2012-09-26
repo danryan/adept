@@ -15,8 +15,8 @@ gem 'mixlib-shellout', :require => 'mixlib/shellout'
 gem 'libarchive-ruby', :require => 'archive'
 gem 'acts-as-taggable-on'
 gem 'simple_form'
-gem 'client_side_validations', '~> 3.2.0.beta.1'
-gem 'client_side_validations-simple_form', '~> 2.0.0.beta.2'
+gem 'responders'
+gem 'draper'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
@@ -32,6 +32,7 @@ gem 'jquery-validation-rails', '~> 1.10.0'
 
 group :development do
   gem 'pry-rails'
+  gem 'quiet_assets'
 end
 
 group :test do

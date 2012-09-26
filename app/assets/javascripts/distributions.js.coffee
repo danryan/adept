@@ -4,10 +4,17 @@
 
 jQuery ->
   $("#distribution_component_list").select2
-    tags: []
+    tags: [ "main", "contrib", "unstable", "testing" ]
     tokenSeparators: [ ",", " " ]
-    width: 'element'
+    width: 'resolve'
+
   $("#distribution_architecture_list").select2
     tags: [ "amd64", "i386" ]
     tokenSeparators: [ ",", " " ]
-    width: 'element'
+    width: 'resolve'
+
+  $("#new_distribution").validate
+    rules:
+      "distribution[architecture_list]":
+        equals: [ "amd64", "i386", "source" ]
+        required: true

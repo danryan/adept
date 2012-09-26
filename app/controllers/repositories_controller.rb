@@ -2,36 +2,40 @@ class RepositoriesController < ApplicationController
   respond_to :html, :json
 
   def index
+    @repositories = RepositoryDecorator.all
+    respond_with @repositories
   end
 
-  def pool
-
+  def show
+    @repository = RepositoryDecorator.find(params[:id])
+    respond_with @repository
   end
 
-  def component
-    @packages = Package.where(:component => params[:component]).select([:component, :letter]).uniq
-    respond_with @packages
+  def new
+    @repository = Repository.new
+    respond_with @repository
   end
 
-  def letter
-    @packages = Package.where("component = ? AND letter = ?", *params.values_at(:component, :letter)).select([:component, :letter, :name]).uniq(:name)
-    respond_with @packages
+  def create
+    @repository = Repository.new(params[:repository])
+    @repository.save
+    respond_with @repository
   end
 
-  def name
-    @packages = Package.where("component = ? AND letter = ? AND name = ?", *params.values_at(:component, :letter, :name)) 
-    respond_with @packages
+  def edit
+    @repository = RepositoryDecorator.find(params[:id])
+    respond_with @repository
   end
 
-  def package
-    @package = Package.where("component = ? AND letter = ? AND name = ? AND original_filename = ?", *params.values_at(:component, :letter, :name, :package)).first
-    redirect_to @package.file.url 
+  def update
+    @repository = Repository.find(params[:id])
+    @repository.update_attributes(params[:repository])
+    respond_with @repository
+  end
+
+  def destroy
+    @repository = Repository.find(params[:id])
+    @repository.destroy
+    respond_with @repository
   end
 end
-
-# get 'apt' => 'repositories#index'
-# get 'apt/pool' => 'repositories#pool'
-# get 'apt/pool/:component' => 'repositories#component'
-# get 'apt/pool/:component/:letter' => 'repositories#letter'
-# get 'apt/pool/:component/:letter/:name' => 'repositories#name'
-# get 'apt/pool/:component/:letter/:name/:package' => 'repositories#package'

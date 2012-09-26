@@ -2,7 +2,8 @@ class Package < ActiveRecord::Base
   attr_accessible :file, :component
   has_many :references
   has_many :distributions, :through => :references
-
+  belongs_to :repository
+  
   store :control, :accessors => [ :source, :package ]
 
   mount_uploader :file, FileUploader

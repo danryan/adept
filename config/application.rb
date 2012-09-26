@@ -6,7 +6,6 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -19,9 +18,14 @@ module Adept
   class Application < Rails::Application
     config.generators do |g|
       g.test_framework :rspec
-      g.fixture_replacement :factory_girl
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
       g.template_engine :haml
+      g.helper_spec false
+      g.view_spec false
     end
+
+    config.responders.flash_keys = [ :success, :error ]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

@@ -8,7 +8,8 @@ Spork.prefork do
   require 'rspec/autorun'
   require 'capybara/rails'
   require 'database_cleaner'
-
+  require 'draper/test/rspec_integration'
+  
   RSpec.configure do |config|
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = true

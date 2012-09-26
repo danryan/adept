@@ -1,0 +1,23 @@
+%h1 Listing repositories
+
+- if @repositories.empty?
+  No repositories yet. 
+  = link_to "Create your first one.", new_repository_path
+- else
+  %table.table.table-striped
+    %tr
+      %th Name
+      %th
+      %th
+      %th
+
+    - @repositories.each do |repository|
+      %tr
+        %td= repository.name
+        %td= link_to 'Show', repository, class: 'btn btn-primary'
+        %td= link_to 'Edit', edit_repository_path(repository), class: 'btn btn-info'
+        %td= link_to 'Delete', repository, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'
+
+  %br
+
+  = link_to 'New Repository', new_repository_path, class: 'btn btn-large'

@@ -7,6 +7,7 @@ class CreateDistributions < ActiveRecord::Migration
       t.string :description
       t.string :sign_with
 
+      t.references :repository
       t.timestamps
     end
   end

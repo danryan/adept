@@ -7,7 +7,7 @@ class CreatePackages < ActiveRecord::Migration
       t.string :letter
       t.string :original_filename
       
-      t.references :distribution
+      t.references :repository
       t.timestamps
     end
   end
