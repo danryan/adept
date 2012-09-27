@@ -1,12 +1,14 @@
 class Package < ActiveRecord::Base
-  attr_accessible :file, :component
+  attr_accessible :file, :component, :distributions
+  
   has_many :references
   has_many :distributions, :through => :references
   belongs_to :repository
 
-  store :control, :accessors => Adept::Support::Package::VALID_FIELDS
-
-  store :checksums, :accessors => [ :md5, :sha1, :sha256 ]
+  # store :control, :accessors => Adept::Support::Package::VALID_FIELDS
+  serialize :control, ActiveRecord::Coders::Hstore
+  serialize :checksums, ActiveRecord::Coders::Hstore
+  # store :checksums, :accessors => [ :md5, :sha1, :sha256 ]
 
   mount_uploader :file, FileUploader
 
@@ -14,7 +16,7 @@ class Package < ActiveRecord::Base
   scope :prefixes, lambda { |l| where(:prefix => l) }
   scope :names, lambda { |n| where(:name => n) }
 
-  before_save :extract_control_data
+  before_create :extract_control_data
 
   def extract_control_data
     Dir.mktmpdir do |dir|
@@ -36,7 +38,7 @@ class Package < ActiveRecord::Base
         self.control = control_file.parse
 
 
-        source_or_package = control_file.stanza[:source] || control_file.stanza[:package]
+        source_or_package = control_file.stanza['Source'] || control_file.stanza['Package']
 
         # Set some additional helper attributes
         self.name = source_or_package
@@ -45,17 +47,33 @@ class Package < ActiveRecord::Base
         self.size = File.stat(cache_path).size
         self.filename = self.file.filename
 
-        # Set the checksums
-        self.checksums[:sha256] = Digest::SHA2.file(cache_path).hexdigest
-        self.checksums[:sha1] = Digest::SHA1.file(cache_path).hexdigest
-        self.checksums[:md5] = Digest::MD5.file(cache_path).hexdigest
+        # Set the 
+        self.checksums ||= {}
+        self.checksums['sha256'] = Digest::SHA2.file(cache_path).hexdigest
+        self.checksums['sha1'] = Digest::SHA1.file(cache_path).hexdigest
+        self.checksums['md5'] = Digest::MD5.file(cache_path).hexdigest
 
       end
     end
   end
 
+  [ 'Package', 'Source', '']
+  def source
+    control['Source']
+  end
+
+  def package
+    control['Package']
+  end
+
   def source_or_package
     source || package
+  end
+
+  %w( md5 sha1 sha256 ).each do |chk|
+    define_method chk do
+      checksums[chk]
+    end
   end
 
   def kind

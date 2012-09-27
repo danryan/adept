@@ -6,3 +6,5 @@
 
 Mime::Type.register "application/x-debian-package", :deb, [], %w( udeb )
 Mime::Type.register_alias "text/plain", :dsc
+Mime::Type.register "application/x-gzip", :gz, [], %w( gzip )
+# Mime::Type.register_alias "application/x-gzip", :gz

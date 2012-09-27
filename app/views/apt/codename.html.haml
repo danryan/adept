@@ -1,3 +1,5 @@
 %ul
+  = @distribution.apt_dist_release_link(@distribution.codename)
+
   - @distribution.component_list.sort.each do |component|
     %li= link_to "#{component}/", apt_dist_component_path(@distribution.codename, component)

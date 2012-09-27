@@ -31,5 +31,11 @@ class DistributionDecorator < Draper::Base
         url_helpers.apt_dist_arch_packages_path(distribution.codename, component, arch)
     end
   end
-end
 
+  def apt_dist_release_link(codename)
+    h.content_tag :li do
+      h.link_to "Release",
+        url_helpers.apt_dist_release_path(distribution.codename)
+    end
+  end
+end

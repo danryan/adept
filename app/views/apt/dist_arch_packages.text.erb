@@ -1,6 +1,6 @@
 <%# We insert the raw control file from the package -%>
-<%- @packages.each do |package| -%>
-<%= package.raw_control %>
+<%- @packages.each do |package| %>
+<%== package.raw_control.chomp %>
 Filename: <%= package.to_path %>
 MD5sum: <%= package.md5 %>
 SHA1:  <%= package.sha1 %>

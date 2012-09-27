@@ -1,9 +1,8 @@
 class AptController < ApplicationController
   respond_to :html, :json
-  respond_to :text, :only => [ :dist_release, :dist_arch_release, :dist_arch_packages ]
+  respond_to :text, :gz, :only => [ :dist_release, :dist_arch_release, :dist_arch_packages ]
 
   before_filter :get_repository
-
   # /dist
 
   def index
@@ -21,7 +20,8 @@ class AptController < ApplicationController
   end
 
   def codename
-    @distribution = @repository.distributions.where("codename = ?", params[:codename]).first
+    distribution = @repository.distributions.where("codename = ?", params[:codename]).first
+    @distribution = DistributionDecorator.decorate(distribution)
     respond_with @distribution
   end
 
@@ -58,13 +58,36 @@ class AptController < ApplicationController
   end
 
   def dist_arch_packages
+    require 'zlib'
+    require 'stringio'
+
     codename, component, arch = params.values_at(:codename, :component, :arch)
     distribution = @repository.distributions.where("codename = ?", codename).first
     # @distribution = DistributionDecorator.decorate(distribution)
-    packages = Package.where("component = ? AND architecture = ?", component, arch)
+    packages = Package.where("component = :component AND control -> 'Architecture' = :arch", 
+        :component => component, :arch => arch)
     @packages = PackageDecorator.decorate(packages)
 
-    respond_with @packages
+    respond_with @packages do |format|
+      format.text
+      format.gz do 
+        out = ""
+        @packages.each do |package|
+          out += package.raw_control.chomp
+          out += <<-EOF
+Filename: #{package.to_path}
+MD5sum: #{package.md5}
+SHA1: #{package.sha1}
+SHA256: #{package.sha256}
+Size: #{package.size}
+EOF
+          out += "\n"
+        end
+        send_data ActiveSupport::Gzip.compress(out), 
+          :content_type => 'application/x-gzip',
+          :filename => 'Packages.gz'
+      end
+    end
   end
 
   # /pool
