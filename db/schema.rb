@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120927034244) do
+ActiveRecord::Schema.define(:version => 20120925183925) do
 
   create_table "distributions", :force => true do |t|
     t.string   "origin"
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(:version => 20120927034244) do
 
   create_table "packages", :force => true do |t|
     t.string   "name"
-    t.text     "control"
+    t.hstore   "control"
     t.text     "raw_control"
-    t.text     "checksums"
+    t.hstore   "checksums"
     t.string   "component"
     t.string   "prefix"
     t.string   "filename"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(:version => 20120927034244) do
     t.datetime "updated_at",    :null => false
     t.string   "file"
   end
+
+  add_index "packages", ["checksums"], :name => "packages_gin_checksums"
+  add_index "packages", ["control"], :name => "packages_gin_control"
 
   create_table "references", :force => true do |t|
     t.integer  "distribution_id"

@@ -6,9 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-repo = Repository.create! :name => 'testrepo'
+repo = Repository.first_or_create! :name => 'testrepo'
 
-lucid = repo.distributions.create!({
+lucid = repo.distributions.find_or_create_by_codename({
   :origin            => "adept.io",
   :label             => "apt repo",
   :codename          => "lucid",
@@ -17,7 +17,9 @@ lucid = repo.distributions.create!({
   :component_list    => [ "main", "testing" ]
 })
 
-precise = repo.distributions.create!({
+# puts lucid.inspect
+
+precise = repo.distributions.find_or_create_by_codename({
   :origin            => "adept.io",
   :label             => "apt repo",
   :codename          => "precise",
@@ -26,8 +28,12 @@ precise = repo.distributions.create!({
   :component_list    => [ "main" ]
 })
 
+# puts precise.inspect
+
 Dir[File.join(Rails.root, 'spec', 'support', 'debs', '*.deb')].each do |deb|
-  p = repo.packages.new(:component => 'main', :file => CarrierWave::SanitizedFile.new(deb))
-  p.distributions = [ lucid, precise ]
-  p.save!
+  repo.packages.create!(
+    :component => 'main', 
+    :file => CarrierWave::SanitizedFile.new(deb),
+    :distributions => [ lucid, precise ]
+  )
 end
