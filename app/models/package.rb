@@ -3,18 +3,20 @@ class Package < ActiveRecord::Base
   has_many :references
   has_many :distributions, :through => :references
   belongs_to :repository
-  
-  store :control, :accessors => [ :source, :package ]
+
+  store :control, :accessors => Adept::Support::Package::VALID_FIELDS
+
+  store :checksums, :accessors => [ :md5, :sha1, :sha256 ]
 
   mount_uploader :file, FileUploader
 
   scope :components, lambda { |c| where(:component => c) }
-  scope :letters, lambda { |l| where(:letter => l) }
+  scope :prefixes, lambda { |l| where(:prefix => l) }
   scope :names, lambda { |n| where(:name => n) }
 
-  before_save :extract_files, :update_file_attributes
+  before_save :extract_control_data
 
-  def extract_files
+  def extract_control_data
     Dir.mktmpdir do |dir|
       Dir.chdir(dir) do
         # get the cache path of our uploaded .deb
@@ -30,23 +32,50 @@ class Package < ActiveRecord::Base
 
         # parse the control file and store the results in the `control` field
         control_file = Adept::Support::Control.new('control')
+        self.raw_control = control_file.raw
         self.control = control_file.parse
-        self.name = self.control[:source] || self.control[:package]
 
-        pkg = source || package
-        self.letter = if pkg =~ /^lib/
-          pkg[0..3]
-        else
-          pkg[0]
-        end
+
+        source_or_package = control_file.stanza[:source] || control_file.stanza[:package]
+
+        # Set some additional helper attributes
+        self.name = source_or_package
+        self.prefix = source_or_package =~ /^lib/ ? source_or_package[0..3] : source_or_package[0]
+        self.extension = file.file.extension
+        self.size = File.stat(cache_path).size
+        self.filename = self.file.filename
+
+        # Set the checksums
+        self.checksums[:sha256] = Digest::SHA2.file(cache_path).hexdigest
+        self.checksums[:sha1] = Digest::SHA1.file(cache_path).hexdigest
+        self.checksums[:md5] = Digest::MD5.file(cache_path).hexdigest
+
       end
     end
   end
 
-  def update_file_attributes
-    if file.present?
-      self.original_filename = self.file.filename
+  def source_or_package
+    source || package
+  end
+
+  def kind
+    @kind ||= case extension
+    when "deb"
+      "binary"
+    when "udeb"
+      "installer"
+    when "dsc"
+      "source"
     end
+  end
+
+  def to_path
+    path = Pathname.new('pool')
+    path += component
+    path += prefix
+    path += name
+    path += filename
+    path.to_s
   end
 
 end

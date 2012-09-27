@@ -14,7 +14,7 @@ lucid = repo.distributions.create!({
   :codename          => "lucid",
   :description       => "apt repo for lucid",
   :architecture_list => [ "amd64", "i386" ],
-  :component_list    => [ "main" ]
+  :component_list    => [ "main", "testing" ]
 })
 
 precise = repo.distributions.create!({
@@ -27,7 +27,7 @@ precise = repo.distributions.create!({
 })
 
 Dir[File.join(Rails.root, 'spec', 'support', 'debs', '*.deb')].each do |deb|
-  p = repo.packages.new :component => 'main', :file => CarrierWave::SanitizedFile.new(deb)
+  p = repo.packages.new(:component => 'main', :file => CarrierWave::SanitizedFile.new(deb))
   p.distributions = [ lucid, precise ]
   p.save!
 end

@@ -1,5 +1,11 @@
-Archive: 
-Component:
-Origin:
-Label:
-Architecture:
+Origin: <%= @distribution.origin %>
+Label: <%= @distribution.label %>
+Codename: <%= @distribution.codename %>
+Architectures: <%= @distribution.architecture_list.join(' ') %>
+Components: <%= @distribution.component_list.join(' ') %>
+Description: <%= @distribution.description %>
+MD5Sum:
+  
+SHA1Sum:
+
+SHA256Sum:

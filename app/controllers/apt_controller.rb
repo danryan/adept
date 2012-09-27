@@ -1,6 +1,6 @@
 class AptController < ApplicationController
   respond_to :html, :json
-  respond_to :text, :only => [ :dist_release, :dist_arch_release ]
+  respond_to :text, :only => [ :dist_release, :dist_arch_release, :dist_arch_packages ]
 
   before_filter :get_repository
 
@@ -33,7 +33,10 @@ class AptController < ApplicationController
   end
 
   def dist_release
-    respond_with @release
+    distribution = @repository.distributions.where("codename = ?", params[:codename]).first
+    @distribution = DistributionDecorator.decorate(distribution)
+
+    respond_with @distribution
   end
 
   def dist_arch
@@ -45,44 +48,48 @@ class AptController < ApplicationController
   end
 
   def dist_arch_release
-    @codename, @component, @arch = params.values_at(:codename, :component, :arch)
-    distribution = @repository.distributions.where("codename = ?", @codename).first
-    @distribution = DistributionDecorator.decorate(distribution)
+    component, arch = params.values_at(:component, :arch)
+    dist = @repository.distributions.where("codename = ?", params[:codename]).first
+    origin, label, description = dist.origin, dist.description, dist.label
+    # @distribution = DistributionDecorator.decorate(distribution)
+    @release = Release.new(component, origin, label, arch, description)
 
-    respond_with @distribution
+    respond_with @release
   end
 
   def dist_arch_packages
-    @codename, @component, @arch = params.values_at(:codename, :component, :arch)
-    distribution = @repository.distributions.where("codename = ?", @codename).first
-    @distribution = DistributionDecorator.decorate(distribution)
+    codename, component, arch = params.values_at(:codename, :component, :arch)
+    distribution = @repository.distributions.where("codename = ?", codename).first
+    # @distribution = DistributionDecorator.decorate(distribution)
+    packages = Package.where("component = ? AND architecture = ?", component, arch)
+    @packages = PackageDecorator.decorate(packages)
 
-    respond_with @distribution
+    respond_with @packages
   end
 
   # /pool
 
   def component
-    @packages = Package.where(:component => params[:component]).select([:component, :letter]).uniq
+    @packages = Package.where(:component => params[:component]).select([:component, :prefix]).uniq
     respond_with @packages
   end
 
-  def letter
-    @packages = Package.where("component = ? AND letter = ?", *params.values_at(:component, :letter)).select([:component, :letter, :name]).uniq(:name)
+  def prefix
+    @packages = Package.where("component = ? AND prefix = ?", *params.values_at(:component, :prefix)).select([:component, :prefix, :name]).uniq(:name)
     respond_with @packages
   end
 
   def name
-    @packages = Package.where("component = ? AND letter = ? AND name = ?", *params.values_at(:component, :letter, :name))
+    @packages = Package.where("component = ? AND prefix = ? AND name = ?", *params.values_at(:component, :prefix, :name))
     respond_with @packages
   end
 
   def package
-    @package = Package.where("component = ? AND letter = ? AND name = ? AND original_filename = ?", *params.values_at(:component, :letter, :name, :package)).first
+    @package = Package.where("component = ? AND prefix = ? AND name = ? AND filename = ?", *params.values_at(:component, :prefix, :name, :package)).first
     redirect_to @package.file.url
   end
 
-
+  private
 
   def get_repository
     repository = Repository.first

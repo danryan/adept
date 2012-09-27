@@ -26,7 +26,7 @@ dists/
         Package (https://gist.github.com/3759804)
 pool/
   component (main)/
-    letter (p)/
+    prefix (p)/
       source-or-package (postgresql-9.0)/
         packagename_upstreamversion-pkgversion~codename_arch.deb (postgresql-9.0_9.0.5-1~lucid_amd64.deb)
 ```
