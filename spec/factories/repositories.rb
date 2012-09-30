@@ -2,6 +2,12 @@
 
 FactoryGirl.define do
   factory :repository do
-    name "MyString"
+    name "foobar"
+
+    factory :repository_with_distributions do
+      after(:create) do |repository, evaluator|
+        FactoryGirl.create(:lucid, repository: repository)
+      end
+    end
   end
 end

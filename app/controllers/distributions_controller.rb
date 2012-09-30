@@ -1,41 +1,59 @@
 class DistributionsController < ApplicationController
   respond_to :html, :json
 
+  before_filter :repository
+
   def index
-    @distributions = DistributionDecorator.all
-    respond_with @distributions
+    @distributions = RepositoryDecorator.decorate(repository.distributions.all)
+
+    respond_with repository, @distributions
   end
 
   def show
-    @distribution = DistributionDecorator.find(params[:id])
-    respond_with @distribution
+    distribution = repository.distributions.find(params[:id])
+    @distribution = DistributionDecorator.decorate(distribution)
+
+    respond_with repository, @distribution
   end
 
   def new
-    @distribution = Distribution.new
-    respond_with @distribution
+    @distribution = repository.distributions.new
+
+    respond_with repository, @distribution
   end
 
   def create
-    @distribution = Distribution.new(params[:distribution])
+    @distribution = repository.distributions.new(params[:distribution])
     @distribution.save
-    respond_with @distribution
+
+    respond_with repository, @distribution # error: "Distribution could not be created."
   end
 
   def edit
-    @distribution = DistributionDecorator.find(params[:id])
-    respond_with @distribution
+    distribution = repository.distributions.find(params[:id])
+    @distribution = DistributionDecorator.decorate(distribution)
+
+    respond_with repository, @distribution
   end
 
   def update
-    @distribution = Distribution.find(params[:id])
+    @distribution = repository.distributions.find(params[:id])
     @distribution.update_attributes(params[:distribution])
-    respond_with @distribution
+
+    respond_with repository, @distribution
   end
 
   def destroy
-    @distribution = Distribution.find(params[:id])
+    distribution = repository.distributions.find(params[:id])
+    @distribution = DistributionDecorator.decorate(distribution)
     @distribution.destroy
-    respond_with @distribution
+
+    respond_with repository, @distribution
+  end
+
+  private
+
+  def repository
+    @repository ||= Repository.find(params[:repository_id])
   end
 end

@@ -29,6 +29,6 @@ class PackageDecorator < Draper::Base
   #
   #   def created_at
   #     h.content_tag :span, attributes["created_at"].strftime("%a %m/%d/%y"),
-  #                   :class => 'timestamp'
+  #                   class: 'timestamp'
   #   end
 end

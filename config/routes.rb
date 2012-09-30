@@ -1,42 +1,27 @@
 Adept::Application.routes.draw do
-  root :to => 'repositories#index'
-  
-  resources :packages
-  # resources :distributions
+
   resources :repositories do
     resources :distributions
+    resources :packages
   end
 
   get 'apt' => 'apt#index'
-  get 'apt/pool' => 'apt#pool',
-      :as => :apt_pool
-  get 'apt/pool/:component' => 'apt#component', 
-      :as => :apt_component
-  get 'apt/pool/:component/:prefix' => 'apt#prefix', 
-      :as => :apt_prefix
-  get 'apt/pool/:component/:prefix/:name' => 'apt#name', 
-      :name => /[^\/]+/, 
-      :as => :apt_name
-  get 'apt/pool/:component/:prefix/:name/:package' => 'apt#package', 
-      :package => /[^\/]+/, 
-      :name => /[^\/]+/, 
-      :as => :apt_package
 
-  get 'apt/dists' => 'apt#dist',
-      :as => :apt_dist
-  get 'apt/dists/:codename' => 'apt#codename',
-      :as => :apt_codename
-  get 'apt/dists/:codename/Release' => 'apt#dist_release',
-      :as => :apt_dist_release,
-      :format => 'txt'
-  get 'apt/dists/:codename/:component' => 'apt#dist_component',
-      :as => :apt_dist_component
-  get 'apt/dists/:codename/:component/binary-:arch' => 'apt#dist_arch',
-      :as => :apt_dist_arch
-  get 'apt/dists/:codename/:component/binary-:arch/Release' => 'apt#dist_arch_release',
-      :as => :apt_dist_arch_release,
-      :format => 'txt'
-  get 'apt/dists/:codename/:component/binary-:arch/Packages' => 'apt#dist_arch_packages',
-      :as => :apt_dist_arch_packages,
-      :format => 'txt'
+  namespace :apt do
+    resources :dists, only: [ :index, :show ] do
+      get 'Release' => 'dists#release', as: :release, format: :txt
+      get ':component' => 'dists#component', as: :component
+      get ':component/binary-:arch' => 'dists#arch', as: :arch
+      get ':component/binary-:arch/Release' => 'dists#arch_release', as: :arch_release, format: :txt
+      get ':component/binary-:arch/Packages' => 'dists#arch_packages', as: :arch_packages, format: :txt
+    end
+
+    resources :pools, only: [ :index, :show ], path: :pool do
+      get ':prefix' => 'pools#prefix', as: :prefix
+      get ':prefix/:name' => 'pools#name', as: :name, name: /[^\/]+/
+      get ':prefix/:name/:package' => 'pools#package', as: :package, package: /[^\/]+/, name: /[^\/]+/
+    end
+  end
+
+  root to: 'home#index'
 end

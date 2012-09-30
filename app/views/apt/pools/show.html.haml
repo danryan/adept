@@ -1,0 +1,4 @@
+%ul
+  %li= link_to "Parent directory", "../"
+  - @packages.each do |package|
+    %li= link_to "#{package.prefix}/", "/apt/pool/#{package.component}/#{package.prefix}"

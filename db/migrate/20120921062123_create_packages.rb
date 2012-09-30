@@ -6,10 +6,13 @@ class CreatePackages < ActiveRecord::Migration
       t.text :raw_control
       t.hstore :checksums
       t.string :component
+      t.string :architecture
+      t.string :kind
       t.string :prefix
       t.string :filename
       t.string :extension
       t.string :size
+      
       t.references :repository
       t.timestamps
     end

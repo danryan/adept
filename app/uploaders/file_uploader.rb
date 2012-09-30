@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'carrierwave/processing/mime_types'
 
 class FileUploader < CarrierWave::Uploader::Base

@@ -1,41 +1,59 @@
 class PackagesController < ApplicationController
   respond_to :html, :json
 
+  before_filter :repository
+
   def index
-    @packages = PackageDecorator.all
-    respond_with @packages
+    @packages = RepositoryDecorator.decorate(repository.packages.all)
+
+    respond_with repository, @packages
   end
 
   def show
-    @package = PackageDecorator.find(params[:id])
-    respond_with @package
+    package = repository.packages.find(params[:id])
+    @package = PackageDecorator.decorate(package)
+
+    respond_with repository, @package
   end
 
   def new
-    @package = Package.new
-    respond_with @package
+    @package = repository.packages.new
+
+    respond_with repository, @package
   end
 
   def create
-    @package = Package.new(params[:package])
+    @package = repository.packages.new(params[:package])
     @package.save
-    respond_with @package
+
+    respond_with repository, @package
   end
 
   def edit
-    @package = PackageDecorator.find(params[:id])
-    respond_with @package
+    package = repository.packages.find(params[:id])
+    @package = PackageDecorator.decorate(package)
+
+    respond_with repository, @package
   end
 
   def update
-    @package = Package.find(params[:id])
+    @package = repository.packages.find(params[:id])
     @package.update_attributes(params[:package])
-    respond_with @package
+
+    respond_with repository, @package
   end
 
   def destroy
-    @package = Package.find(params[:id])
+    package = repository.packages.find(params[:id])
+    @package = PackageDecorator.decorate(package)
     @package.destroy
-    respond_with @package
+
+    respond_with repository, @package
+  end
+
+  private
+
+  def repository
+    @repository ||= Repository.find(params[:repository_id])
   end
 end

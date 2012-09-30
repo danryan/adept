@@ -1,33 +1,48 @@
+# == Schema Information
+#
+# Table name: distributions
+#
+#  id            :integer          not null, primary key
+#  origin        :string(255)
+#  label         :string(255)
+#  codename      :string(255)
+#  description   :string(255)
+#  sign_with     :string(255)
+#  repository_id :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 class Distribution < ActiveRecord::Base
   VALID_ARCHS = %w( amd64 i386 source )
-  attr_accessible :codename, :description, :label, :origin, :sign_with, 
+  attr_accessible :codename, :description, :label, :origin, :sign_with,
     :component_list, :architecture_list
 
   belongs_to :repository
-  
+
   has_many :references
-  has_many :packages, :through => :references
+  has_many :packages, through: :references
 
   acts_as_taggable_on :architectures, :components
 
   validates :codename, :description, :label, :origin, :architecture_list, :component_list,
-    :presence => true
+    presence: true
 
-  validates :origin, 
-    :format => {
-      :with => /^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/,
-      :message => "is not a valid FQDN"
+  validates :origin,
+    format: {
+      with: /^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/,
+      message: "is not a valid FQDN"
     }
-    
+
   validates :codename,
-    :uniqueness => {
-      :scope => :repository_id
+    uniqueness: {
+      scope: :repository_id
     }
   validate :validate_architecture_list
 
-  def to_param
-    codename
-  end
+  # def to_param
+    # codename
+  # end
 
   protected
 

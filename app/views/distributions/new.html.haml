@@ -1,9 +1,3 @@
-= simple_form_for @distribution, :html => { :class => 'form-horizontal' } do |f|
-  = f.input :origin, :default => "apt.adept.io"
-  = f.input :label
-  = f.input :codename
-  = f.input :description
-  = f.input :component_list, :label => 'Components'
-  = f.input :architecture_list, :label => 'Architectures', :as => :hidden
+%h1 New distribution
 
-  = f.button :submit
+= render 'form'

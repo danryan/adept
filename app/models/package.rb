@@ -1,20 +1,37 @@
+# == Schema Information
+#
+# Table name: packages
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  control       :hstore
+#  raw_control   :text
+#  checksums     :hstore
+#  component     :string(255)
+#  prefix        :string(255)
+#  filename      :string(255)
+#  extension     :string(255)
+#  size          :string(255)
+#  repository_id :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  file          :string(255)
+#
+
 class Package < ActiveRecord::Base
-  attr_accessible :file, :component, :distributions
-  
+  attr_accessible :file, :component, :distributions, :distribution_ids
+
   has_many :references
-  has_many :distributions, :through => :references
+  has_many :distributions, through: :references
+
   belongs_to :repository
 
-  # store :control, :accessors => Adept::Support::Package::VALID_FIELDS
+  # store :control, accessors: Adept::Support::Package::VALID_FIELDS
   serialize :control, ActiveRecord::Coders::Hstore
   serialize :checksums, ActiveRecord::Coders::Hstore
-  # store :checksums, :accessors => [ :md5, :sha1, :sha256 ]
+  # store :checksums, accessors: [ :md5, :sha1, :sha256 ]
 
   mount_uploader :file, FileUploader
-
-  scope :components, lambda { |c| where(:component => c) }
-  scope :prefixes, lambda { |l| where(:prefix => l) }
-  scope :names, lambda { |n| where(:name => n) }
 
   before_create :extract_control_data
 
@@ -37,7 +54,6 @@ class Package < ActiveRecord::Base
         self.raw_control = control_file.raw
         self.control = control_file.parse
 
-
         source_or_package = control_file.stanza['Source'] || control_file.stanza['Package']
 
         # Set some additional helper attributes
@@ -46,8 +62,8 @@ class Package < ActiveRecord::Base
         self.extension = file.file.extension
         self.size = File.stat(cache_path).size
         self.filename = self.file.filename
-
-        # Set the 
+        self.architecture  = control_file.stanza['Architecture'] || 'all'
+        self.kind = kind(file.file.extension)
         self.checksums ||= {}
         self.checksums['sha256'] = Digest::SHA2.file(cache_path).hexdigest
         self.checksums['sha1'] = Digest::SHA1.file(cache_path).hexdigest
@@ -57,7 +73,6 @@ class Package < ActiveRecord::Base
     end
   end
 
-  [ 'Package', 'Source', '']
   def source
     control['Source']
   end
@@ -76,8 +91,8 @@ class Package < ActiveRecord::Base
     end
   end
 
-  def kind
-    @kind ||= case extension
+  def kind(extension)
+    case extension
     when "deb"
       "binary"
     when "udeb"

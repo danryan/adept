@@ -1,19 +1,20 @@
 source 'https://rubygems.org'
+ruby '1.9.3'
 
 gem 'rails', '3.2.8'
 
 gem 'pg'
 gem 'unicorn'
 
-gem 'activerecord-postgres-hstore', :git => 'https://github.com/softa/activerecord-postgres-hstore'
+gem 'activerecord-postgres-hstore', github: 'softa/activerecord-postgres-hstore'
 gem 'haml-rails', '~> 0.3.5'
 gem 'cabin'
 gem 'fog'
 gem 'carrierwave'
-# gem 'adept-support', :git => "https://github.com/danryan/adept-support.git"
-gem 'adept-support', :git => "/Users/dan/Code/adept/adept-support"
-gem 'mixlib-shellout', :require => 'mixlib/shellout'
-gem 'libarchive-ruby', :require => 'archive'
+# gem 'adept-support', git: "https://github.com/danryan/adept-support.git"
+gem 'adept-support', git: "/Users/dan/Code/adept/adept-support"
+gem 'mixlib-shellout', require: 'mixlib/shellout'
+gem 'libarchive-ruby', require: 'archive'
 gem 'acts-as-taggable-on'
 gem 'simple_form'
 gem 'responders'
@@ -33,7 +34,8 @@ gem 'jquery-validation-rails', '~> 1.10.0'
 
 group :development do
   gem 'pry-rails'
-  gem 'quiet_assets'
+  gem 'annotate'
+  # gem 'quiet_assets'
 end
 
 group :test do
@@ -43,17 +45,47 @@ group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'capybara'
-  gem 'rack-test', :require => 'rack/test'
+  gem 'capybara-webkit'
+  gem 'webmock'
+  gem 'rack-test', require: 'rack/test'
   gem 'spork'
+  gem 'database_cleaner', '>= 0.7.2'
+  gem 'tach'
+  gem 'forgery'
+  gem 'timecop'
+  gem 'simplecov', require: false
+end
+
+group :guard do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-rails'
   gem 'guard-spork'
   gem 'guard-bundler'
-  gem 'rb-fsevent'
-  gem 'growl'
-  gem 'database_cleaner', '>= 0.7.2'
-  gem 'tach'
-  gem 'forgery'
-  gem 'timecop'
+  gem 'guard-annotate'
+  gem 'guard-ronn'
+  gem 'guard-pow'
+  gem 'guard-livereload'
+  gem 'guard-rails_best_practices', github: 'kugaevsky/guard-rails_best_practices'
+  gem 'coolline'
+
+  require 'rbconfig'
+
+  if RbConfig::CONFIG['target_os'] =~ /darwin/i
+    gem 'growl', require: false
+    gem 'rb-fsevent', require: false
+
+    if `uname`.strip == 'Darwin' && `sw_vers -productVersion`.strip >= '10.8'
+      gem 'terminal-notifier-guard', '~> 1.5.3', require: false
+    end rescue Errno::ENOENT
+
+  elsif RbConfig::CONFIG['target_os'] =~ /linux/i
+    gem 'libnotify',  '~> 0.7.1', require: false
+    gem 'rb-inotify', require: false
+
+  elsif RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
+    gem 'win32console', require: false
+    gem 'rb-notifu', '>= 0.0.4', require: false
+    gem 'wdm', require: false
+  end
 end

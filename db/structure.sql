@@ -89,6 +89,8 @@ CREATE TABLE packages (
     raw_control text,
     checksums hstore,
     component character varying(255),
+    architecture character varying(255),
+    kind character varying(255),
     prefix character varying(255),
     filename character varying(255),
     extension character varying(255),

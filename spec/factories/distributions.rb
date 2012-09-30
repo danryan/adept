@@ -4,10 +4,31 @@ FactoryGirl.define do
   factory :distribution do
     origin "adept.io"
     label "apt repo"
-    codename "lucid"
-    architectures [ "amd64", "i386" ]
-    description "apt repo for lucid"
+    architecture_list [ "amd64", "i386" ]
+    description { "apt repo for #{codename}" }
     sign_with "sysadmin@adept.io"
-    components [ "main" ]
+    component_list [ "main" ]
+
+    factory :lucid do
+      codename "lucid"
+    end
+
+    factory :precise do
+      codename "precise"
+    end
+
+    factory :precise_with_package do
+      codename "precise"
+      after(:create) do |distribution, evaluator|
+        FactoryGirl.create(:package, distributions: [ distribution ])
+      end
+    end
+
+    factory :lucid_with_package do
+      codename "precise"
+      after(:create) do |distribution, evaluator|
+        FactoryGirl.create(:package, distributions: [ distribution ])
+      end
+    end
   end
 end

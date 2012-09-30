@@ -40,19 +40,16 @@ module Adept
           previous_line = line
 
           if line =~ regex[:blank_line]
-            warn "Blank continuation line without originating field"
+            # warn "Blank continuation line without originating field"
             is_multiline = true
             stanza[current_field] += "\n ."
           elsif matches = line.match(regex[:continuation_line])
-            warn "Continuation line without originating field." unless current_field
+            # warn "Continuation line without originating field." unless current_field
             is_multiline = true
             line = matches[1] + matches[2]
             stanza[current_field] += "\n#{line}"
           elsif matches = line.match(regex[:simple_field])
             name, value = matches.to_a[1,2]
-
-            # name = name.from_dpkg_field.to_sym
-
             if current_field && !is_multiline
               stanza[current_field] = stanza[current_field] ? stanza[current_field].strip : ""
               is_multiline = false

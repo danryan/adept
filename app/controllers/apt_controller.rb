@@ -1,6 +1,8 @@
 class AptController < ApplicationController
+  # layout :false
+
   respond_to :html, :json
-  respond_to :text, :gz, :only => [ :dist_release, :dist_arch_release, :dist_arch_packages ]
+  respond_to :text, :gz, only: [ :dist_release, :dist_arch_release, :dist_arch_packages ]
 
   before_filter :get_repository
   # /dist
@@ -65,7 +67,7 @@ class AptController < ApplicationController
     distribution = @repository.distributions.where("codename = ?", codename).first
     # @distribution = DistributionDecorator.decorate(distribution)
     packages = Package.where("component = :component AND control -> 'Architecture' = :arch", 
-        :component => component, :arch => arch)
+        component: component, arch: arch)
     @packages = PackageDecorator.decorate(packages)
 
     respond_with @packages do |format|
@@ -84,8 +86,8 @@ EOF
           out += "\n"
         end
         send_data ActiveSupport::Gzip.compress(out), 
-          :content_type => 'application/x-gzip',
-          :filename => 'Packages.gz'
+          content_type: 'application/x-gzip',
+          filename: 'Packages.gz'
       end
     end
   end
@@ -93,7 +95,7 @@ EOF
   # /pool
 
   def component
-    @packages = Package.where(:component => params[:component]).select([:component, :prefix]).uniq
+    @packages = Package.where(component: params[:component]).select([:component, :prefix]).uniq
     respond_with @packages
   end
 

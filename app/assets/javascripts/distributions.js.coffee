@@ -13,8 +13,8 @@ jQuery ->
     tokenSeparators: [ ",", " " ]
     width: 'resolve'
 
-  $("#new_distribution").validate
-    rules:
-      "distribution[architecture_list]":
-        equals: [ "amd64", "i386", "source" ]
-        required: true
+  # $("#new_distribution").validate
+  #   rules:
+  #     "distribution[architecture_list]":
+  #       equals: [ "amd64", "i386", "source" ]
+  #       required: true

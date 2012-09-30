@@ -1,0 +1,3 @@
+%ul
+  - @distributions.map(&:codename).uniq.each do |codename|
+    %li= link_to "#{codename}/", apt_dist_path(codename)
