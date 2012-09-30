@@ -13,15 +13,6 @@ GIT
       guard (>= 0.9)
       rails_best_practices (>= 1.1.0)
 
-GIT
-  remote: git://github.com/softa/activerecord-postgres-hstore.git
-  revision: 6f3084a0257e380d86466e71f07ebf81f2bab7c4
-  specs:
-    activerecord-postgres-hstore (0.4.1)
-      pg
-      rails
-      rake
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -313,7 +304,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-postgres-hstore!
   acts-as-taggable-on
   adept-support!
   annotate

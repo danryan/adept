@@ -6,7 +6,6 @@ gem 'rails', '3.2.8'
 gem 'pg'
 gem 'unicorn'
 
-gem 'activerecord-postgres-hstore', github: 'softa/activerecord-postgres-hstore'
 gem 'haml-rails', '~> 0.3.5'
 gem 'cabin'
 gem 'fog'

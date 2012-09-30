@@ -4,9 +4,9 @@
 #
 #  id            :integer          not null, primary key
 #  name          :string(255)
-#  control       :hstore
+#  control       :text
 #  raw_control   :text
-#  checksums     :hstore
+#  checksums     :text
 #  component     :string(255)
 #  prefix        :string(255)
 #  filename      :string(255)
@@ -26,10 +26,8 @@ class Package < ActiveRecord::Base
 
   belongs_to :repository
 
-  # store :control, accessors: Adept::Support::Package::VALID_FIELDS
-  serialize :control, ActiveRecord::Coders::Hstore
-  serialize :checksums, ActiveRecord::Coders::Hstore
-  # store :checksums, accessors: [ :md5, :sha1, :sha256 ]
+  store :control, accessors: Adept::Support::Package::VALID_FIELDS
+  store :checksums, accessors: [ :md5, :sha1, :sha256 ]
 
   mount_uploader :file, FileUploader
 

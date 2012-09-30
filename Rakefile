@@ -16,6 +16,6 @@ namespace :db do
     system "foreman run rake db:create:all"
     system "foreman run rake db:migrate"
     system "foreman run rake db:test:prepare"
-    system "foreman run rake db:seed"
+    # system "foreman run rake db:seed"
   end
 end

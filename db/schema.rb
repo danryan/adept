@@ -11,68 +11,67 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20120925183925) do
+ActiveRecord::Schema.define(:version => 20120925183925) do
 
-  create_table "distributions", force: true do |t|
+  create_table "distributions", :force => true do |t|
     t.string   "origin"
     t.string   "label"
     t.string   "codename"
     t.string   "description"
     t.string   "sign_with"
     t.integer  "repository_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
-  create_table "packages", force: true do |t|
+  create_table "packages", :force => true do |t|
     t.string   "name"
-    t.hstore   "control"
+    t.text     "control"
     t.text     "raw_control"
-    t.hstore   "checksums"
+    t.text     "checksums"
     t.string   "component"
+    t.string   "architecture"
+    t.string   "kind"
     t.string   "prefix"
     t.string   "filename"
     t.string   "extension"
     t.string   "size"
     t.integer  "repository_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "file"
   end
 
-  add_index "packages", ["checksums"], name: "packages_gin_checksums"
-  add_index "packages", ["control"], name: "packages_gin_control"
-
-  create_table "references", force: true do |t|
+  create_table "references", :force => true do |t|
     t.integer  "distribution_id"
     t.integer  "package_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
-  add_index "references", ["distribution_id"], name: "index_references_on_distribution_id"
-  add_index "references", ["package_id"], name: "index_references_on_package_id"
+  add_index "references", ["distribution_id"], :name => "index_references_on_distribution_id"
+  add_index "references", ["package_id"], :name => "index_references_on_package_id"
 
-  create_table "repositories", force: true do |t|
+  create_table "repositories", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "taggings", force: true do |t|
+  create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
     t.integer  "tagger_id"
     t.string   "tagger_type"
-    t.string   "context",       limit: 128
+    t.string   "context",       :limit => 128
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
 
-  create_table "tags", force: true do |t|
+  create_table "tags", :force => true do |t|
     t.string "name"
   end
 
