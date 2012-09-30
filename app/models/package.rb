@@ -61,7 +61,7 @@ class Package < ActiveRecord::Base
         self.size = File.stat(cache_path).size
         self.filename = self.file.filename
         self.architecture  = control_file.stanza['Architecture'] || 'all'
-        self.kind = kind(file.file.extension)
+        self.kind = get_kind(file.file.extension)
         self.checksums ||= {}
         self.checksums['sha256'] = Digest::SHA2.file(cache_path).hexdigest
         self.checksums['sha1'] = Digest::SHA1.file(cache_path).hexdigest
@@ -89,7 +89,7 @@ class Package < ActiveRecord::Base
     end
   end
 
-  def kind(extension)
+  def get_kind(extension)
     case extension
     when "deb"
       "binary"
