@@ -2,7 +2,7 @@ require 'rubygems'
 require 'spork'
 
 Spork.prefork do
-  unless ENV['DRB']
+  unless ENV['DRB'] || ENV['CI']
     require 'simplecov'
     SimpleCov.start 'rails'
   end
