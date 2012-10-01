@@ -1,4 +1,0 @@
-%ul
-  %li= link_to "Parent directory", ".."
-  - @packages.each do |package|
-    %li= link_to "#{package.filename}", apt_package_path(package.component, package.prefix, package.name, package.filename)

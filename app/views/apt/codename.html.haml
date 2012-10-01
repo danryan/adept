@@ -1,5 +1,0 @@
-%ul
-  = @distribution.apt_dist_release_link(@distribution.codename)
-
-  - @distribution.component_list.sort.each do |component|
-    = @distribution.apt_dist_component_link(component)
