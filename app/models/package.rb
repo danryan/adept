@@ -26,7 +26,7 @@ class Package < ActiveRecord::Base
 
   belongs_to :repository
 
-  store :control, accessors: Adept::Support::Package::VALID_FIELDS
+  store :control
   store :checksums, accessors: [ :md5, :sha1, :sha256 ]
 
   mount_uploader :file, FileUploader
@@ -78,16 +78,16 @@ class Package < ActiveRecord::Base
   def package
     control['Package']
   end
+  
+  # def source_or_package
+    # source || package
+  # end
 
-  def source_or_package
-    source || package
-  end
-
-  %w( md5 sha1 sha256 ).each do |chk|
-    define_method chk do
-      checksums[chk]
-    end
-  end
+  # %w( md5 sha1 sha256 ).each do |chk|
+    # define_method chk do
+      # checksums[chk]
+    # end
+  # end
 
   def get_kind(extension)
     case extension

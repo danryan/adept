@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20120925183925) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "distributions", ["repository_id"], :name => "index_distributions_on_repository_id"
+
   create_table "packages", :force => true do |t|
     t.string   "name"
     t.text     "control"
@@ -41,6 +43,8 @@ ActiveRecord::Schema.define(:version => 20120925183925) do
     t.datetime "updated_at",    :null => false
     t.string   "file"
   end
+
+  add_index "packages", ["repository_id"], :name => "index_packages_on_repository_id"
 
   create_table "references", :force => true do |t|
     t.integer  "distribution_id"
@@ -70,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20120925183925) do
 
   add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
   add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  add_index "taggings", ["tagger_id", "tagger_type"], :name => "index_taggings_on_tagger_id_and_tagger_type"
 
   create_table "tags", :force => true do |t|
     t.string "name"

@@ -10,5 +10,7 @@ class CreateDistributions < ActiveRecord::Migration
       t.references :repository
       t.timestamps
     end
+
+    add_index :distributions, :repository_id
   end
 end

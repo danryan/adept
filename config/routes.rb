@@ -17,9 +17,9 @@ Adept::Application.routes.draw do
     end
 
     resources :pools, only: [ :index, :show ], path: :pool do
-      get ':prefix' => 'pools#prefix', as: :prefix
-      get ':prefix/:name' => 'pools#name', as: :name, name: /[^\/]+/
-      get ':prefix/:name/:package' => 'pools#package', as: :package, package: /[^\/]+/, name: /[^\/]+/
+      get ':prefix' => 'pools#prefix', as: :prefix, prefix: /[^\/]+/
+      get ':prefix/:name' => 'pools#name', as: :name, name: /[^\/]+/, prefix: /[^\/]+/
+      get ':prefix/:name/:package' => 'pools#package', as: :package, package: /[^\/]+/, name: /[^\/]+/, prefix: /[^\/]+/
     end
   end
 

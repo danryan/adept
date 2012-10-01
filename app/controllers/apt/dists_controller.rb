@@ -51,9 +51,9 @@ class Apt::DistsController < ApplicationController
     require 'stringio'
 
     codename, component, arch = params.values_at(:dist_id, :component, :arch)
-    distribution = repository.distributions.where("codename = ?", codename).first
+    distribution = repository.distributions.find_by_codename(codename)
     # @distribution = DistributionDecorator.decorate(distribution)
-    packages = Package.where("component = :component AND control -> 'Architecture' = :arch", component: component, arch: arch)
+    packages = Package.where("component = :component AND architecture = :arch", component: component, arch: arch)
     @packages = PackageDecorator.decorate(packages)
 
     respond_with @packages do |format|
@@ -76,13 +76,14 @@ def compress_packages(packages)
   @packages.each do |package|
     out += package.raw_control.chomp
     out += <<-EOF
+
 Filename: #{package.to_path}
 MD5sum: #{package.md5}
 SHA1: #{package.sha1}
 SHA256: #{package.sha256}
 Size: #{package.size}
-EOF
-    out += "\n"
-    ActiveSupport::Gzip.compress(out)
+      EOF
+    # out += "\n"
   end
+  ActiveSupport::Gzip.compress(out)
 end

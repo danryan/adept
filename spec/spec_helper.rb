@@ -56,7 +56,7 @@ Spork.each_run do
     require 'simplecov'
     SimpleCov.start 'rails'
   end
-  
+
   Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| load f }
 
   RSpec.configure do |config|
