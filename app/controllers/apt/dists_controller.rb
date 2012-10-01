@@ -1,5 +1,6 @@
 class Apt::DistsController < ApplicationController
-  # layout :false
+  layout 'apt'
+
   respond_to :text, :gz, only: [ :release, :arch_release, :dist_arch_packages ]
 
   before_filter :repository
@@ -59,7 +60,7 @@ class Apt::DistsController < ApplicationController
     respond_with @packages do |format|
       format.text
       format.gz do
-        send_data compress_packages(@packages), content_type: 'application/x-gzip', filename: 'Packages.gz'
+        send_data Repository.compressed_packages(@packages), content_type: 'application/x-gzip', filename: 'Packages.gz'
       end
     end
   end
@@ -69,21 +70,4 @@ private
 
 def repository
   @repository ||= RepositoryDecorator.first
-end
-
-def compress_packages(packages)
-  out = ""
-  @packages.each do |package|
-    out += package.raw_control.chomp
-    out += <<-EOF
-
-Filename: #{package.to_path}
-MD5sum: #{package.md5}
-SHA1: #{package.sha1}
-SHA256: #{package.sha256}
-Size: #{package.size}
-      EOF
-    # out += "\n"
-  end
-  ActiveSupport::Gzip.compress(out)
 end

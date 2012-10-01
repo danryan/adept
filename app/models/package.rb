@@ -8,6 +8,8 @@
 #  raw_control   :text
 #  checksums     :text
 #  component     :string(255)
+#  architecture  :string(255)
+#  kind          :string(255)
 #  prefix        :string(255)
 #  filename      :string(255)
 #  extension     :string(255)
@@ -66,7 +68,6 @@ class Package < ActiveRecord::Base
         self.checksums['sha256'] = Digest::SHA2.file(cache_path).hexdigest
         self.checksums['sha1'] = Digest::SHA1.file(cache_path).hexdigest
         self.checksums['md5'] = Digest::MD5.file(cache_path).hexdigest
-
       end
     end
   end
@@ -78,7 +79,7 @@ class Package < ActiveRecord::Base
   def package
     control['Package']
   end
-  
+
   # def source_or_package
     # source || package
   # end

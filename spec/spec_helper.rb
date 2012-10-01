@@ -52,10 +52,10 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  if ENV['DRB']
-    require 'simplecov'
-    SimpleCov.start 'rails'
-  end
+  # if ENV['DRB']
+    # require 'simplecov'
+    # SimpleCov.start 'rails'
+  # end
 
   Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| load f }
 

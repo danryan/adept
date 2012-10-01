@@ -19,7 +19,7 @@ ProtectMassAssignmentCheck: { }
 # RemoveEmptyHelpersCheck: { }
 #RemoveTabCheck: { }
 RemoveTrailingWhitespaceCheck: { }
-RemoveUnusedMethodsInControllersCheck: { except_methods: [compress_packages] }
+RemoveUnusedMethodsInControllersCheck: { except_methods: [ arch_packages ] }
 # RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
 RemoveUnusedMethodsInModelsCheck: { except_methods: [] }
 ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }

@@ -64,7 +64,7 @@ group :backend do
   end
 end
 
-group :doc do
+# group :doc, :backend do
   guard 'annotate' do
     watch('db/schema.rb')
 
@@ -76,23 +76,17 @@ group :doc do
     # with the ":routes => true" option
     watch('config/routes.rb')
   end
-
-
-  guard 'ronn' do
-    watch(%r{^man/.+\.ronn$})
-    watch(%r{^man/.+\.m(ark)?d(own)?$})
-  end
-end
+# end
 
 # Sample config for Rails Best Practices
 # See README for details
 
-group :rbp do
-  guard 'rails_best_practices' do
-    watch(%r{^(app|lib|config|vendor|spec)/(.+)\.rb$})
-    # watch(%r{^lib/(.+)\.rb$})
-    # watch(%r{^config/(.+)\.rb$})
-    # watch(%r{^vendor/(.+)\.rb$})
-    # watch(%r{^spec/(.+)\.rb$})
-  end
-end
+# group :rbp do
+#   guard 'rails_best_practices' do
+#     watch(%r{^(app|lib|config|vendor|spec)/(.+)\.rb$})
+#     # watch(%r{^lib/(.+)\.rb$})
+#     # watch(%r{^config/(.+)\.rb$})
+#     # watch(%r{^vendor/(.+)\.rb$})
+#     # watch(%r{^spec/(.+)\.rb$})
+#   end
+# end

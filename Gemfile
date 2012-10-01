@@ -52,10 +52,9 @@ group :test do
   gem 'tach'
   gem 'forgery'
   gem 'timecop'
-  gem 'simplecov', require: false
 end
 
-group :guard do
+group :local do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-rails'
@@ -67,15 +66,17 @@ group :guard do
   gem 'guard-livereload'
   gem 'guard-rails_best_practices', github: 'kugaevsky/guard-rails_best_practices'
   gem 'coolline'
+  gem 'simplecov', require: false
 
   require 'rbconfig'
 
   if RbConfig::CONFIG['target_os'] =~ /darwin/i
-    gem 'growl', require: false
     gem 'rb-fsevent', require: false
 
     if `uname`.strip == 'Darwin' && `sw_vers -productVersion`.strip >= '10.8'
       gem 'terminal-notifier-guard', '~> 1.5.3', require: false
+    else
+      gem 'growl', require: false
     end rescue Errno::ENOENT
 
   elsif RbConfig::CONFIG['target_os'] =~ /linux/i

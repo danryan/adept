@@ -1,5 +1,5 @@
 class AptController < ApplicationController
-  # layout :false
+  layout 'apt'
 
   respond_to :html, :json
   respond_to :text, :gz, only: [ :dist_release, :dist_arch_release, :dist_arch_packages ]

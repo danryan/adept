@@ -1,5 +1,5 @@
 class Apt::PoolsController < ApplicationController
-  # layout :false
+  layout 'apt'
 
   before_filter :repository
 
