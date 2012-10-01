@@ -1,6 +1,8 @@
 language: ruby
 rvm:
   - 1.9.3
+env:
+  - AWS_ACCESS_KEY_ID="foo" AWS_SECRET_ACCESS_KEY="bar" ADEPT_S3_BUCKET="baz"
 bundler_args: --without local
 script: 
   - bundle exec rake spec:ci
