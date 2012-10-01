@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 1.9.3
+bundler_args: --without local
+script: 
+  - bundle exec rake spec:ci
+before_script:
+  - createuser -s adept
+  - rake db:create:all
+  - rake db:test:prepare
+branches:
+  only:
+    - master
