@@ -4,6 +4,8 @@ rvm:
 bundler_args: --without local
 script: 
   - bundle exec rake spec:ci
+before_install:
+  - apt-get install libarchive1 libarchive-dev
 before_script:
   - createuser -s adept
   - rake db:create:all

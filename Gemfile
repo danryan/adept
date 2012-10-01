@@ -65,9 +65,11 @@ group :local do
   gem 'guard-pow'
   gem 'guard-livereload'
   gem 'guard-rails_best_practices', github: 'kugaevsky/guard-rails_best_practices'
+
   gem 'coolline'
   gem 'simplecov', require: false
-
+  gem 'powder'
+  
   require 'rbconfig'
 
   if RbConfig::CONFIG['target_os'] =~ /darwin/i

@@ -1,5 +1,5 @@
 GIT
-  remote: /Users/dan/Code/adept/adept-support
+  remote: git://github.com/danryan/adept-support.git
   revision: 2e52c8fef530b37403f6d810229901b79d0d35c2
   specs:
     adept-support (0.0.1)
@@ -181,6 +181,8 @@ GEM
     nokogiri (1.5.5)
     pg (0.14.1)
     polyglot (0.3.3)
+    powder (0.1.8)
+      thor (>= 0.11.5)
     progressbar (0.11.0)
     pry (0.9.10)
       coderay (~> 1.0.5)
@@ -335,6 +337,7 @@ DEPENDENCIES
   libarchive-ruby
   mixlib-shellout
   pg
+  powder
   pry-rails
   rack-test
   rails (= 3.2.8)
