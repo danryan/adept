@@ -12,6 +12,7 @@ before_install:
 before_script:
   - createuser -s adept
   - rake db:create:all
+  - rake db:migrate
   - rake db:test:prepare
 branches:
   only:
