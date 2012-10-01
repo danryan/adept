@@ -26,7 +26,8 @@ Spork.prefork do
     config.include FactoryGirl::Syntax::Methods
     config.include Shoulda::Matchers::ActionController
     config.include ActionDispatch::TestProcess
-
+    config.include ControllersHelpers, type: :controller
+    config.extend  ControllerMacros, type: :controller
     # config.include Devise::TestHelpers, type: :controller
 
     config.before(:suite) do
@@ -57,7 +58,7 @@ Spork.each_run do
     # SimpleCov.start 'rails'
   # end
 
-  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| load f }
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
   RSpec.configure do |config|
     config.include ControllersHelpers

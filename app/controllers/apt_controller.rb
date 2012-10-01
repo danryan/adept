@@ -5,6 +5,7 @@ class AptController < ApplicationController
   respond_to :text, :gz, only: [ :dist_release, :dist_arch_release, :dist_arch_packages ]
 
   before_filter :get_repository
+  before_filter :authenticate_user!
 
   def index
     respond_with @repository
@@ -13,8 +14,6 @@ class AptController < ApplicationController
   private
 
   def get_repository
-    repository = Repository.first
-    @repository = RepositoryDecorator.decorate(repository)
+    @repository ||= Repository.find_by_name!(request.subdomain)
   end
-
 end

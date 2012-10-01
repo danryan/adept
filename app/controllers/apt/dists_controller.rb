@@ -69,5 +69,5 @@ end
 private
 
 def repository
-  @repository ||= RepositoryDecorator.first
+  @repository ||= Repository.find_by_name!(request.subdomain)
 end

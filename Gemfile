@@ -18,6 +18,7 @@ gem 'acts-as-taggable-on'
 gem 'simple_form'
 gem 'responders'
 gem 'draper'
+gem 'devise'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
@@ -35,6 +36,9 @@ group :development do
   gem 'pry-rails'
   gem 'annotate'
   # gem 'quiet_assets'
+  gem 'haml'
+  gem 'hpricot'
+  gem 'ruby_parser'
 end
 
 group :test do

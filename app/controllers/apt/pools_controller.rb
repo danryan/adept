@@ -34,8 +34,7 @@ class Apt::PoolsController < ApplicationController
   private
 
   def repository
-    repository = Repository.first
-    @repository ||= RepositoryDecorator.decorate(repository)
+    @repository ||= Repository.find_by_name!(request.subdomain)
   end
 
 end
