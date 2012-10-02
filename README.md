@@ -1,4 +1,6 @@
-# Adept
+# Adept 
+
+[![Build Status](https://travis-ci.org/danryan/adept.png)](https://travis-ci.org/danryan/adept) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/danryan/adept)
 
 **a·dept**   [***adj***. *uh*-**dept**; ***n***. **ad**-ept, *uh*-**dept**]
 
