@@ -66,9 +66,9 @@ end
 
 # group :doc, :backend do
 # guard 'annotate', notify: false, position: 'after', routes: true, show_indexes: true do
-#   watch('db/schema.rb')
-#   watch('app/models/**/*.rb')
-#   watch('config/routes.rb')
+  # watch('db/schema.rb')
+  # watch('app/models/**/*.rb')
+  # watch('config/routes.rb')
 # end
 # end
 
