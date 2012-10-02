@@ -1,10 +1,10 @@
 class AptController < ApplicationController
   layout 'apt'
-
+  
   respond_to :html, :json
   respond_to :text, :gz, only: [ :dist_release, :dist_arch_release, :dist_arch_packages ]
 
-  before_filter :get_repository
+  before_filter :repository
   before_filter :authenticate_user!
 
   def index
@@ -13,7 +13,7 @@ class AptController < ApplicationController
 
   private
 
-  def get_repository
-    @repository ||= Repository.find_by_name!(request.subdomain)
+  def repository
+    @repository ||= Repository.where(name: params[:repo], user_id: current_user.id).first!
   end
 end

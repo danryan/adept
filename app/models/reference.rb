@@ -1,3 +1,9 @@
+class Reference < ActiveRecord::Base
+  belongs_to :distribution
+  belongs_to :package
+  # attr_accessible :title, :body
+end
+
 # == Schema Information
 #
 # Table name: references
@@ -8,9 +14,9 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_references_on_distribution_id  (distribution_id)
+#  index_references_on_package_id       (package_id)
+#
 
-class Reference < ActiveRecord::Base
-  belongs_to :distribution
-  belongs_to :package
-  # attr_accessible :title, :body
-end

@@ -41,7 +41,7 @@ group :development do
   gem 'ruby_parser'
 end
 
-group :test do
+group :development, :test do
   gem 'foreman'
   gem 'rspec-rails'
   gem 'rspec-instafail'
@@ -50,12 +50,14 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'webmock'
+  gem 'email_spec'
   gem 'rack-test', require: 'rack/test'
-  gem 'spork'
+  gem 'spork-rails'
   gem 'database_cleaner', '>= 0.7.2'
   gem 'tach'
   gem 'forgery'
   gem 'timecop'
+  gem 'faker'
 end
 
 group :local do

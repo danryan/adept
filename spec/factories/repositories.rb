@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :repository do
-    name "foobar"
+    name "test"
 
     factory :repository_with_distributions do
       after(:create) do |repository, evaluator|

@@ -1,25 +1,3 @@
-# == Schema Information
-#
-# Table name: packages
-#
-#  id            :integer          not null, primary key
-#  name          :string(255)
-#  control       :text
-#  raw_control   :text
-#  checksums     :text
-#  component     :string(255)
-#  architecture  :string(255)
-#  kind          :string(255)
-#  prefix        :string(255)
-#  filename      :string(255)
-#  extension     :string(255)
-#  size          :string(255)
-#  repository_id :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  file          :string(255)
-#
-
 class Package < ActiveRecord::Base
   attr_accessible :file, :component, :distributions, :distribution_ids
 
@@ -111,3 +89,30 @@ class Package < ActiveRecord::Base
   end
 
 end
+
+# == Schema Information
+#
+# Table name: packages
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  control       :text
+#  raw_control   :text
+#  checksums     :text
+#  component     :string(255)
+#  architecture  :string(255)
+#  kind          :string(255)
+#  prefix        :string(255)
+#  filename      :string(255)
+#  extension     :string(255)
+#  size          :string(255)
+#  repository_id :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  file          :string(255)
+#
+# Indexes
+#
+#  index_packages_on_repository_id  (repository_id)
+#
+

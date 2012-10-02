@@ -1,9 +1,10 @@
 require 'spec_helper'
 
-describe Apt::DistsController do
+describe Apt::PoolsController do
   context 'layout' do
     login_user
 
+    let(:user) { create(:user) }
     let(:repository) { create(:repository, user: user) }
 
     before do

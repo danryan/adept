@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: distributions
-#
-#  id            :integer          not null, primary key
-#  origin        :string(255)
-#  label         :string(255)
-#  codename      :string(255)
-#  description   :string(255)
-#  sign_with     :string(255)
-#  repository_id :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#
-
 class Distribution < ActiveRecord::Base
   VALID_ARCHS = %w( amd64 i386 source )
   attr_accessible :codename, :description, :label, :origin, :sign_with,
@@ -54,3 +39,23 @@ class Distribution < ActiveRecord::Base
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: distributions
+#
+#  id            :integer          not null, primary key
+#  origin        :string(255)
+#  label         :string(255)
+#  codename      :string(255)
+#  description   :string(255)
+#  sign_with     :string(255)
+#  repository_id :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+# Indexes
+#
+#  index_distributions_on_repository_id  (repository_id)
+#
+

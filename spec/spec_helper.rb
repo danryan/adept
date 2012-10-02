@@ -13,8 +13,10 @@ Spork.prefork do
   require 'rspec/autorun'
   require 'capybara/rails'
   require 'capybara/rspec'
+  require 'shoulda/matchers/integrations/rspec'
   require 'database_cleaner'
   require 'draper/test/rspec_integration'
+  require 'factory_girl_rails'
 
   Capybara.javascript_driver = :webkit
   WebMock.disable_net_connect!(allow_localhost: true)
@@ -23,11 +25,8 @@ Spork.prefork do
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = true
     config.order = "random"
-    config.include FactoryGirl::Syntax::Methods
     config.include Shoulda::Matchers::ActionController
     config.include ActionDispatch::TestProcess
-    config.include ControllersHelpers, type: :controller
-    config.extend  ControllerMacros, type: :controller
     # config.include Devise::TestHelpers, type: :controller
 
     config.before(:suite) do
@@ -53,14 +52,7 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  # if ENV['DRB']
-    # require 'simplecov'
-    # SimpleCov.start 'rails'
-  # end
+  load "#{Rails.root}/config/routes.rb"
 
   Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
-
-  RSpec.configure do |config|
-    config.include ControllersHelpers
-  end
 end

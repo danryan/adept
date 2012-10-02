@@ -4,6 +4,7 @@ class Apt::DistsController < ApplicationController
   respond_to :text, :gz, only: [ :release, :arch_release, :dist_arch_packages ]
 
   before_filter :repository
+  before_filter :authenticate_user!
 
   def index
     @distributions = repository.distributions
@@ -69,5 +70,5 @@ end
 private
 
 def repository
-  @repository ||= Repository.find_by_name!(request.subdomain)
+  @repository ||= Repository.where(name: params[:repo], user_id: current_user.id).first!
 end

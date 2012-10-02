@@ -2,6 +2,7 @@ class Apt::PoolsController < ApplicationController
   layout 'apt'
 
   before_filter :repository
+  before_filter :authenticate_user!
 
   def index
     @packages = repository.packages
@@ -34,7 +35,7 @@ class Apt::PoolsController < ApplicationController
   private
 
   def repository
-    @repository ||= Repository.find_by_name!(request.subdomain)
+    @repository ||= Repository.where(name: params[:repo], user_id: current_user.id).first!
   end
 
 end

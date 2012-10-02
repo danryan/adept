@@ -36,4 +36,6 @@ Adept::Application.configure do
   # config.assets.debug = true
   config.assets.logger = false
   # config.active_record.schema_format = :sql
+
+  config.action_mailer.default_url_options = { :host => 'localhost:5000' }
 end
