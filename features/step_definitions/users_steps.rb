@@ -31,6 +31,10 @@ Given /is confirmed$/ do
   @user.confirm!
 end
 
+Given /^the "(.*?)" user exists:$/ do |username|
+  @user = create(:user, :username => username )
+end
+
 module AuthenticationSteps
   def sign_in(name, password)
     visit '/sign_in'

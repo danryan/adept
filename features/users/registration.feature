@@ -1,4 +1,4 @@
-@javascript
+# @javascript
 Feature: Registration
 
   Scenario: Creating a new user

@@ -1,4 +1,4 @@
-@javascript
+# @javascript
 Feature: Authentication
 
   Scenario: a valid user

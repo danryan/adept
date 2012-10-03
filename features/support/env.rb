@@ -15,7 +15,7 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'capybara/rails'
   require 'capybara/poltergeist'
-
+  require 'rspec/expectations'
   require 'cucumber/api_steps'
 
   # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
@@ -27,6 +27,7 @@ Spork.prefork do
 
   World(FactoryGirl::Syntax::Methods)
   World(Rack::Test::Methods)
+  World(RSpec::Matchers)
 
   WebMock.allow_net_connect!
 end
