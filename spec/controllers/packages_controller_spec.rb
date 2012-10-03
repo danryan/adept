@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe PackagesController do
+  login_user
+
   before do
     CarrierWave::Mount::Mounter.any_instance.stub(:store!)
     CarrierWave::Mount::Mounter.any_instance.stub(:remove!)

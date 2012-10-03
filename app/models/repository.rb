@@ -1,9 +1,9 @@
 class Repository < ActiveRecord::Base
   attr_accessible :name
 
+  belongs_to :user
   has_many :distributions
   has_many :packages
-  belongs_to :user
   
   validates :name,
     presence: true

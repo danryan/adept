@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe RepositoriesController do
+  before do
+    stub_login
+  end
+      
   def mock_repository(stubs={})
     @mock_repository ||= mock_model(Repository, stubs).as_null_object
   end

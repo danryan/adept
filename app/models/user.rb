@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
   has_many :repositories
   has_many :packages, through: :repositories
+  has_many :distributions, through: :repositories
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup

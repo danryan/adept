@@ -1,10 +1,9 @@
 class Package < ActiveRecord::Base
   attr_accessible :file, :component, :distributions, :distribution_ids
 
+  belongs_to :repository
   has_many :references
   has_many :distributions, through: :references
-
-  belongs_to :repository
 
   store :control
   store :checksums, accessors: [ :md5, :sha1, :sha256 ]
@@ -12,6 +11,9 @@ class Package < ActiveRecord::Base
   mount_uploader :file, FileUploader
 
   before_create :extract_control_data
+
+  validates :name, :component, :file,
+    presence: true
 
   def extract_control_data
     Dir.mktmpdir do |dir|

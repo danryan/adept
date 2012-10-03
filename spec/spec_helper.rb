@@ -1,58 +1,40 @@
 require 'rubygems'
 require 'spork'
 
-Spork.prefork do
-  unless ENV['DRB'] || ENV['CI']
-    require 'simplecov'
-    SimpleCov.start 'rails'
-  end
+ENV["RAILS_ENV"] ||= 'test'
 
-  ENV["RAILS_ENV"] ||= 'test'
+Spork.prefork do
+  # http://my.rails-royce.org/2012/01/14/reloading-models-in-rails-3-1-when-usign-spork-and-cache_classes-true/
+  require 'rails/application'
+
+  # Prevent main application to eager_load in the prefork block (do not load files in autoload_paths)
+  Spork.trap_method(Rails::Application, :eager_load!)
+
+  # Load all railties files
   require File.expand_path("../../config/environment", __FILE__)
+
+  Rails.application.railties.all { |r| r.eager_load! }
+
   require 'rspec/rails'
   require 'rspec/autorun'
-  require 'capybara/rails'
-  require 'capybara/rspec'
-  require 'shoulda/matchers/integrations/rspec'
-  require 'database_cleaner'
   require 'draper/test/rspec_integration'
-  require 'factory_girl_rails'
 
-  Capybara.javascript_driver = :webkit
+  # Capybara.default_driver = :poltergeist
+  # Capybara.javascript_driver = :poltergeist
   WebMock.disable_net_connect!(allow_localhost: true)
 
   RSpec.configure do |config|
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = true
+    config.treat_symbols_as_metadata_keys_with_true_values = true
     config.order = "random"
-    config.include Shoulda::Matchers::ActionController
-    config.include ActionDispatch::TestProcess
-    # config.include Devise::TestHelpers, type: :controller
-
-    config.before(:suite) do
-      Fog.mock!
-      connection = Fog::Storage.new(provider: 'AWS', aws_access_key_id: "", aws_secret_access_key: "")
-      connection.directories.create(key: 'adept-io')
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.clean_with(:truncation)
-    end
-
-    config.before(:each) do
-      DatabaseCleaner.start
-    end
-
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
-
-    config.after(:suite) do
-      Fog.unmock!
-    end
+    config.alias_it_behaves_like_to :step, "step:"
   end
+
+  Dir[Rails.root.join("spec/config/**/*.rb")].each { |f| require f }
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 end
 
 Spork.each_run do
   load "#{Rails.root}/config/routes.rb"
-
-  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 end

@@ -1,7 +1,15 @@
 Adept::Application.routes.draw do
   root to: 'home#index'
 
-  devise_for :users
+  devise_for :users #, skip: [ :sessions ]
+
+  as :user do
+    get 'sign_in' => 'devise/sessions#new', as: :sign_in
+    post 'sign_in' => 'devise/sessions#create', as: :sign_in
+    delete 'sign_out' => 'devise/sessions#destroy', as: :sign_out
+    get 'sign_up' => 'devise/registrations#new', as: :sign_up
+    post 'sign_up' => 'devise/registrations#create', as: :sign_up
+  end
 
   resources :repositories do
     resources :distributions
@@ -10,7 +18,6 @@ Adept::Application.routes.draw do
 
   scope '/:user/:repo', :as => 'apt' do
     get '/' => 'apt#index'
-
     scope :module => :apt do
       resources :dists, only: [ :index, :show ] do
         get 'Release' => 'dists#release', as: :release, format: 'txt'

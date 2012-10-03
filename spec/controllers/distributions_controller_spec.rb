@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe DistributionsController do
-
+  login_user
+  
   def mock_distribution(stubs={})
     @mock_distribution ||= mock_model(Distribution, stubs).as_null_object
   end

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Apt::DistsController do
-  context 'layout' do
-    login_user
+  login_user
 
+  context 'layout' do
     let(:repository) { create(:repository, user: user) }
 
     before do

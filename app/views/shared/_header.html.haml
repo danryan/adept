@@ -5,3 +5,11 @@
       .nav-collapse.pull-right
         %ul.nav
           %li= link_to "Repositories", repositories_path
+          %li.divider-vertical
+          %li.dropdown
+            = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' } do
+              %b.caret
+            %ul.dropdown-menu
+              = render 'users/menu/registration_items'
+              %li.divider
+              = render 'users/menu/login_items'

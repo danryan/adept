@@ -4,7 +4,6 @@ class Distribution < ActiveRecord::Base
     :component_list, :architecture_list
 
   belongs_to :repository
-
   has_many :references
   has_many :packages, through: :references
 

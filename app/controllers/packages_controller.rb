@@ -2,6 +2,7 @@ class PackagesController < ApplicationController
   respond_to :html, :json
 
   before_filter :repository
+  before_filter :authenticate_user!
 
   def index
     @packages = RepositoryDecorator.decorate(repository.packages.all)

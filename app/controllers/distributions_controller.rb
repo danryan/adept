@@ -2,6 +2,7 @@ class DistributionsController < ApplicationController
   respond_to :html, :json
 
   before_filter :repository
+  before_filter :authenticate_user!
 
   def index
     @distributions = RepositoryDecorator.decorate(repository.distributions.all)

@@ -31,6 +31,7 @@ group :backend do
     watch(%r{^config/environments/.+\.rb})
     watch(%r{^config/initializers/.+\.rb})
     watch('spec/spec_helper.rb')
+    # watch(%r{^spec/support/.+\.rb})
   end
 
   # guard :rspec, cli: "--color --drb -r rspec/instafail -f doc -f RSpec::Instafail", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
@@ -50,6 +51,14 @@ group :backend do
         spec/requests/#{m[1]}_spec.rb
       ]
     end
+    
+    watch(%r{^app/views/(.*)/[^/]+}) do |m|
+      %W[
+        spec/features/#{m[1]}/
+        spec/controllers/#{m[1]}_controller_spec.rb
+      ]
+    end
+    # watch(%r{^spec/features/(.+)\.rb})
 
     watch(%r{^app/(.+)\.rb}) { |m| "spec/#{m[1]}_spec.rb" }
     watch(%r{^lib/(.+)\.rb}) { |m| "spec/lib/#{m[1]}_spec.rb" }
@@ -60,15 +69,21 @@ group :backend do
       spec/requests/#{m[1]}_spec.rb
     ]
     end
-
   end
+
+  # guard 'spinach' do
+    # watch(%r|^features/(.*)\.feature|)
+    # watch(%r|^features/steps/(.*)([^/]+)\.rb|) do |m|
+      # "features/#{m[1]}#{m[2]}.feature"
+    # end
+  # end
 end
 
 # group :doc, :backend do
 # guard 'annotate', notify: false, position: 'after', routes: true, show_indexes: true do
-  # watch('db/schema.rb')
-  # watch('app/models/**/*.rb')
-  # watch('config/routes.rb')
+# watch('db/schema.rb')
+# watch('app/models/**/*.rb')
+# watch('config/routes.rb')
 # end
 # end
 

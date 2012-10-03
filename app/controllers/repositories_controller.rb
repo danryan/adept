@@ -1,6 +1,8 @@
 class RepositoriesController < ApplicationController
   respond_to :html, :json
 
+  before_filter :authenticate_user!
+
   def index
     @repositories = RepositoryDecorator.all
     respond_with @repositories

@@ -1,7 +1,5 @@
-module ControllersHelpers
-  def file_fixture
-    CarrierWave::SanitizedFile.new(File.join(Rails.root, "spec/fixtures/ruby.deb"))
-  end
+module ControllerHelpers
+
 end
 
 module ControllerMacros
@@ -12,17 +10,17 @@ module ControllerMacros
   #   end
   # end
 
-  def login_user
-    let(:user) { create(:user) }
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the confirmable module
-      sign_in user
-    end
-  end
+  # def login_user
+  #   let(:user) { create(:user) }
+  #   before(:each) do
+  #     @request.env["devise.mapping"] = Devise.mappings[:user]
+  #     user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the confirmable module
+  #     sign_in user
+  #   end
+  # end
 end
 
 RSpec.configure do |config|
-  config.include ControllersHelpers, type: :controller
+  config.include ControllerHelpers, type: :controller
   config.extend  ControllerMacros, type: :controller
 end

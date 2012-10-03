@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe AptController do
-  context 'layout' do
-    login_user
+  login_user
 
-    let(:user) { create(:user) }
+  context 'layout' do
     let(:repository) { create(:repository, user: user) }
 
     before do
