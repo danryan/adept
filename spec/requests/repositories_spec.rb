@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe "Repositories" do
+  login_user
   it "routes to /repositories/new" do
-    as_user do
-      get '/repositories/new'
-      response.body.should include("New Repository")
-    end
+    get '/repositories/new'
+    response.body.should include("New Repository")
   end
 end

@@ -23,7 +23,7 @@ group :frontend do
 end
 
 group :backend do
-  guard 'spork', wait: 50 do
+  guard 'spork', wait: 50, cucumber: false do
     watch('Gemfile')
     watch('Gemfile.lock')
     watch('config/application.rb')
@@ -31,6 +31,7 @@ group :backend do
     watch(%r{^config/environments/.+\.rb})
     watch(%r{^config/initializers/.+\.rb})
     watch('spec/spec_helper.rb')
+    watch('spec/feature_helper.rb')
     # watch(%r{^spec/support/.+\.rb})
   end
 
@@ -70,12 +71,19 @@ group :backend do
     ]
     end
   end
-
-  guard 'cucumber', cli: '--profile guard -c' do
-    watch(%r{^features/.+\.feature$})
-    watch(%r{^features/support/.+$})          { 'features' }
-    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+  
+  guard 'spinach' do
+    watch(%r|^features/(.*)\.feature|)
+    watch(%r|^features/steps/(.*)([^/]+)\.rb|) do |m|
+      "features/#{m[1]}#{m[2]}.feature"
+    end
   end
+
+  # guard 'cucumber', cli: '--profile guard -c' do
+  #   watch(%r{^features/.+\.feature$})
+  #   watch(%r{^features/support/.+$})          { 'features' }
+  #   watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+  # end
 end
 
 # group :doc, :backend do
