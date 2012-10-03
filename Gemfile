@@ -39,17 +39,19 @@ group :development do
   gem 'haml'
   gem 'hpricot'
   gem 'ruby_parser'
+  gem 'foreman'
 end
 
-group :development, :test do
-  gem 'foreman'
+group :test do
   gem 'rspec-rails'
   gem 'rspec-instafail'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'poltergeist'
-  gem 'spinach-rails'
+  gem 'cucumber-rails', require: false
+  gem 'cucumber-api-steps', require: false
+
   # gem 'capybara-webkit'
   gem 'webmock'
   gem 'email_spec'
@@ -67,7 +69,7 @@ group :local do
   gem 'guard-rspec'
   gem 'guard-rails'
   gem 'guard-spork'
-  gem 'guard-spinach'
+  gem 'guard-cucumber'
   gem 'guard-bundler'
   gem 'guard-annotate'
   gem 'guard-ronn'

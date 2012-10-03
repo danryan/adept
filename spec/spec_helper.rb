@@ -21,8 +21,6 @@ Spork.prefork do
 
   # Capybara.default_driver = :poltergeist
   # Capybara.javascript_driver = :poltergeist
-  WebMock.disable_net_connect!(allow_localhost: true)
-
   RSpec.configure do |config|
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = true
@@ -32,9 +30,9 @@ Spork.prefork do
   end
 
   Dir[Rails.root.join("spec/config/**/*.rb")].each { |f| require f }
-  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 end
 
 Spork.each_run do
   load "#{Rails.root}/config/routes.rb"
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 end

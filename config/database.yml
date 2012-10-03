@@ -8,7 +8,7 @@ development:
   host: localhost
   port: 5432
 
-test:
+test: &test
   adapter: postgresql
   encoding: unicode
   database: adept_test
@@ -27,3 +27,5 @@ production:
   password:
   host: localhost
   port: 5432
+cucumber:
+  <<: *test
