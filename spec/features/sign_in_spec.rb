@@ -1,7 +1,7 @@
-require 'feature_helper'
+require 'spec_helper'
 
-feature "signing in" do
-  
+feature "signing in", type: :feature do
+
   given(:user) { create(:confirmed_user) }
   
   scenario "is a valid user" do
