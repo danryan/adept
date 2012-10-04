@@ -5,13 +5,6 @@ guard :bundler do
 end
 
 group :frontend do
-  guard :pow do
-    watch('.rvmrc')
-    watch(%r{^\.pow(rc|env)$})
-    watch('Gemfile.lock')
-    watch(%r{^config/.+\.rb$})
-  end
-
   guard 'livereload' do
     watch(%r{app/views/.+\.(erb|haml|slim)$})
     watch(%r{app/helpers/.+\.rb})
