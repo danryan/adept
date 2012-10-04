@@ -1,6 +1,4 @@
 class Registration < Spinach::FeatureSteps
-
-
   Given 'the user "danryan" has not signed up' do
     @user = build(:danryan)
   end

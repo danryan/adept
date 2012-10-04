@@ -24,8 +24,8 @@ if defined?(ActionMailer)
   Spinach.hooks.before_scenario do
     # Scenario setup
     case ActionMailer::Base.delivery_method
-      when :test then ActionMailer::Base.deliveries.clear
-      when :cache then ActionMailer::Base.clear_cache
+    when :test then ActionMailer::Base.deliveries.clear
+    when :cache then ActionMailer::Base.clear_cache
     end
   end
 end
@@ -40,6 +40,10 @@ end
 
 DatabaseCleaner.strategy = :truncation
 Spinach.hooks.before_scenario do
+  DatabaseCleaner.start
+end
+
+Spinach.hooks.after_scenario do
   DatabaseCleaner.clean
 end
 
