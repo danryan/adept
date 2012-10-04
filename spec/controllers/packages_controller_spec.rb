@@ -1,26 +1,25 @@
 require 'spec_helper'
 
 describe PackagesController do
-  login_user
+  login!
 
   before do
     CarrierWave::Mount::Mounter.any_instance.stub(:store!)
     CarrierWave::Mount::Mounter.any_instance.stub(:remove!)
     FileUploader.any_instance.stub(:download!)
     Package.any_instance.stub(:store_file!)
+    current_user.stub_chain(:repositories, :find).and_return(repository)
   end
 
   def mock_package(stubs={})
     @mock_package ||= mock_model(Package, stubs).as_null_object
   end
 
-  let(:repository) { create(:repository) }
-
   describe "GET 'index'" do
     let(:package) { create(:package, file: file_fixture, repository: repository) }
 
     before do
-      repository.stub_chain(:packages, :all).with([package])
+      repository.stub_chain(:packages, :all).and_return([package])
       get :index, repository_id: repository.id
     end
 
@@ -34,7 +33,7 @@ describe PackagesController do
     let(:package) { create(:package, file: file_fixture, repository: repository) }
 
     before do
-      repository.stub_chain(:packages, :find).with(package.id).and_return(package)
+      repository.stub_chain(:packages, :find).and_return(package)
       get :show, repository_id: repository.id, id: package.id
     end
 

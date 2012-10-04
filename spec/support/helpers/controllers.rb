@@ -1,8 +1,29 @@
 module ControllerHelpers
-
+  def sign_in(user = create(:confirmed_user))
+    allow_message_expectations_on_nil
+    if user.nil?
+      request.env['warden'].stub(:authenticate!).
+        and_throw(:warden, {:scope => :user})
+      controller.stub :current_user => nil
+    else
+      request.env['warden'].stub :authenticate! => user
+      controller.stub :current_user => user
+    end
+  end
 end
 
 module ControllerMacros
+  def login!
+    let(:user) { create(:confirmed_user) }
+
+    before(:each) do
+      sign_in user
+    end
+
+    let(:repository) { create(:repository, user: user) }
+    let(:current_user) { controller.current_user }
+  end
+
   # def login_admin
   #   before(:each) do
   #     @request.env["devise.mapping"] = Devise.mappings[:admin]
@@ -23,4 +44,6 @@ end
 RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.extend  ControllerMacros, type: :controller
+  config.include ControllerHelpers, type: :request
+  config.extend  ControllerMacros, type: :request
 end

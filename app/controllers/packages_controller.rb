@@ -55,6 +55,6 @@ class PackagesController < ApplicationController
   private
 
   def repository
-    @repository ||= Repository.find(params[:repository_id])
+    @repository ||= current_user.repositories.find(params[:repository_id])
   end
 end

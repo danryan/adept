@@ -18,7 +18,10 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
   require 'draper/test/rspec_integration'
-
+  require 'email_spec'
+  require 'capybara/rspec'
+  require 'capybara/rails'
+  
   RSpec.configure do |config|
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = true

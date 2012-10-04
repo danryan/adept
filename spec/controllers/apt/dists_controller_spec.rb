@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Apt::DistsController do
-  login_user
+  login!
 
   context 'layout' do
     let(:repository) { create(:repository, user: user) }

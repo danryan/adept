@@ -3,11 +3,11 @@
 FactoryGirl.define do
   factory :user, aliases: [ :danryan ] do
     username "danryan"
-    email "dan@appliedawesome.com"
     password "qwerty"
     password_confirmation "qwerty"
 
     factory :confirmed_user do
+      email { Faker::Internet.email }
       confirmed_at { Time.now }
     end
   end

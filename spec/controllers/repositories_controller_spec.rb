@@ -1,19 +1,17 @@
 require 'spec_helper'
 
 describe RepositoriesController do
-  before do
-    stub_login
-  end
-      
+  login!
+
   def mock_repository(stubs={})
     @mock_repository ||= mock_model(Repository, stubs).as_null_object
   end
 
-  let(:repository) { create(:repository) }
+  let(:repository) { create(:repository, user: user) }
 
   describe "GET 'index'" do
     before do
-      Repository.stub(:all).and_return([repository])
+      user.stub_chain(:repositories, :all).and_return([repository])
       get :index
     end
 
@@ -49,11 +47,10 @@ describe RepositoriesController do
 
   describe "POST 'create'" do
     context 'valid repository' do
-      # let(:valid) { attributes_for(:repository).stringify_keys }
       let(:repository) { mock_repository(save: true) }
 
       before do
-        Repository.stub(:new).and_return(repository)
+        current_user.stub_chain(:repositories, :new).and_return(repository)
         post :create, repository: {}
       end
 
@@ -63,15 +60,12 @@ describe RepositoriesController do
       it { should set_the_flash.to "Repository was successfully created." }
     end
 
-    context 'invalid distribution' do
-      let(:invalid) { attributes_for(:lucid).stringify_keys! }
-      let(:distribution) { mock_repository(save: false) }
+    context 'invalid repository' do
+      let(:repository) { mock_repository(save: false) }
 
       before do
-        # repository = mock_model(Repository)
-        Repository.stub(:find).and_return(repository)
-        repository.stub_chain(:distributions, :new).with(invalid).and_return(distribution)
-        post :create, repository_id: repository.id, distribution: invalid
+        current_user.stub_chain(:repositories, :new).and_return(repository)
+        post :create, repository: {}
       end
 
       it { should respond_with :ok }
@@ -82,12 +76,11 @@ describe RepositoriesController do
   end
 
   describe "GET 'edit'" do
-    let(:distribution) { create(:lucid, repository: repository) }
+    let(:repository) { create(:repository, user: user) }
 
     before do
-      Repository.stub(:find).and_return(repository)
-      repository.stub_chain(:distributions, :find).and_return(distribution)
-      get :edit, repository_id: repository.id, id: distribution.id
+      user.stub_chain(:repositories, :find).and_return(repository)
+      get :edit, id: repository.id
     end
 
     it { should respond_with :success }
@@ -114,8 +107,9 @@ describe RepositoriesController do
       let(:repository) { mock_repository(save: false) }
 
       before do
-        Repository.stub(:find).and_return(repository)
-        put :update, id: repository.id, repository: {}
+        controller.stub current_user: user
+        user.stub_chain(:repositories, :find).and_return(repository)
+        put :update, user_id: user.id, id: repository.id, repository: {}
       end
 
       it { should respond_with :ok }

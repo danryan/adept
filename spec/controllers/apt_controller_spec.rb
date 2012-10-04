@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AptController do
-  login_user
+  login!
 
   puts example.metadata[:type]
   context 'layout' do

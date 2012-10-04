@@ -58,7 +58,7 @@ group :test, :development do
   gem 'tach'
   gem 'forgery'
   gem 'timecop'
-  gem 'faker'
+  gem 'ffaker'
   gem 'fuubar'
 end
 
