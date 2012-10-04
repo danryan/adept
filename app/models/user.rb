@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :packages, through: :repositories
   has_many :distributions, through: :repositories
 
+  before_save :ensure_authentication_token
+  
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
