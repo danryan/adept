@@ -59,6 +59,7 @@ group :test, :development do
   gem 'forgery'
   gem 'timecop'
   gem 'faker'
+  gem 'fuubar'
 end
 
 group :local do

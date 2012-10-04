@@ -1,15 +1,12 @@
 module Features
   module Given
-    def given(name, &block)
-      __send__(:let, name, &block)
-    end
-
-    def given!(name, &block)
-      __send__(:let!, name, &block)
+    def self.included(base)
+      base.instance_eval do
+        alias :given :let!
+        # alias :given! :let!
+      end
     end
   end
 end
 
-RSpec.configure do |config|
-  config.extend Features::Given
-end
+RSpec.configuration.include Features::Given, :capybara_feature => true

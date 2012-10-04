@@ -1,13 +1,12 @@
 module Features
   module Authentication
 
-    def sign_in
-      puts Capybara.current_driver
+    def sign_in(username, password)
       visit sign_in_path
 
       within('#new_user') do
-        fill_in 'Login', :with => 'dan'
-        fill_in 'Password', :with => 'qwerty'
+        fill_in 'Login', :with => username
+        fill_in 'Password', :with => password
       end
       click_button 'Sign in'
     end
