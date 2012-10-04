@@ -2,8 +2,8 @@ require 'database_cleaner'
 
 RSpec.configure do |config|
   config.before(:each) do
-    if defined?(Capybara)
-      if Capybara.current_driver == :rack_test
+    if example.metadata[:type] == :feature
+      if defined?(Capybara) && Capybara.current_driver == :rack_test
         DatabaseCleaner.strategy = :transaction
       else
         DatabaseCleaner.strategy = :truncation

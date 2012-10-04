@@ -3,6 +3,7 @@ require 'spec_helper'
 describe AptController do
   login_user
 
+  puts example.metadata[:type]
   context 'layout' do
     let(:repository) { create(:repository, user: user) }
 

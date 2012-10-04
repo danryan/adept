@@ -19,20 +19,17 @@ Spork.prefork do
   require 'rspec/autorun'
   require 'draper/test/rspec_integration'
 
-  # Capybara.default_driver = :poltergeist
-  # Capybara.javascript_driver = :poltergeist
   RSpec.configure do |config|
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = true
     config.treat_symbols_as_metadata_keys_with_true_values = true
     config.order = "random"
-    config.alias_it_behaves_like_to :step, "step:"
   end
 
-  Dir[Rails.root.join("spec/config/**/*.rb")].each { |f| require f }
 end
 
 Spork.each_run do
   load "#{Rails.root}/config/routes.rb"
+  # Dir[Rails.root.join("spec/config/**/*.rb")].each { |f| require f }
   Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 end
