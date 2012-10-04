@@ -1,28 +1,49 @@
-require 'spec_helper'
+require 'feature_helper'
 
-feature "signing in" do
-  
-  # background do
-    let(:user) { create(:user) }
-  # end
+feature "sign in" do
+  context "as a valid user" do
+    given(:user) { create(:confirmed_user) }
 
-  scenario "is a valid user" do
-    visit sign_in_path
-    within('#new_user') do
-      fill_in 'Login', with: user.username
-      fill_in 'Password', with: user.password
-      click_button 'Sign in'
+    background do
+      sign_in(user.username, user.password)
     end
-    page.should have_content('Signed in successfully.')
+
+    scenario "can sign in successfully" do
+      page.should have_content 'Signed in successfully.'
+    end
   end
 
-  scenario "is an invalid user" do
-    visit sign_in_path
-    within('#new_user') do
-      fill_in 'Login', with: 'dan'
-      fill_in 'Password', with: 'qwerty'
-      click_button 'Sign in'
+  context "as an invalid user" do
+    given(:user) { build(:user) }
+
+    background do
+      sign_in(user.username, user.password)
     end
-    page.should have_content('Invalid login or password.')
+
+    scenario "cannot sign in" do
+      page.should have_content 'Invalid login or password.'
+    end
   end
 end
+
+
+# feature "sign in" do
+#   given(:user) { create(:confirmed_user) }
+
+#   scenario "is a valid user" do
+
+#   end
+
+#   scenario "is an invalid user" do
+
+#     page.should have_content('Invalid login or password.')
+#   end
+
+#   describe "unconfirmed user" do
+#     given(:user) { create(:user) }
+
+#     scenario "can't log in if not confirmed" do
+
+#     end
+#   end
+# end

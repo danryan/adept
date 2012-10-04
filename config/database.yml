@@ -27,5 +27,4 @@ production:
   password:
   host: localhost
   port: 5432
-cucumber:
-  <<: *test
+  

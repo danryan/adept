@@ -45,16 +45,7 @@ module AuthenticationSteps
     click_button 'Sign in'
   end
 
-  def sign_up(username, email, password, password_confirmation)
-    visit '/sign_up'
-    within '#new_user' do
-      fill_in 'Username', with: username
-      fill_in 'Email', with: email
-      fill_in 'Password', with: password
-      fill_in 'Password confirmation', with: password_confirmation
-    end
-    click_button 'Sign up'
-  end
+
 end
 
 World(AuthenticationSteps)
