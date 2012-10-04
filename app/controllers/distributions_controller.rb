@@ -1,8 +1,9 @@
 class DistributionsController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
+  respond_to :json, except: [ :new, :edit ]
 
-  before_filter :repository
   before_filter :authenticate_user!
+  before_filter :repository
 
   def index
     @distributions = RepositoryDecorator.decorate(repository.distributions.all)

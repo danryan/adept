@@ -1,11 +1,12 @@
 class AptController < ApplicationController
   layout 'apt'
   
-  respond_to :html, :json
+  respond_to :html
+  respond_to :json, except: [ :new, :edit ]
   respond_to :text, :gz, only: [ :dist_release, :dist_arch_release, :dist_arch_packages ]
 
-  before_filter :repository
   before_filter :authenticate_user!
+  before_filter :repository
 
   def index
     respond_with @repository

@@ -1,8 +1,9 @@
 class PackagesController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
+  respond_to :json, except: [ :new, :edit ]
 
-  before_filter :repository
   before_filter :authenticate_user!
+  before_filter :repository
 
   def index
     @packages = RepositoryDecorator.decorate(repository.packages.all)
