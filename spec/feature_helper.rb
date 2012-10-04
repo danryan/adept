@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'spork'
 
+require 'spec_helper'
+
 Spork.prefork do
-  require 'spec_helper'
   require 'email_spec'
   require 'capybara/rspec'
   require 'capybara/rails'

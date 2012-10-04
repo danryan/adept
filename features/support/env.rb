@@ -14,7 +14,6 @@ include EmailSpec::Helpers
 include EmailSpec::Matchers
 include Warden::Test::Helpers
 
-
 if defined?(ActionMailer)
   unless [:test, :activerecord, :cache, :file].include?(ActionMailer::Base.delivery_method)
     ActionMailer::Base.register_observer(EmailSpec::TestObserver)
@@ -51,6 +50,8 @@ end
 
 #
 # Spinach.config.save_and_open_page_on_failure = true
+
+Dir[Rails.root.join('features/support/helpers/**/*.rb')].each {|f| require f }
 
 module App
   def app

@@ -4,39 +4,42 @@ class RepositoriesController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @repositories = RepositoryDecorator.all
+    repositories = current_user.repositories.all
+    @repositories = RepositoryDecorator.decorate(repositories)
     respond_with @repositories
   end
 
   def show
-    @repository = RepositoryDecorator.find(params[:id])
+    repository = current_user.repositories.find(params[:id])
+    @repository = RepositoryDecorator.decorate(repository)
     respond_with @repository
   end
 
   def new
-    @repository = Repository.new
+    @repository = current_user.repositories.new
     respond_with @repository
   end
 
   def create
-    @repository = Repository.new(params[:repository])
+    @repository = current_user.repositories.new(params[:repository])
     @repository.save
     respond_with @repository
   end
 
   def edit
-    @repository = RepositoryDecorator.find(params[:id])
+    repository = current_user.repositories.find(params[:id])
+    @repository = RepositoryDecorator.decorate(repository)
     respond_with @repository
   end
 
   def update
-    @repository = Repository.find(params[:id])
+    @repository = current_user.repositories.find(params[:id])
     @repository.update_attributes(params[:repository])
     respond_with @repository
   end
 
   def destroy
-    @repository = Repository.find(params[:id])
+    @repository = current_user.repositories.find(params[:id])
     @repository.destroy
     respond_with @repository
   end

@@ -1,7 +1,10 @@
 require 'feature_helper'
 
 feature "sign in" do
+  puts example.metadata[:type]
   context "as a valid user" do
+      puts example.metadata[:type]
+
     given(:user) { create(:confirmed_user) }
 
     background do

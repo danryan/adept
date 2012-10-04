@@ -7,7 +7,7 @@
           %li= link_to "Repositories", repositories_path
           %li.divider-vertical
           %li.dropdown
-            = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to '#', id: 'settings-dropdown', class: 'dropdown-toggle', data: { toggle: 'dropdown' } do
               %b.caret
             %ul.dropdown-menu
               = render 'users/menu/registration_items'

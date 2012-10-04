@@ -1,19 +1,13 @@
 class SignInAsUnconfirmedUser < Spinach::FeatureSteps
-  include Features::Authentication
-
-  Given 'a new, unconfirmed user' do
-    pending 'step not implemented'
+  step 'a new, unconfirmed user' do
+    @user = create(:user)
   end
 
-  And 'is not authenticated' do
-    pending 'step not implemented'
+  step 'he signs in' do
+    sign_in(@user.username, @user.password)
   end
 
-  When 'he signs in' do
-    pending 'step not implemented'
-  end
-
-  Then 'he should see "You have to confirm your account before continuing."' do
-    pending 'step not implemented'
+  step 'he should see "You have to confirm your account before continuing."' do
+    page.should have_content "You have to confirm your account before continuing."
   end
 end
