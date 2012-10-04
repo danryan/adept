@@ -52,6 +52,7 @@ group :test, :development do
   gem 'spinach-rails'
   gem 'webmock'
   gem 'email_spec'
+  gem 'json_spec'
   gem 'rack-test', require: 'rack/test'
   gem 'spork-rails'
   gem 'database_cleaner', '>= 0.7.2'
