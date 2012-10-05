@@ -1,63 +1,48 @@
-ENV['RAILS_ENV'] = 'test'
-require_relative '../../config/environment'
-require 'spinach-rails'
+require 'rubygems'
+require 'spork'
 
-require 'rspec'
-require 'capybara/rspec'
-require 'capybara/rails'
-require 'spinach/capybara'
-require 'email_spec'
-require 'database_cleaner'
+Spork.prefork do
+  require 'cucumber/rails'
+  require 'capybara/poltergeist'
+  # require 'capybara/rspec'
+  # require 'capybara/rails'
+  require 'email_spec'
+  require 'email_spec/cucumber'
+  require 'json_spec'
 
-include FactoryGirl::Syntax::Methods
-include EmailSpec::Helpers
-include EmailSpec::Matchers
-include Warden::Test::Helpers
+  Capybara.default_selector = :css
+  Capybara.javascript_driver = :poltergeist
+  # Capybara.default_driver = :poltergeist
+  
+  ActionController::Base.allow_rescue = false
 
-if defined?(ActionMailer)
-  unless [:test, :activerecord, :cache, :file].include?(ActionMailer::Base.delivery_method)
-    ActionMailer::Base.register_observer(EmailSpec::TestObserver)
-  end
-  ActionMailer::Base.perform_deliveries = true
+  World(EmailSpec::Helpers)
+  World(Warden::Test::Helpers)
 
-  Spinach.hooks.before_scenario do
-    # Scenario setup
-    case ActionMailer::Base.delivery_method
-    when :test then ActionMailer::Base.deliveries.clear
-    when :cache then ActionMailer::Base.clear_cache
-    end
-  end
-end
+  # unless [:test, :activerecord, :cache, :file].include?(ActionMailer::Base.delivery_method)
+    # ActionMailer::Base.register_observer(EmailSpec::TestObserver)
+  # end
+  # ActionMailer::Base.perform_deliveries = true
 
-Spinach.hooks.after_scenario do
-  EmailSpec::EmailViewer.save_and_open_all_raw_emails if ENV['SHOW_EMAILS']
-  EmailSpec::EmailViewer.save_and_open_all_html_emails if ENV['SHOW_HTML_EMAILS']
-  EmailSpec::EmailViewer.save_and_open_all_text_emails if ENV['SHOW_TEXT_EMAILS']
-end
+  require 'database_cleaner'
+  require 'database_cleaner/cucumber'
+  DatabaseCleaner.strategy = :truncation
+  Cucumber::Rails::Database.javascript_strategy = :truncation
 
-# include Rack::Test::Methods
-
-DatabaseCleaner.strategy = :truncation
-Spinach.hooks.before_scenario do
-  DatabaseCleaner.start
-end
-
-Spinach.hooks.after_scenario do
-  DatabaseCleaner.clean
-end
-
-::Capybara.javascript_driver = :poltergeist
-
-#
-# Spinach.config.save_and_open_page_on_failure = true
-
-Dir[Rails.root.join('features/support/helpers/**/*.rb')].each {|f| require f }
-
-module App
-  def app
-    @app ||= Rails.application
+  Before do
+    DatabaseCleaner.start
   end
 
+  After do |scenario|
+    DatabaseCleaner.clean
+  end
 end
 
-Spinach::FeatureSteps.include App
+Spork.each_run do
+  World(FactoryGirl::Syntax::Methods)
+
+  require 'factory_girl'
+  Dir[Rails.root.join('spec/factories/**/*/rb')].each { |f| require f }
+
+  load "#{Rails.root}/config/routes.rb"
+end

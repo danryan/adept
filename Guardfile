@@ -16,7 +16,7 @@ group :frontend do
 end
 
 group :backend do
-  guard 'spork', wait: 50, cucumber: false do
+  guard 'spork', wait: 50 do
     watch('Gemfile')
     watch('Gemfile.lock')
     watch('config/application.rb')
@@ -25,6 +25,9 @@ group :backend do
     watch(%r{^config/initializers/.+\.rb})
     watch('spec/spec_helper.rb')
     watch('spec/feature_helper.rb')
+    watch('features/support/env.rb')
+    watch(%r{config/.+\.yml})
+
     # watch(%r{^spec/support/.+\.rb})
   end
 
@@ -64,6 +67,13 @@ group :backend do
     ]
     end
   end
+
+  guard 'cucumber', cli: '--drb --profile guard', all_on_start: false, all_after_pass: false,run_all: { cli: "--no-profile -f fuubar features" } do
+    watch(%r{^features/.+\.feature$})
+    watch(%r{^features/support/.+$})          { 'features' }
+    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+  end
+
 end
 
 group :acceptance do
@@ -74,24 +84,3 @@ group :acceptance do
     end
   end
 end
-
-# group :doc, :backend do
-# guard 'annotate', notify: false, position: 'after', routes: true, show_indexes: true do
-# watch('db/schema.rb')
-# watch('app/models/**/*.rb')
-# watch('config/routes.rb')
-# end
-# end
-
-# Sample config for Rails Best Practices
-# See README for details
-
-# group :rbp do
-#   guard 'rails_best_practices' do
-#     watch(%r{^(app|lib|config|vendor|spec)/(.+)\.rb$})
-#     # watch(%r{^lib/(.+)\.rb$})
-#     # watch(%r{^config/(.+)\.rb$})
-#     # watch(%r{^vendor/(.+)\.rb$})
-#     # watch(%r{^spec/(.+)\.rb$})
-#   end
-# end

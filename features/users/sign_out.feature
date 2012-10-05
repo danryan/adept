@@ -1,9 +1,9 @@
-@javascript
 Feature: Sign out
   Background:
-    Given a user exists
-    And is authenticated
+    Given I am a registered user
+    And I am signed in
 
-  Scenario: An authenticated user wants to sign out
-    When he clicks "Sign out"
-    Then he should see "Signed out successfully."
+  Scenario: User signs out successfully
+    When I sign out
+    Then I should see a successful sign out message
+    And I should be signed out

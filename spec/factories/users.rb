@@ -5,10 +5,13 @@ FactoryGirl.define do
     username "danryan"
     password "qwerty"
     password_confirmation "qwerty"
+    email "example@example.com"
+    confirmed_at { Time.now }
 
     factory :confirmed_user do
-      email { Faker::Internet.email }
+      # email { Faker::Internet.email }
       confirmed_at { Time.now }
+
     end
   end
 end
