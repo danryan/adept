@@ -6,7 +6,7 @@ class PackagesController < ApplicationController
   before_filter :repository
 
   def index
-    @packages = RepositoryDecorator.decorate(repository.packages.all)
+    @packages = PackageDecorator.decorate(repository.packages.all)
 
     respond_with repository, @packages
   end
@@ -56,6 +56,6 @@ class PackagesController < ApplicationController
   private
 
   def repository
-    @repository ||= current_user.repositories.find(params[:repository_id])
+    @repository ||= current_user.repositories.find_by_name!(params[:repository_id])
   end
 end

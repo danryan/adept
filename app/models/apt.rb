@@ -1,0 +1,3 @@
+class Apt < Repository
+
+end

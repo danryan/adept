@@ -1,3 +1,0 @@
-%ul
-  - @packages.each do |package|
-    %li= link_to "#{package.name}/", apt_pool_name_path(package.component, package.prefix, package.name)

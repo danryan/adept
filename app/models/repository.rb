@@ -1,5 +1,5 @@
 class Repository < ActiveRecord::Base
-  attr_accessible :name #, :type
+  attr_accessible :name, :type
 
   VALID_TYPES = [ :apt, :yum ]
 
@@ -8,7 +8,8 @@ class Repository < ActiveRecord::Base
   has_many :packages
   
   validates :name,
-    presence: true
+    presence: true,
+    format: { with: /^[A-Za-z\d_]+$/ }
 
   def self.compressed_packages(packages)
     out = ""
@@ -23,6 +24,10 @@ class Repository < ActiveRecord::Base
       out += "\n"
     end
     ActiveSupport::Gzip.compress(out)
+  end
+
+  def to_param
+    name
   end
 end
 

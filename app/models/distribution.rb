@@ -24,9 +24,9 @@ class Distribution < ActiveRecord::Base
     }
   validate :validate_architecture_list
 
-  # def to_param
-    # codename
-  # end
+  def to_param
+    codename
+  end
 
   protected
 

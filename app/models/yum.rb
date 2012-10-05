@@ -1,0 +1,3 @@
+class Yum < Repository
+
+end

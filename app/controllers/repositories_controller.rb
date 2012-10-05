@@ -11,7 +11,7 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    repository = current_user.repositories.find(params[:id])
+    repository = current_user.repositories.find_by_name!(params[:id])
     @repository = RepositoryDecorator.decorate(repository)
     respond_with @repository
   end
@@ -28,19 +28,19 @@ class RepositoriesController < ApplicationController
   end
 
   def edit
-    repository = current_user.repositories.find(params[:id])
+    repository = current_user.repositories.find_by_name!(params[:id])
     @repository = RepositoryDecorator.decorate(repository)
     respond_with @repository
   end
 
   def update
-    @repository = current_user.repositories.find(params[:id])
+    @repository = current_user.repositories.find_by_name!(params[:id])
     @repository.update_attributes(params[:repository])
     respond_with @repository
   end
 
   def destroy
-    @repository = current_user.repositories.find(params[:id])
+    @repository = current_user.repositories.find_by_name!(params[:id])
     @repository.destroy
     respond_with @repository
   end

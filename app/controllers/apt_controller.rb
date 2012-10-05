@@ -1,39 +1,13 @@
-class Repository::Apt::DistsController < ApplicationController
+class AptController < ApplicationController
   layout 'apt'
 
-  respond_to :text, :gz, only: [ :release, :arch_release, :dist_arch_packages ]
+  respond_to :text, :gz, only: [ :release, :arch_release, :arch_packages ]
 
-  before_filter :repository
   before_filter :authenticate_user!
-
-  def index
-    @distributions = repository.distributions
-    respond_with @distributions
-  end
-
-  def show
-    distribution = repository.distributions.where("codename = ?", params[:id]).first
-    @distribution = DistributionDecorator.decorate(distribution)
-    respond_with @distribution
-  end
+  before_filter :repository
 
   def release
     distribution = repository.distributions.where("codename = ?", params[:dist_id]).first
-    @distribution = DistributionDecorator.decorate(distribution)
-
-    respond_with @distribution
-  end
-
-  def component
-    distribution = repository.distributions.where("codename = ?", params[:dist_id]).first
-    @distribution = DistributionDecorator.decorate(distribution)
-    @component = params[:component]
-    respond_with @distribution
-  end
-
-  def arch
-    @codename, @component, @arch = params.values_at(:dist_id, :component, :arch)
-    distribution = repository.distributions.where("codename = :codename", codename: @codename).first
     @distribution = DistributionDecorator.decorate(distribution)
 
     respond_with @distribution
@@ -65,10 +39,15 @@ class Repository::Apt::DistsController < ApplicationController
       end
     end
   end
-end
 
-private
+  def package
+    @package = repository.packages.where("component = ? AND prefix = ? AND name = ? AND filename = ?", *params.values_at(:pool_id, :prefix, :name, :package)).first
+    redirect_to @package.file.url
+  end
 
-def repository
-  @repository ||= Repository.where(name: params[:repo], user_id: current_user.id).first!
+  private
+
+  def repository
+    @repository ||= current_user.repositories.where(name: params[:repository_id]).first!
+  end
 end

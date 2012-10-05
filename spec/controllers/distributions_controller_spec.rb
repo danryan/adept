@@ -14,7 +14,7 @@ describe DistributionsController do
 
     before do
       repository.stub_chain(:distributions, :all).with([distribution])
-      get :index, repository_id: repository.id
+      get :index, repository_id: repository.name
     end
 
     it { should respond_with(:success) }
@@ -27,8 +27,8 @@ describe DistributionsController do
     let(:distribution) { create(:lucid, repository: repository) }
 
     before do
-      repository.stub_chain(:distributions, :find).with(distribution.id).and_return(distribution)
-      get :show, repository_id: repository.id, id: distribution.id
+      repository.stub_chain(:distributions, :find_by_name).with(distribution.id).and_return(distribution)
+      get :show, repository_id: repository.name, id: distribution.codename
     end
 
     it { should respond_with(:success) }
@@ -41,7 +41,7 @@ describe DistributionsController do
     let(:distribution) { repository.distributions.new }
 
     before do
-      get :new, repository_id: repository.id
+      get :new, repository_id: repository.name
     end
 
     it { should respond_with(:success) }
@@ -52,36 +52,32 @@ describe DistributionsController do
 
   describe "POST 'create'" do
     context 'valid distribution' do
-      let(:valid) { attributes_for(:lucid).stringify_keys }
       let(:distribution) { mock_distribution(save: true) }
 
       before do
-        Repository.stub(:find).and_return(repository)
+        Repository.stub(:find_by_name!).and_return(repository)
 
-        repository.stub_chain(:distributions, :new).with(valid).and_return(distribution)
-        post :create, repository_id: repository.id, distribution: valid
+        repository.stub_chain(:distributions, :new).and_return(distribution)
+        post :create, repository_id: repository.name, distribution: {}
       end
 
       it { should respond_with(:found) }
-      it { should redirect_to repository_distribution_url(repository.id, distribution) }
+      it { should redirect_to repository_distribution_url(repository.name, distribution) }
       it { should assign_to(:distribution) }
       it { should assign_to(:repository).with(repository) }
       it { should set_the_flash.to "Distribution was successfully created." }
     end
-
     context 'invalid distribution' do
-      let(:invalid) { attributes_for(:lucid).stringify_keys! }
       let(:distribution) { mock_distribution(save: false) }
 
       before do
-        Repository.stub(:find).and_return(repository)
-        repository.stub_chain(:distributions, :new).with(invalid).and_return(distribution)
-        post :create, repository_id: repository.id, distribution: invalid
+        Repository.stub(:find_by_name!).and_return(repository)
+        repository.stub_chain(:distributions, :new).and_return(distribution)
+        post :create, repository_id: repository.name, distribution: {}
       end
 
       it { should respond_with :ok }
       it { should render_template :new }
-      # it { should set_the_flash.to "Distribution could not be created." }
     end
 
   end
@@ -90,9 +86,9 @@ describe DistributionsController do
     let(:distribution) { create(:lucid, repository: repository) }
 
     before do
-      Repository.stub(:find).and_return(repository)
-      repository.stub_chain(:distributions, :find).and_return(distribution)
-      get :edit, repository_id: repository.id, id: distribution.id
+      # Repository.stub(:find).and_return(repository)
+      repository.stub_chain(:distributions, :find_by_codename!).and_return(distribution)
+      get :edit, repository_id: repository.name, id: distribution.codename
     end
 
     it { should respond_with :success }
@@ -107,10 +103,10 @@ describe DistributionsController do
       let(:distribution) { mock_distribution(save: true) }
 
       before do
-        Repository.stub(:find).and_return(repository)
-        repository.stub_chain(:distributions, :find).and_return(distribution)
-        put :update, repository_id: repository.id,
-          id: distribution.id,
+        Repository.stub(:find_by_name!).and_return(repository)
+        repository.stub_chain(:distributions, :find_by_codename!).and_return(distribution)
+        put :update, repository_id: repository.name,
+          id: distribution.codename,
           distribution: {}
       end
 
@@ -124,11 +120,11 @@ describe DistributionsController do
       let(:distribution) { mock_distribution(save: false) }
 
       before do
-        Repository.stub(:find).and_return(repository)
-        repository.stub_chain(:distributions, :find).and_return(distribution)
+        Repository.stub(:find_by_name!).and_return(repository)
+        repository.stub_chain(:distributions, :find_by_codename!).and_return(distribution)
 
-        put :update, repository_id: repository.id,
-          id: distribution.id,
+        put :update, repository_id: repository.name,
+          id: distribution.codename,
           distribution: {}
       end
 
@@ -136,7 +132,6 @@ describe DistributionsController do
       it { should render_template :edit }
       it { should assign_to :distribution }
       it { should assign_to(:repository).with(repository) }
-      # it { should set_the_flash.to "Distribution was successfully updated." }
     end
   end
 
@@ -144,9 +139,9 @@ describe DistributionsController do
     let(:distribution) { create(:lucid, repository: repository) }
 
     before do
-      Repository.stub(:find).and_return(repository)
-      repository.stub_chain(:distributions, :find).and_return(distribution)
-      delete :destroy, repository_id: repository.id, id: distribution.id
+      Repository.stub(:find_by_name!).and_return(repository)
+      repository.stub_chain(:distributions, :find_by_codename!).and_return(distribution)
+      delete :destroy, repository_id: repository.name, id: distribution.codename
     end
 
     it { should respond_with(:redirect) }

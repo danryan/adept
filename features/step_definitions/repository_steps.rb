@@ -8,7 +8,7 @@ end
 
 When /^I create a new (.*?) repository named "(.*?)"$/ do |type, name|
   fill_in 'Name', with: name
-  select type, from: 'Types'
+  select type.capitalize, from: 'repository_type'
   click_button 'Create Repository'
 end
 
