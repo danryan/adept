@@ -1,4 +1,4 @@
-class AptController < ApplicationController
+class Repository::Apt::BaseController < ApplicationController
   layout 'apt'
   
   respond_to :html

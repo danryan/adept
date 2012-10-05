@@ -4,10 +4,9 @@ require 'spork'
 Spork.prefork do
   require 'cucumber/rails'
   require 'capybara/poltergeist'
-  # require 'capybara/rspec'
-  # require 'capybara/rails'
-  require 'email_spec'
-  require 'email_spec/cucumber'
+  require 'capybara/rspec'
+  require 'capybara/rails'
+  # require 'email_spec'
   require 'json_spec'
 
   Capybara.default_selector = :css
@@ -16,7 +15,6 @@ Spork.prefork do
   
   ActionController::Base.allow_rescue = false
 
-  World(EmailSpec::Helpers)
   World(Warden::Test::Helpers)
 
   # unless [:test, :activerecord, :cache, :file].include?(ActionMailer::Base.delivery_method)
@@ -39,10 +37,5 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  World(FactoryGirl::Syntax::Methods)
-
-  require 'factory_girl'
-  Dir[Rails.root.join('spec/factories/**/*/rb')].each { |f| require f }
-
   load "#{Rails.root}/config/routes.rb"
 end

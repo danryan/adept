@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AptController do
+describe Repository::Apt::BaseController do
   login!
 
   puts example.metadata[:type]

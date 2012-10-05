@@ -5,7 +5,7 @@ FactoryGirl.define do
     username "danryan"
     password "qwerty"
     password_confirmation "qwerty"
-    email "example@example.com"
+    email "dan@appliedawesome.com"
     confirmed_at { Time.now }
 
     factory :confirmed_user do

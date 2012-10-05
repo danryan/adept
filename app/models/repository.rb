@@ -1,5 +1,7 @@
 class Repository < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name #, :type
+
+  VALID_TYPES = [ :apt, :yum ]
 
   belongs_to :user
   has_many :distributions

@@ -1,4 +1,4 @@
-class Apt::DistsController < ApplicationController
+class Repository::Apt::DistsController < ApplicationController
   layout 'apt'
 
   respond_to :text, :gz, only: [ :release, :arch_release, :dist_arch_packages ]

@@ -1,4 +1,4 @@
-class Apt::PoolsController < ApplicationController
+class Repository::Apt::PoolsController < ApplicationController
   layout 'apt'
 
   before_filter :repository

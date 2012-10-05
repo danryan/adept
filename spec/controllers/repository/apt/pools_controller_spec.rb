@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Apt::PoolsController do
+describe Repository::Apt::PoolsController do
   login!
 
   context 'layout' do

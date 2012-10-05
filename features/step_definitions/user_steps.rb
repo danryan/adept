@@ -76,7 +76,6 @@ Given /^I am an unconfirmed user$/ do
   create_unconfirmed_user
 end
 
-
 ## When
 
 When /^I sign in with valid data$/ do
@@ -84,13 +83,10 @@ When /^I sign in with valid data$/ do
   sign_in
 end
 
-When /^I sign out$/ do
-  visit '/sign_out'
-end
-
 When /^I sign up with valid data$/ do
   create_visitor
   sign_up
+  find_user
 end
 
 When /^I sign up with an invalid email$/ do
@@ -134,7 +130,7 @@ end
 
 When /^I sign in with a wrong email$/ do
   @visitor = @visitor.merge(email: "wrong@example.com")
-  sign_in
+  sign_in_with(:email)
 end
 
 When /^I sign in with a wrong username$/ do
@@ -147,13 +143,13 @@ When /^I sign in with a wrong password$/ do
   sign_in
 end
 
-When /^I (?:visit|go to) the sign up page$/ do
-  visit '/sign_up'
-end
+# When /^I (?:visit|go to) the sign up page$/ do
+  # visit '/sign_up'
+# end
 
-When /^I (?:visit|go to) the sign in page$/ do
-  visit '/sign_in'
-end
+# When /^I (?:visit|go to) the sign in page$/ do
+  # visit '/sign_in'
+# end
 
 
 ## Then
@@ -183,8 +179,8 @@ Then /^I should see a successful sign out message$/ do
   page.should have_content "Signed out successfully."
 end
 
-Then /^I should see a successful sign up message$/ do
-  page.should have_content "Welcome! You have signed up successfully."
+Then /^I should see a confirmation request message$/ do
+  page.should have_content "A message with a confirmation link has been sent to your email address."
 end
 
 Then /^I should see an unsuccessful sign in message$/ do
@@ -228,6 +224,8 @@ Then /^I should see an account edited message$/ do
 end
 
 Then /^I should be confirmed$/ do
+  create_visitor
+  find_user
   @user.should be_confirmed
 end
 

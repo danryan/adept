@@ -89,6 +89,8 @@ GEM
       capybara (>= 1.1.2)
       cucumber (>= 1.1.8)
       nokogiri (>= 1.5.0)
+    cucumber-rails-training-wheels (1.0.0)
+      cucumber-rails (>= 1.1.1)
     database_cleaner (0.8.0)
     devise (2.1.2)
       bcrypt-ruby (~> 3.0)
@@ -215,6 +217,9 @@ GEM
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     pg (0.14.1)
+    pickle (0.4.11)
+      cucumber (>= 0.8)
+      rake
     poltergeist (0.7.0)
       capybara (~> 1.1)
       childprocess (~> 0.3)
@@ -364,6 +369,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   coolline
   cucumber-rails
+  cucumber-rails-training-wheels
   database_cleaner (>= 0.7.2)
   devise
   draper
@@ -395,6 +401,7 @@ DEPENDENCIES
   libarchive-ruby
   mixlib-shellout
   pg
+  pickle
   poltergeist
   powder
   pry-rails

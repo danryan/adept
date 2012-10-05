@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Apt::DistsController do
+describe Repository::Apt::DistsController do
   login!
 
   context 'layout' do
