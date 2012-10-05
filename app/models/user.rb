@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
   
+  validates_format_of :username, :with => /^[A-Za-z\d_]+$/
+  
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)

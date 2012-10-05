@@ -28,3 +28,5 @@ production:
   host: localhost
   port: 5432
   
+cucumber:
+  <<: *test

@@ -11,7 +11,6 @@ gem 'cabin'
 gem 'fog'
 gem 'carrierwave'
 gem 'adept-support', github: 'danryan/adept-support'
-# gem 'adept-support', git: "/Users/dan/Code/adept/adept-support"
 gem 'mixlib-shellout', require: 'mixlib/shellout'
 gem 'libarchive-ruby', require: 'archive'
 gem 'acts-as-taggable-on'
@@ -35,7 +34,6 @@ gem 'jquery-validation-rails', '~> 1.10.0'
 group :development do
   gem 'pry-rails'
   gem 'annotate'
-  # gem 'quiet_assets'
   gem 'haml'
   gem 'hpricot'
   gem 'ruby_parser'
@@ -49,7 +47,6 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'poltergeist'
-  gem 'spinach-rails'
   gem 'webmock'
   gem 'email_spec'
   gem 'json_spec'
@@ -63,12 +60,17 @@ group :test, :development do
   gem 'fuubar'
 end
 
+group :test do
+  gem 'cucumber-rails', require: false
+  gem 'fuubar-cucumber'
+end
+
 group :local do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-rails'
   gem 'guard-spork'
-  gem 'guard-spinach'
+  gem 'guard-cucumber'
   gem 'guard-bundler'
   gem 'guard-annotate'
   gem 'guard-ronn'
@@ -79,7 +81,7 @@ group :local do
   gem 'coolline'
   gem 'simplecov', require: false
   gem 'powder'
-  
+
   require 'rbconfig'
 
   if RbConfig::CONFIG['target_os'] =~ /darwin/i
