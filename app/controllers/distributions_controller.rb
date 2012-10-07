@@ -25,7 +25,7 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    @distribution = repository.distributions.new(params[:distribution])
+    @distribution = repository.distributions.new(distribution_params)
     @distribution.save
 
     respond_with repository, @distribution # error: "Distribution could not be created."
@@ -40,7 +40,7 @@ class DistributionsController < ApplicationController
 
   def update
     @distribution = repository.distributions.find_by_codename!(params[:id])
-    @distribution.update_attributes(params[:distribution])
+    @distribution.update_attributes(distribution_params)
 
     respond_with repository, @distribution
   end
@@ -57,5 +57,9 @@ class DistributionsController < ApplicationController
 
   def repository
     @repository ||= Repository.find_by_name!(params[:repository_id])
+  end
+
+  def distribution_params
+    params.require(:distribution).permit(:codename, :description, :label, :origin, :sign_with, :component_list, :architecture_list)
   end
 end

@@ -7,41 +7,58 @@ class RepositoriesController < ApplicationController
   def index
     repositories = current_user.repositories.all
     @repositories = RepositoryDecorator.decorate(repositories)
+
+    # Set up new repository objects for our modal form
+    @repository = RepositoryDecorator.decorate(current_user.repositories.new)
+    # @yum_repository = RepositoryDecorator.decorate(current_user.yum_repositories.new)
+
     respond_with @repositories
   end
 
   def show
     repository = current_user.repositories.find_by_name!(params[:id])
     @repository = RepositoryDecorator.decorate(repository)
+
     respond_with @repository
   end
 
   def new
-    @repository = current_user.repositories.new
+    @repository = RepositoryDecorator.decorate(current_user.repositories.new)
+
     respond_with @repository
   end
 
   def create
-    @repository = current_user.repositories.new(params[:repository])
+    @repository = RepositoryDecorator.decorate(current_user.repositories.new(repository_params))
     @repository.save
-    respond_with @repository
+
+    respond_with @repository #, flash_now: true
   end
 
   def edit
     repository = current_user.repositories.find_by_name!(params[:id])
     @repository = RepositoryDecorator.decorate(repository)
+
     respond_with @repository
   end
 
   def update
     @repository = current_user.repositories.find_by_name!(params[:id])
-    @repository.update_attributes(params[:repository])
-    respond_with @repository
+    @repository.update_attributes(repository_params)
+
+    respond_with @repository, location: repository_url(@repository)
   end
 
   def destroy
     @repository = current_user.repositories.find_by_name!(params[:id])
     @repository.destroy
+
     respond_with @repository
+  end
+
+  private
+
+  def repository_params
+    params.require(:repository).permit(:name, :_type)
   end
 end

@@ -3,12 +3,17 @@ class RepositoryDecorator < Draper::Base
   decorates_association :packages
   decorates_association :distributions
 
-  def type
-    repository.type.downcase
+  def as_json(options={})
+    if h.current_user.respond_to?(:admin?) && h.current_user.admin?
+      model.as_json(options)
+    else
+      # options.merge!(only: [ :name, :type, :created_at, :updated_at ])
+      model.as_json(options)
+    end
   end
 
-  def to_json(options={})
-    h.current_user.try(:admin?) ? admin_to_json : user_to_json    
+  def types
+    Repository::VALID_TYPES.map{|t| [t,t]}
   end
 
   private
@@ -20,7 +25,7 @@ class RepositoryDecorator < Draper::Base
       type: type,
       created_at: created_at,
       updated_at: updated_at
-    }.to_json
+    }.as_json
   end
 
   def user_to_json
@@ -29,15 +34,6 @@ class RepositoryDecorator < Draper::Base
       type: type,
       created_at: created_at,
       updated_at: updated_at
-    }.to_json
+    }.as_json
   end
-  # def as_json(options={})
-  #   {
-  #     id: id,
-  #     name: name,
-  #     type: type.downcase,
-  #     created_at: created_at,
-  #     updated_at: updated_at
-  #   }
-  # end
 end

@@ -5,6 +5,7 @@ gem 'rails', '3.2.8'
 
 gem 'pg'
 gem 'unicorn'
+gem 'dalli'
 
 gem 'haml-rails', '~> 0.3.5'
 gem 'cabin'
@@ -15,13 +16,17 @@ gem 'mixlib-shellout', require: 'mixlib/shellout'
 gem 'libarchive-ruby', require: 'archive'
 gem 'acts-as-taggable-on'
 gem 'simple_form'
-gem 'responders'
+gem 'responders', github: 'plataformatec/responders'
 gem 'draper'
 gem 'devise'
+gem 'strong_parameters'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '~> 1.0.3'
+  gem 'handlebars_assets'
+  # gem 'turbolinks'
+  gem 'execjs'
 end
 
 gem 'sass-rails', '~> 3.2.3'
@@ -38,6 +43,7 @@ group :development do
   gem 'hpricot'
   gem 'ruby_parser'
   gem 'foreman'
+  gem 'bullet'
 end
 
 group :test, :development do
@@ -58,6 +64,7 @@ group :test, :development do
   gem 'timecop'
   gem 'ffaker'
   gem 'fuubar'
+  gem 'bullet'
 end
 
 group :test do
@@ -66,6 +73,11 @@ group :test do
   gem 'fuubar-cucumber'
   gem 'pickle'
   # gem 'ruby-debug19'
+end
+
+group :doc do
+  gem 'yard'
+  gem 'rspec_api_documentation'
 end
 
 group :local do
@@ -90,11 +102,11 @@ group :local do
   if RbConfig::CONFIG['target_os'] =~ /darwin/i
     gem 'rb-fsevent', require: false
 
-    if `uname`.strip == 'Darwin' && `sw_vers -productVersion`.strip >= '10.8'
-      gem 'terminal-notifier-guard', '~> 1.5.3', require: false
-    else
-      gem 'growl', require: false
-    end rescue Errno::ENOENT
+    # if `uname`.strip == 'Darwin' && `sw_vers -productVersion`.strip >= '10.8'
+      # gem 'terminal-notifier-guard', '~> 1.5.3', require: false
+    # else
+      gem 'ruby_gntp', require: false
+    # end rescue Errno::ENOENT
 
   elsif RbConfig::CONFIG['target_os'] =~ /linux/i
     gem 'libnotify',  '~> 0.7.1', require: false

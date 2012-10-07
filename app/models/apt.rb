@@ -1,3 +1,3 @@
-class Apt < Repository
+class APT < Repository
 
 end

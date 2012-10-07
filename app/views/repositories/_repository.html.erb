@@ -1,0 +1,17 @@
+<tr>
+  <td>
+    <%= repository.name %>
+  </td>
+  <td>
+    <%= repository._type %>
+  </td>
+  <td>
+    <%= link_to 'Show', repository, class: 'btn btn-primary' %>
+  </td>
+  <td>
+    <%= link_to 'Edit', edit_repository_path(repository), class: 'btn btn-info' %>
+  </td>
+  <td>
+    <%= link_to 'Delete', repository, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger' %>
+  </td>
+</tr>

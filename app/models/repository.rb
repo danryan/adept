@@ -1,7 +1,6 @@
 class Repository < ActiveRecord::Base
-  attr_accessible :name, :type
 
-  VALID_TYPES = [ :apt, :yum ]
+  VALID_TYPES = %w[ APT Yum ]
 
   belongs_to :user
   has_many :distributions
@@ -9,7 +8,12 @@ class Repository < ActiveRecord::Base
   
   validates :name,
     presence: true,
-    format: { with: /^[A-Za-z\d_]+$/ }
+    format: { with: /^[A-Za-z\d_]+$/ },
+    uniqueness: { scope: :user_id }
+
+  validates :_type,
+    presence: true,
+    inclusion: { in: VALID_TYPES }
 
   def self.compressed_packages(packages)
     out = ""
@@ -28,6 +32,15 @@ class Repository < ActiveRecord::Base
 
   def to_param
     name
+  end
+
+  # Stupid Rails and its stupid STI
+  def _type
+    self.type
+  end
+
+  def _type=(type)
+    self.type = type
   end
 end
 

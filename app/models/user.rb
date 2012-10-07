@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
   has_many :repositories
+  has_many :apt_repositories, :class_name => "Apt"
+  has_many :yum_repositories, :class_name => "Yum"
+  
   has_many :packages, through: :repositories
   has_many :distributions, through: :repositories
 

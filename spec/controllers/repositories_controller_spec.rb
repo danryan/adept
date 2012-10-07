@@ -9,9 +9,6 @@ describe RepositoriesController do
 
   let(:repository) { create(:repository, user: user) }
 
-  before do
-  end
-
   describe "GET 'index'" do
     before do
       current_user.stub_chain(:repositories, :all).and_return([repository])
@@ -54,13 +51,12 @@ describe RepositoriesController do
 
       before do
         current_user.stub_chain(:repositories, :new).and_return(repository)
-        post :create, repository: {}
+        post :create, repository: { name: 'foo' }
       end
 
-      it { should respond_with(:found) }
       it { should redirect_to repository_url(repository) }
       it { should assign_to(:repository).with(repository) }
-      it { should set_the_flash.to "Repository was successfully created." }
+      it { should set_the_flash.to(/successfully created/) }
     end
 
     context 'invalid repository' do
@@ -68,11 +64,14 @@ describe RepositoriesController do
 
       before do
         current_user.stub_chain(:repositories, :new).and_return(repository)
-        post :create, repository: {}
+        post :create, repository: { name: 'foo' }
       end
 
       it { should respond_with :ok }
       it { should render_template :new }
+      it 'should set the flash to /could not be updated/' do
+        flash[:alert].should =~ /could not be created/
+      end
     end
 
   end
@@ -97,24 +96,28 @@ describe RepositoriesController do
       let(:distribution) { mock_repository(save: true) }
 
       before do
-        put :update, id: repository.name, repository: {}
+        put :update, id: repository.name, repository: { name: 'foo' }
       end
 
       it { should respond_with :found }
       it { should assign_to :repository }
-      it { should set_the_flash.to "Repository was successfully updated."}
+
+      it { should set_the_flash.to(/successfully updated/) }
     end
 
     context "invalid attributes" do
-      let(:repository) { mock_repository(save: false) }
+      let(:repository) { mock_repository(update_attributes: false) }
 
       before do
-        put :update, user_id: user.id, id: repository.id, repository: {}
+        put :update, id: repository.id, repository: { name: 'foo' }
       end
 
       it { should respond_with :ok }
       it { should render_template :edit }
       it { should assign_to :repository }
+      it 'should set the flash to /could not be updated/' do
+        flash[:alert].should =~ /could not be updated/
+      end
     end
   end
 
@@ -128,5 +131,7 @@ describe RepositoriesController do
 
     it { should respond_with(:redirect) }
     it { should redirect_to repositories_url }
+    it { should set_the_flash.to(/successfully destroyed/) }
+
   end
 end

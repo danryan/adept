@@ -1,5 +1,5 @@
 module ControllerHelpers
-  def sign_in(user = create(:confirmed_user))
+  def sign_in(user = create(:user))
     allow_message_expectations_on_nil
     if user.nil?
       request.env['warden'].stub(:authenticate!).
@@ -14,7 +14,7 @@ end
 
 module ControllerMacros
   def login!
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user) }
 
     before(:each) do
       sign_in user

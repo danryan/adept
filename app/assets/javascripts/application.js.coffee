@@ -15,6 +15,14 @@
 #= require select2
 #= require jquery.validate
 #= require jquery.validate.additional-methods
-#
 #= require validations
+#= require handlebars.runtime
+
+#= require_tree ./templates
 #= require_tree .
+
+$.ajaxSetup
+  dataType: 'json'
+
+jQuery ->
+  

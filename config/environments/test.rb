@@ -31,8 +31,16 @@ Adept::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:5000' }
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  # config.active_record.mass_assignment_sanitizer = :strict
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Memcached with Dalli for cache storage
+  # Or turn off cache storage for performance testing
+  # config.session_store = :null_store
+  config.cache_store = :dalli_store
+
+  # Override default session store 
+  config.session_store = :dalli_store
 end

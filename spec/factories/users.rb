@@ -8,10 +8,16 @@ FactoryGirl.define do
     email "dan@appliedawesome.com"
     confirmed_at { Time.now }
 
-    factory :confirmed_user do
+    factory :unconfirmed_user do
       # email { Faker::Internet.email }
-      confirmed_at { Time.now }
+      confirmed_at nil
 
+    end
+
+    factory :user_with_apt_repository do
+      after(:create) do |user, evaluator|
+        FactoryGirl.create(:apt_repository, user: user)
+      end
     end
   end
 end
