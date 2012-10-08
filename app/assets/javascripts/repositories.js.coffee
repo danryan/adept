@@ -6,7 +6,6 @@ jQuery ->
   resource = Rails.resource_name
 
   $('#new_repository').on 'ajax:success', (event, xhr, status) ->
-
     $('#new_repository_form').collapse('hide')
     this.reset()
 
