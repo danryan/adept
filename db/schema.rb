@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121001064118) do
+ActiveRecord::Schema.define(:version => 20121005051826) do
 
   create_table "distributions", :force => true do |t|
     t.string   "origin"
@@ -61,8 +61,10 @@ ActiveRecord::Schema.define(:version => 20121001064118) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "type",       :null => false
   end
 
+  add_index "repositories", ["type"], :name => "index_repositories_on_type"
   add_index "repositories", ["user_id"], :name => "index_repositories_on_user_id"
 
   create_table "taggings", :force => true do |t|

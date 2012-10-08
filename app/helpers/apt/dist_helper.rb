@@ -1,2 +1,0 @@
-module Apt::DistHelper
-end

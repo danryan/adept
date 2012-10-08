@@ -1,0 +1,12 @@
+<div id='new_repository_form' class='collapse'>
+  <%# simple_form_for @repository, remote: true, html: { class: 'form-inline well', data: { type: :json } } do |f| %>
+  <%= simple_form_for @repository, remote: true, 
+      html: { class: 'form-inline well' } do |f| %>
+    <%= f.input_field :name, placeholder: 'Name', class: 'span3' %>
+    <%= f.input_field :_type, collection: @repository.types, class: 'span3' %>
+    <div class='pull-right'>
+      <%= link_to 'Cancel', '#new_repository_form', data: { toggle: 'collapse', target: '#new_repository_form' }, class: 'btn' %>
+      <%= f.button :submit, class: 'btn btn-primary' %>
+    </div>
+  <%- end -%>
+</div>

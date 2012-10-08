@@ -19,8 +19,8 @@ Spork.prefork do
   require 'rspec/autorun'
   require 'draper/test/rspec_integration'
   require 'email_spec'
-  require 'capybara/rspec'
-  require 'capybara/rails'
+  # require 'capybara/rspec'
+  # require 'capybara/rails'
   
   RSpec.configure do |config|
     config.use_transactional_fixtures = false

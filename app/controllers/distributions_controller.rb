@@ -6,13 +6,13 @@ class DistributionsController < ApplicationController
   before_filter :repository
 
   def index
-    @distributions = RepositoryDecorator.decorate(repository.distributions.all)
+    @distributions = DistributionDecorator.decorate(repository.distributions.all)
 
     respond_with repository, @distributions
   end
 
   def show
-    distribution = repository.distributions.find(params[:id])
+    distribution = repository.distributions.find_by_codename!(params[:id])
     @distribution = DistributionDecorator.decorate(distribution)
 
     respond_with repository, @distribution
@@ -25,28 +25,28 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    @distribution = repository.distributions.new(params[:distribution])
+    @distribution = repository.distributions.new(distribution_params)
     @distribution.save
 
     respond_with repository, @distribution # error: "Distribution could not be created."
   end
 
   def edit
-    distribution = repository.distributions.find(params[:id])
+    distribution = repository.distributions.find_by_codename!(params[:id])
     @distribution = DistributionDecorator.decorate(distribution)
 
     respond_with repository, @distribution
   end
 
   def update
-    @distribution = repository.distributions.find(params[:id])
-    @distribution.update_attributes(params[:distribution])
+    @distribution = repository.distributions.find_by_codename!(params[:id])
+    @distribution.update_attributes(distribution_params)
 
     respond_with repository, @distribution
   end
 
   def destroy
-    distribution = repository.distributions.find(params[:id])
+    distribution = repository.distributions.find_by_codename!(params[:id])
     @distribution = DistributionDecorator.decorate(distribution)
     @distribution.destroy
 
@@ -56,6 +56,10 @@ class DistributionsController < ApplicationController
   private
 
   def repository
-    @repository ||= Repository.find(params[:repository_id])
+    @repository ||= Repository.find_by_name!(params[:repository_id])
+  end
+
+  def distribution_params
+    params.require(:distribution).permit(:codename, :description, :label, :origin, :sign_with, :component_list, :architecture_list)
   end
 end

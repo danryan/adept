@@ -1,0 +1,3 @@
+class APT < Repository
+
+end

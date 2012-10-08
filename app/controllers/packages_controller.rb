@@ -6,7 +6,7 @@ class PackagesController < ApplicationController
   before_filter :repository
 
   def index
-    @packages = RepositoryDecorator.decorate(repository.packages.all)
+    @packages = PackageDecorator.decorate(repository.packages.all)
 
     respond_with repository, @packages
   end
@@ -25,7 +25,7 @@ class PackagesController < ApplicationController
   end
 
   def create
-    @package = repository.packages.new(params[:package])
+    @package = repository.packages.new(package_params)
     @package.save
 
     respond_with repository, @package
@@ -40,7 +40,7 @@ class PackagesController < ApplicationController
 
   def update
     @package = repository.packages.find(params[:id])
-    @package.update_attributes(params[:package])
+    @package.update_attributes(package_params)
 
     respond_with repository, @package
   end
@@ -56,6 +56,10 @@ class PackagesController < ApplicationController
   private
 
   def repository
-    @repository ||= current_user.repositories.find(params[:repository_id])
+    @repository ||= current_user.repositories.find_by_name!(params[:repository_id])
+  end
+
+  def package_params
+    params.require(:package).permit(:file, :component, :distributions, :distribution_ids)
   end
 end

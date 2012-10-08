@@ -9,5 +9,12 @@ FactoryGirl.define do
         FactoryGirl.create(:lucid, repository: repository)
       end
     end
+
+    factory :apt_repository, class: 'APT' do
+      type 'APT'
+    end
+
+    factory :yum_repository, class: 'Yum'
+
   end
 end

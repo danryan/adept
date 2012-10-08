@@ -23,7 +23,7 @@ Adept::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  # config.active_record.mass_assignment_sanitizer = :strict
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
@@ -33,9 +33,17 @@ Adept::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  # config.assets.debug = true
+  config.assets.debug = true
   config.assets.logger = false
   # config.active_record.schema_format = :sql
 
   config.action_mailer.default_url_options = { :host => 'localhost:5000' }
+
+  # Use a different cache store in development
+  # Uncomment if you want to use Dalli
+  config.cache_store = :dalli_store
+
+  # Defaults to what is configured in config/initializers/session_store.rb
+  # Uncomment if you want to test Dalli in development
+  config.session_store = :dalli_store
 end

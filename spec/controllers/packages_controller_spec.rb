@@ -8,7 +8,7 @@ describe PackagesController do
     CarrierWave::Mount::Mounter.any_instance.stub(:remove!)
     FileUploader.any_instance.stub(:download!)
     Package.any_instance.stub(:store_file!)
-    current_user.stub_chain(:repositories, :find).and_return(repository)
+    current_user.stub_chain(:repositories, :find_by_name!).and_return(repository)
   end
 
   def mock_package(stubs={})
@@ -20,7 +20,7 @@ describe PackagesController do
 
     before do
       repository.stub_chain(:packages, :all).and_return([package])
-      get :index, repository_id: repository.id
+      get :index, repository_id: repository.name
     end
 
     it { should respond_with(:success) }
@@ -34,7 +34,7 @@ describe PackagesController do
 
     before do
       repository.stub_chain(:packages, :find).and_return(package)
-      get :show, repository_id: repository.id, id: package.id
+      get :show, repository_id: repository.name, id: package.id
     end
 
     it { should respond_with(:success) }
@@ -48,7 +48,7 @@ describe PackagesController do
 
     before do
       repository.stub_chain(:packages, :new).and_return(package)
-      get :new, repository_id: repository.id
+      get :new, repository_id: repository.name
     end
 
     it { should respond_with(:success) }
@@ -62,10 +62,8 @@ describe PackagesController do
       let(:package) { mock_package(save: true) }
 
       before do
-        Repository.stub(:find).and_return(repository)
-
         repository.stub_chain(:packages, :new).and_return(package)
-        post :create, repository_id: repository.id, package: {}
+        post :create, repository_id: repository.name, package: {}
       end
 
       it { should respond_with(:found) }
@@ -79,15 +77,13 @@ describe PackagesController do
       let(:package) { mock_package(save: false) }
 
       before do
-        # repository = mock_model(Repository)
-        Repository.stub(:find).and_return(repository)
+        Repository.stub(:find_by_name!).and_return(repository)
         repository.stub_chain(:packages, :new).and_return(package)
-        post :create, repository_id: repository.id, package: {}
+        post :create, repository_id: repository.name, package: {}
       end
 
       it { should respond_with :ok }
       it { should render_template :new }
-      # it { should set_the_flash.to "Package could not be created." }
     end
 
   end
@@ -96,9 +92,8 @@ describe PackagesController do
     let(:package) { create(:package, file: file_fixture, repository: repository) }
 
     before do
-      Repository.stub(:find).and_return(repository)
       repository.stub_chain(:packages, :find).and_return(package)
-      get :edit, repository_id: repository.id, id: package.id
+      get :edit, repository_id: repository.name, id: package.id
     end
 
     it { should respond_with :success }
@@ -113,9 +108,8 @@ describe PackagesController do
       let(:package) { mock_package(save: true) }
 
       before do
-        Repository.stub(:find).and_return(repository)
         repository.stub_chain(:packages, :find).and_return(package)
-        put :update, repository_id: repository.id, id: package.id, package: {}
+        put :update, repository_id: repository.name, id: package.id, package: {}
       end
 
       it { should respond_with(:found) }
@@ -129,17 +123,14 @@ describe PackagesController do
       let(:package) { mock_package(save: false) }
 
       before do
-        Repository.stub(:find).and_return(repository)
         repository.stub_chain(:packages, :find).and_return(package)
-
-        put :update, repository_id: repository.id, id: package.id, package: {}
+        put :update, repository_id: repository.name, id: package.id, package: {}
       end
 
       it { should respond_with :ok }
       it { should render_template :edit }
       it { should assign_to :package }
       it { should assign_to(:repository).with(repository) }
-      # it { should set_the_flash.to "Package was successfully updated." }
     end
   end
 
@@ -147,9 +138,8 @@ describe PackagesController do
     let(:package) { create(:package, file: file_fixture, repository: repository) }
 
     before do
-      Repository.stub(:find).and_return(repository)
       repository.stub_chain(:packages, :find).and_return(package)
-      delete :destroy, repository_id: repository.id, id: package.id
+      delete :destroy, repository_id: repository.name, id: package.id
     end
 
     it { should respond_with(:redirect) }

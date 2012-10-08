@@ -15,6 +15,44 @@
 #= require select2
 #= require jquery.validate
 #= require jquery.validate.additional-methods
-#
 #= require validations
+#= require handlebars.runtime
+#= require i18n
+#= require i18n/translations
+#= require_tree ./templates
+#= require_self
 #= require_tree .
+
+$.ajaxSetup
+  dataType: 'json'
+
+$ ->
+  window.Rails = 
+    controller_name: $('body').data('controller')
+    action_name: $('body').data('action')
+    resource_name: $('body').data('resource')
+
+# fromPrototype = (prototype, object) ->
+#   newObject = Object.create(prototype)
+#   `for(prop in object)
+#     {
+#       if(object.hasOwnProperty(prop))
+#         newObject[prop] = object[prop];
+#     }`
+#   return newObject
+
+
+# window.Rails=fromPrototype Array,
+#   register_init: (names, fun) ->
+#     if(typeof(names.forEach) == 'undefined')
+#       n=names
+#       names=[n]
+#     for n in names
+#       previously_registered=this[n]
+#       this[n]=() ->
+#         if(typeof(previously_registered) != 'undefined')
+#           previously_registered.call()
+#         fun.call()
+#   init: (name) ->
+#     if(typeof(this[name]) != 'undefined')
+#       this[name]()

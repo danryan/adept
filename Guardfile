@@ -25,14 +25,14 @@ group :backend do
     watch(%r{^config/initializers/.+\.rb})
     watch('spec/spec_helper.rb')
     watch('spec/feature_helper.rb')
-    watch('features/support/env.rb')
+    watch('features/support/**/*.rb')
     watch(%r{config/.+\.yml})
 
     # watch(%r{^spec/support/.+\.rb})
   end
 
   # guard :rspec, cli: "--color --drb -r rspec/instafail -f doc -f RSpec::Instafail", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
-  guard :rspec, cli: "--color --drb -f Fuubar", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
+  guard :rspec, cli: "--color --drb -f doc", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
     watch('spec/spec_helper.rb') { "spec" }
     watch('app/controllers/application_controller.rb') { "spec/controllers" }
     watch('config/routes.rb') { "spec/routing" }
@@ -41,7 +41,7 @@ group :backend do
     end
     watch(%r{^spec/.+_spec\.rb})
 
-    watch(%r{^app/controllers/(.+)_(controller)\.rb}) do |m|
+    watch(%r{^app/controllers/.*/(.+)_(controller)\.rb}) do |m|
       %W[
         spec/routing/#{m[1]}_routing_spec.rb
         spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb
@@ -51,11 +51,9 @@ group :backend do
 
     watch(%r{^app/views/(.*)/[^/]+}) do |m|
       %W[
-        spec/features/#{m[1]}/
         spec/controllers/#{m[1]}_controller_spec.rb
       ]
     end
-    # watch(%r{^spec/features/(.+)\.rb})
 
     watch(%r{^app/(.+)\.rb}) { |m| "spec/#{m[1]}_spec.rb" }
     watch(%r{^lib/(.+)\.rb}) { |m| "spec/lib/#{m[1]}_spec.rb" }
@@ -71,7 +69,7 @@ group :backend do
   guard 'cucumber', cli: '--drb --profile guard', all_on_start: false, all_after_pass: false,run_all: { cli: "--no-profile -f fuubar features" } do
     watch(%r{^features/.+\.feature$})
     watch(%r{^features/support/.+$})          { 'features' }
-    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1].pluralize}/*.feature")][0] || 'features' }
   end
 
 end

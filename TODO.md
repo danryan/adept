@@ -5,3 +5,15 @@
 * upload gpg for signing
 * sign Release file
 *
+
+
+
+2012-10-05
+
+* update with strong_parameters
+* fix repository creation with bootstrap modals right from index page
+* add devise_invitable
+
+2012-10-07
+
+* replace sprockets with requirejs

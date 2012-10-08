@@ -1,6 +1,6 @@
 module UploaderHelpers
   def file_fixture
-    CarrierWave::SanitizedFile.new(File.join(Rails.root, "spec/fixtures/ruby.deb"))
+    CarrierWave::SanitizedFile.new(File.join(Rails.root, "spec/fixtures/libruby1.9.1_1.9.3.194-1_amd64.deb"))
   end
 end
 
