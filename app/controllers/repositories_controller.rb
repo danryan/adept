@@ -8,9 +8,7 @@ class RepositoriesController < ApplicationController
     repositories = current_user.repositories.all
     @repositories = RepositoryDecorator.decorate(repositories)
 
-    # Set up new repository objects for our modal form
     @repository = RepositoryDecorator.decorate(current_user.repositories.new)
-    # @yum_repository = RepositoryDecorator.decorate(current_user.yum_repositories.new)
 
     respond_with @repositories
   end
@@ -32,7 +30,7 @@ class RepositoriesController < ApplicationController
     @repository = RepositoryDecorator.decorate(current_user.repositories.new(repository_params))
     @repository.save
 
-    respond_with @repository #, flash_now: true
+    respond_with @repository
   end
 
   def edit

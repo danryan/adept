@@ -10,7 +10,8 @@ Adept::Application.routes.draw do
 
   root to: 'home#index'
 
-  devise_for :users #, skip: [ :sessions ]
+  devise_for :users, 
+    controllers: { registrations: 'users/registrations', passwords: 'users/passwords' }
 
   as :user do
     get 'sign_in' => 'devise/sessions#new', as: :sign_in

@@ -12,3 +12,4 @@
 
 * update with strong_parameters
 * fix repository creation with bootstrap modals right from index page
+* add devise_invitable

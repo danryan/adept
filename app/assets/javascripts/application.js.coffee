@@ -21,8 +21,5 @@
 #= require_tree ./templates
 #= require_tree .
 
-$.ajaxSetup
-  dataType: 'json'
-
-jQuery ->
-  
+# $.ajaxSetup
+  # dataType: 'json'

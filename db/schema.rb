@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "type"
+    t.string   "type",       :null => false
   end
 
   add_index "repositories", ["type"], :name => "index_repositories_on_type"

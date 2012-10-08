@@ -9,17 +9,17 @@ class Repository < ActiveRecord::Base
   validates :name,
     presence: true,
     format: { with: /^[A-Za-z\d_]+$/ },
-    uniqueness: { scope: :user_id }
+    uniqueness: { scope: [ :user_id, :type ] }
 
-  validates :_type,
-    presence: true,
-    inclusion: { in: VALID_TYPES }
+  # validates :type,
+  #   presence: true,
+  #   inclusion: { in: VALID_TYPES }
 
   def self.compressed_packages(packages)
     out = ""
     packages.each do |package|
       out += package.raw_control.chomp
-      out += "\n"
+      out += "\n" 
       out += "Filename: #{package.to_path}\n"
       out += "MD5sum: #{package.md5}\n"
       out += "SHA1: #{package.sha1}\n"

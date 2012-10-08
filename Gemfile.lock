@@ -13,13 +13,6 @@ GIT
       guard (>= 0.9)
       rails_best_practices (>= 1.1.0)
 
-GIT
-  remote: git://github.com/plataformatec/responders.git
-  revision: a3d0640aea263c96606fe3ed61878b56829da8c1
-  specs:
-    responders (0.9.3)
-      railties (~> 3.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -286,6 +279,8 @@ GEM
     rdiscount (1.6.8)
     rdoc (3.12)
       json (~> 1.4)
+    responders (0.9.3)
+      railties (~> 3.1)
     ronn (0.7.3)
       hpricot (>= 0.8.2)
       mustache (>= 0.7.0)
@@ -437,7 +432,7 @@ DEPENDENCIES
   rack-test
   rails (= 3.2.8)
   rb-fsevent
-  responders!
+  responders
   rspec-instafail
   rspec-rails
   rspec_api_documentation

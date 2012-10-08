@@ -3,13 +3,18 @@
 FactoryGirl.define do
   factory :repository do
     name "test"
+
     factory :repository_with_distributions do
       after(:create) do |repository, evaluator|
         FactoryGirl.create(:lucid, repository: repository)
       end
     end
 
-    factory :apt_repository, class: 'Apt'
+    factory :apt_repository, class: 'APT' do
+      type 'APT'
+    end
+
     factory :yum_repository, class: 'Yum'
+
   end
 end
