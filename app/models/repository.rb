@@ -42,6 +42,14 @@ class Repository < ActiveRecord::Base
   def _type=(type)
     self.type = type
   end
+
+  def self.inherited(base)
+    base.class_eval do
+      def self.model_name
+        Repository.model_name
+      end
+    end
+  end
 end
 
 # == Schema Information

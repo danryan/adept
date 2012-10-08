@@ -6,6 +6,14 @@ GIT
       mixlib-shellout (~> 1.1.0)
 
 GIT
+  remote: git://github.com/fnando/i18n-js.git
+  revision: 20f6d119ec58bafff394caff05a0ee60d9729c06
+  branch: rewrite
+  specs:
+    i18n-js (3.0.0.rc2)
+      i18n
+
+GIT
   remote: git://github.com/kugaevsky/guard-rails_best_practices.git
   revision: 7c35ec81d918bfd538f7d49964a2710b3848b714
   specs:
@@ -366,6 +374,7 @@ GEM
       rack
       raindrops (~> 0.7)
     uniform_notifier (1.1.0)
+    validators (1.0.0)
     warden (1.2.1)
       rack (>= 1.0)
     webmock (1.8.11)
@@ -419,6 +428,7 @@ DEPENDENCIES
   haml-rails (~> 0.3.5)
   handlebars_assets
   hpricot
+  i18n-js!
   jquery-rails
   jquery-validation-rails (~> 1.10.0)
   json_spec
@@ -450,5 +460,6 @@ DEPENDENCIES
   uglifier (~> 1.0.3)
   underscore-rails
   unicorn
+  validators
   webmock
   yard

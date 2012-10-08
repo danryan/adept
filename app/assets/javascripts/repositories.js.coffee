@@ -3,16 +3,21 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  # $('#new_repository').on 'ajax:success', (event, xhr, status) ->
-  #   $('#new_repository_form').collapse('hide')
+  resource = Rails.resource_name
 
-  #   console.log event
-  #   console.log xhr
-  # $('#new_repository').on 'ajax:error', (event, xhr, status) ->
-  #   console.log event
-  #   console.log xhr
+  $('#new_repository').on 'ajax:success', (event, xhr, status) ->
 
+    $('#new_repository_form').collapse('hide')
+    this.reset()
 
+    $('#flash').flash I18n.t('flash.actions.create.notice', resource_name: resource), 'success'
+
+  $('#new_repository').on 'ajax:error', (event, xhr, status) ->
+    $('#flash').flash I18n.t('flash.actions.create.alert', resource_name: resource), 'error'
+    console.log event
+    console.log xhr
+
+    
     # {
     #   "errors":{
     #     "name": ["can't be blank","is invalid"],

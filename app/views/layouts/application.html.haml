@@ -10,11 +10,17 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
 
-  %body
+  - controller_name = controller.controller_name
+  - action_name = controller.action_name
+  - resource_name = controller_name.classify
+
+  %body(data-controller=controller_name data-action=action_name data-resource=resource_name)
     = render 'shared/header'
 
-    .container
+    #flash.container
       = flash_block
 
-    .container
+    #main.container
       = yield
+
+    / # = render 'shared/data'

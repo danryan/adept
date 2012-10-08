@@ -20,6 +20,8 @@ gem 'responders'
 gem 'draper'
 gem 'devise'
 gem 'strong_parameters'
+gem 'i18n-js', github: 'fnando/i18n-js', branch: 'rewrite'
+gem 'validators'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'

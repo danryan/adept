@@ -8,7 +8,7 @@ class RepositoriesController < ApplicationController
     repositories = current_user.repositories.all
     @repositories = RepositoryDecorator.decorate(repositories)
 
-    @repository = RepositoryDecorator.decorate(current_user.repositories.new)
+    @repository = RepositoryDecorator.decorate(current_user.repositories.build)
 
     respond_with @repositories
   end
@@ -21,7 +21,7 @@ class RepositoriesController < ApplicationController
   end
 
   def new
-    @repository = RepositoryDecorator.decorate(current_user.repositories.new)
+    @repository = RepositoryDecorator.decorate(current_user.repositories.build)
 
     respond_with @repository
   end
