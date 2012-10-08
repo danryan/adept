@@ -7,8 +7,7 @@ jQuery ->
 
   $('#new_repository').on 'ajax:success', (event, xhr, status) ->
     $('#new_repository_form').collapse('hide')
-    this.reset()
-
+    @reset()
     $('#flash').flash I18n.t('flash.actions.create.notice', resource_name: resource), 'success'
 
   $('#new_repository').on 'ajax:error', (event, xhr, status) ->

@@ -27,7 +27,7 @@ Adept::Application.routes.draw do
     resources :packages
   end
 
-  namespace :apt do
+  scope module: :apt, constraints: { user_agent: /APT/ } do
     scope ':repository_id' do
       get 'dists/:codename/:component/Release' => :release, as: :release, format: 'txt'
       get 'dists/:codename/:component/binary-:arch/Release' => :arch_release, as: :arch_release, format: 'txt'

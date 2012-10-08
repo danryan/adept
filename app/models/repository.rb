@@ -1,6 +1,6 @@
 class Repository < ActiveRecord::Base
 
-  VALID_TYPES = %w[ APT Yum ]
+  VALID_TYPES = %w[ Apt Yum ]
 
   belongs_to :user
   has_many :distributions

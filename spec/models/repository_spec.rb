@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Repository do
   before do
-    create(:apt_repository, _type: 'APT')
+    create(:apt_repository, _type: 'Apt')
   end
 
   context 'validations' do

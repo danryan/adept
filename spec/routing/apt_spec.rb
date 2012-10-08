@@ -1,6 +1,23 @@
 require 'spec_helper'
 
 describe AptController do
+
+  context 'APT User Agent' do
+    before do
+      header 'User-Agent', 'APT'
+    end
+
+    it "routes User-Agents to the right places" do
+      should route(:get, '/foo/dists/lucid/main/Release').to({
+        action: :release, 
+        repository_id: 'foo',
+        codename: 'lucid',
+        component: 'main',
+        format: :txt
+      })
+    end
+  end
+
   it "GET /apt/:repository_id/dists/:codename/:component/Release" do
     should route(:get, '/apt/foo/dists/lucid/main/Release').to({
       action: :release, 
@@ -57,13 +74,3 @@ describe AptController do
   it { should_not route(:get, '/home/foo').to(action: :index, user: 'dan', repo: 'foo') }
   it { should_not route(:get, '/repositories/foo').to(action: :index, user: 'dan', repo: 'foo') }
 end
-
-
-"/apt/:repository_id/dists/:codename/:component/Release(.:format)"
-"/apt/:repository_id/dists/:codename/:component/binary-:arch/Release(.:format)"
-"/apt/:repository_id/dists/:codename/:component/binary-:arch/Packages(.:format)"
-"/apt/:repository_id/pool/:prefix/:name/:package(.:format)"
-
-# arch_release
-# arch_packages
-# package 

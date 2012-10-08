@@ -1,9 +1,25 @@
 GIT
+  remote: git://github.com/bcardarella/client_side_validations.git
+  revision: 2cc01db2a61f4179bbf31be457f48e8a57c477dd
+  branch: 3-2-stable
+  specs:
+    client_side_validations (3.2.0.rc.2)
+
+GIT
   remote: git://github.com/danryan/adept-support.git
   revision: 2e52c8fef530b37403f6d810229901b79d0d35c2
   specs:
     adept-support (0.0.1)
       mixlib-shellout (~> 1.1.0)
+
+GIT
+  remote: git://github.com/dockyard/client_side_validations-simple_form.git
+  revision: a31200db633ed3d48cc241f13c2f047517032b8b
+  branch: 2-0-stable
+  specs:
+    client_side_validations-simple_form (2.0.0.rc.2)
+      client_side_validations (~> 3.2.0.rc.2)
+      simple_form (~> 2.0.3)
 
 GIT
   remote: git://github.com/fnando/i18n-js.git
@@ -396,6 +412,8 @@ DEPENDENCIES
   cabin
   capybara
   carrierwave
+  client_side_validations!
+  client_side_validations-simple_form!
   coffee-rails (~> 3.2.1)
   coolline
   cucumber-rails

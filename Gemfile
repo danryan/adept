@@ -16,6 +16,12 @@ gem 'mixlib-shellout', require: 'mixlib/shellout'
 gem 'libarchive-ruby', require: 'archive'
 gem 'acts-as-taggable-on'
 gem 'simple_form'
+gem 'client_side_validations', 
+  github: 'bcardarella/client_side_validations',
+  branch: '3-2-stable'
+gem 'client_side_validations-simple_form', 
+  github: 'dockyard/client_side_validations-simple_form', 
+  branch: '2-0-stable'
 gem 'responders'
 gem 'draper'
 gem 'devise'

@@ -10,8 +10,8 @@ FactoryGirl.define do
       end
     end
 
-    factory :apt_repository, class: 'APT' do
-      type 'APT'
+    factory :apt_repository, class: 'Apt' do
+      type 'Apt'
     end
 
     factory :yum_repository, class: 'Yum'
