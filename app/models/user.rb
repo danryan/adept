@@ -3,8 +3,9 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-    :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable,
-    authentication_keys: [ :login ]
+         :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable,
+         authentication_keys: [ :login ], 
+         email_regexp:  /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :email,
@@ -13,8 +14,8 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
   has_many :repositories
-  has_many :apt_repositories, :class_name => "Apt"
-  has_many :yum_repositories, :class_name => "Yum"
+  has_many :apt_repositories, class_name: "Apt"
+  has_many :yum_repositories, class_name: "Yum"
   
   has_many :packages, through: :repositories
   has_many :distributions, through: :repositories
