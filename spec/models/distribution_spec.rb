@@ -7,8 +7,8 @@ describe Distribution do
 
   context 'associations' do
     it { should belong_to(:repository) }
-    it { should have_many(:packages).through(:references) }
-    it { should have_many(:references) }
+    it { should have_many(:packages).through(:distribution_packages) }
+    it { should have_many(:distribution_packages) }
   end
 
   context 'validations' do

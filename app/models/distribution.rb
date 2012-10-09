@@ -4,8 +4,9 @@ class Distribution < ActiveRecord::Base
     :component_list, :architecture_list
 
   belongs_to :repository
-  has_many :references
-  has_many :packages, through: :references
+  
+  has_many :distribution_packages
+  has_many :packages, through: :distribution_packages
 
   acts_as_taggable_on :architectures, :components
 
@@ -38,23 +39,3 @@ class Distribution < ActiveRecord::Base
     end
   end
 end
-
-# == Schema Information
-#
-# Table name: distributions
-#
-#  id            :integer          not null, primary key
-#  origin        :string(255)
-#  label         :string(255)
-#  codename      :string(255)
-#  description   :string(255)
-#  sign_with     :string(255)
-#  repository_id :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#
-# Indexes
-#
-#  index_distributions_on_repository_id  (repository_id)
-#
-
