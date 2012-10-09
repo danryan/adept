@@ -19,6 +19,8 @@
 #= require handlebars.runtime
 #= require i18n
 #= require i18n/translations
+#= require rails.validations
+#= require rails.validations.simple_form
 #= require_tree ./templates
 #= require_self
 #= require_tree .

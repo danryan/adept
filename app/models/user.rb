@@ -23,6 +23,13 @@ class User < ActiveRecord::Base
   
   validates :username,
     format: { with: /^[A-Za-z\d_]+$/ }
+
+  # validates :password,
+    # confirmation: true,
+    # on: :create
+
+  # validates :password_confirmation,
+    # presence: true
   
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
