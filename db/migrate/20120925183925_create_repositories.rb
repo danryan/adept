@@ -4,6 +4,9 @@ class CreateRepositories < ActiveRecord::Migration
       t.string :name
       t.references :user
 
+      ## UUID
+      t.string :uuid
+      
       t.timestamps
     end
 

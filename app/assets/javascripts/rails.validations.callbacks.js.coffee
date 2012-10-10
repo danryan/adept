@@ -5,3 +5,4 @@ ClientSideValidations.callbacks.element.fail = (element, message, callback) ->
 
 ClientSideValidations.callbacks.element.pass = (element, callback) ->
   element.closest('.control-group').addClass('success')
+  element.parent().find('.help-inline').remove()

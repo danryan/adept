@@ -1,3 +1,5 @@
+require 'exception_app_constraint'
+
 Adept::Application.routes.draw do
   namespace :api do
     namespace :v1 do
@@ -11,7 +13,13 @@ Adept::Application.routes.draw do
   root to: 'home#index'
 
   devise_for :users, 
-    controllers: { registrations: 'users/registrations', passwords: 'users/passwords' }
+    controllers: { 
+      registrations: 'users/registrations', 
+      passwords: 'users/passwords',
+      sessions: 'users/sessions'
+    }
+
+  # mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   as :user do
     get 'sign_in' => 'devise/sessions#new', as: :sign_in
@@ -34,5 +42,13 @@ Adept::Application.routes.draw do
       get 'dists/:codename/:component/binary-:arch/Packages' => :arch_packages, as: :arch_packages, format: 'txt'
       get 'pool/:prefix/:name/:package' => :package, as: :package, package: /[^\/]+/, name: /[^\/]+/, prefix: /[^\/]+/
     end
+  end
+
+  constraints(ExceptionAppConstraint) do
+    match '/404', :to => 'errors#not_found'
+    match '/401', :to => 'errors#unauthorized'
+    match '/403', :to => 'errors#forbidden'
+    match '/500', :to => 'errors#internal_server_error'
+    match '*path', :to => 'errors#not_found'
   end
 end

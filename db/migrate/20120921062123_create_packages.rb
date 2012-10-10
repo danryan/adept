@@ -13,6 +13,10 @@ class CreatePackages < ActiveRecord::Migration
       t.string :extension
       t.string :size
       t.references :repository
+
+      ## UUID
+      t.string :uuid
+      
       t.timestamps
     end
 

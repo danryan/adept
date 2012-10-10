@@ -1,10 +1,12 @@
 class Distribution < ActiveRecord::Base
+  include UniqueID
+
   VALID_ARCHS = %w( amd64 i386 source )
-  attr_accessible :codename, :description, :label, :origin, :sign_with,
-    :component_list, :architecture_list
+
+  resourcify
 
   belongs_to :repository
-  
+
   has_many :distribution_packages
   has_many :packages, through: :distribution_packages
 
@@ -20,13 +22,17 @@ class Distribution < ActiveRecord::Base
     }
 
   validates :codename,
-    uniqueness: {
-      scope: :repository_id
-    }
+  uniqueness: {
+    scope: :repository_id
+  }
   validate :validate_architecture_list
 
   def to_param
     codename
+  end
+
+  def user
+    self.repository.user
   end
 
   protected

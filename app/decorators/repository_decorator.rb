@@ -4,7 +4,7 @@ class RepositoryDecorator < Draper::Base
   decorates_association :distributions
 
   def as_json(options={})
-    if h.current_user.respond_to?(:admin?) && h.current_user.admin?
+    if h.current_user.admin?
       model.as_json(options)
     else
       # options.merge!(only: [ :name, :type, :created_at, :updated_at ])

@@ -1,21 +1,16 @@
-require "application_responder"
+# require "application_responder"
 
 class ApplicationController < ActionController::Base
-  self.responder = ApplicationResponder
-  # respond_to :html
-
   protect_from_forgery
+  skip_before_filter :verify_authenticity_token
+
   # responders :flash
 
-  after_filter :add_flash_to_header
+  # rescue_from CanCan::AccessDenied do |exception|
+    # render :status => 403
+  # end
 
-  def add_flash_to_header
-    return unless request.xhr?
-
-    [ :error, :alert, :notice, :message ].each do |type|
-      response.headers["X-Flash-#{type.capitalize}"] = flash[type] unless flash[type].blank?
-    end
-    # make sure flash does not appear on the next page
-    flash.discard
-  end
+  # rescue_from ActiveRecord::RecordNotFound do |exception|
+    # render :status => 404
+  # end
 end

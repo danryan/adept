@@ -2,7 +2,7 @@ require 'database_cleaner'
 
 RSpec.configure do |config|
   config.before(:each) do
-    if example.metadata[:type] == :feature
+    if [ :feature, :performance ].include?(example.metadata[:type])
       if defined?(Capybara) && Capybara.current_driver == :rack_test
         DatabaseCleaner.strategy = :transaction
       else

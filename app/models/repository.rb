@@ -1,10 +1,16 @@
 class Repository < ActiveRecord::Base
-
+  include UniqueID
+  
   VALID_TYPES = %w[ Apt Yum ]
 
+  resourcify
+
+  self.abstract_class = true
+  
   belongs_to :user
-  has_many :distributions
-  has_many :packages
+  
+  has_many :distributions, dependent: :destroy
+  has_many :packages, dependent: :destroy
   
   validates :name,
     presence: true,
@@ -30,9 +36,9 @@ class Repository < ActiveRecord::Base
     ActiveSupport::Gzip.compress(out)
   end
 
-  def to_param
-    name
-  end
+  # def to_param
+    # uuid
+  # end
 
   # Stupid Rails and its stupid STI
   def _type
@@ -44,6 +50,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.inherited(base)
+    super(base)
     base.class_eval do
       def self.model_name
         Repository.model_name
@@ -51,19 +58,3 @@ class Repository < ActiveRecord::Base
     end
   end
 end
-
-# == Schema Information
-#
-# Table name: repositories
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  user_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-# Indexes
-#
-#  index_repositories_on_user_id  (user_id)
-#
-

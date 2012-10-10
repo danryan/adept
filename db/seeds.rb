@@ -6,9 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-user = User.first
 
-repo = user.repositories.where(name: 'testrepo', type: 'apt').first_or_create!
+user = FactoryGirl.create(:danryan)
+
+# user.add_role :admin
+
+repo = user.repositories.where(name: 'testrepo', type: 'Apt').first_or_create!
 
 lucid = repo.distributions.find_or_create_by_codename({
   origin:             "adept.io",

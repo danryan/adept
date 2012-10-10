@@ -1,6 +1,8 @@
 class Package < ActiveRecord::Base
-  attr_accessible :file, :component, :distributions, :distribution_ids
-
+  include UniqueID
+  
+  resourcify
+    
   belongs_to :repository
   
   has_many :distribution_packages
@@ -15,6 +17,10 @@ class Package < ActiveRecord::Base
 
   validates :name, :component, :file,
     presence: true
+
+  def user
+    self.repository.user
+  end
 
   def extract_control_data
     Dir.mktmpdir do |dir|

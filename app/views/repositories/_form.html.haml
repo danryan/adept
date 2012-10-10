@@ -1,4 +1,4 @@
 = simple_form_for repository, :html => { :class => 'form-horizontal' } do |f|
   = f.input :name
-  = f.input :_type, label: 'Type', collection: repository.types
+  = f.input :_type, label: 'Type', collection: Repository::VALID_TYPES.map{|t| [t,t]}
   = f.button :submit

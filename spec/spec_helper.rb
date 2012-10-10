@@ -27,6 +27,10 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = true
     config.treat_symbols_as_metadata_keys_with_true_values = true
     config.order = "random"
+    
+    # Exclude :performance tagged specs by default
+    config.filter_run_excluding :performance => true
+
   end
 
 end

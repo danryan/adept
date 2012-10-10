@@ -11,6 +11,7 @@ Adept::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
+  # config.consider_all_requests_local       = false
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
@@ -33,7 +34,7 @@ Adept::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  # config.assets.debug = true
   config.assets.logger = false
   # config.active_record.schema_format = :sql
 

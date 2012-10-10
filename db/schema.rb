@@ -11,15 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121005051826) do
+ActiveRecord::Schema.define(:version => 20121010205246) do
+
+  create_table "distribution_packages", :force => true do |t|
+    t.integer  "distribution_id"
+    t.integer  "package_id"
+    t.string   "uuid"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "distribution_packages", ["distribution_id", "package_id"], :name => "index_distribution_packages_on_distribution_id_and_package_id"
 
   create_table "distributions", :force => true do |t|
     t.string   "origin"
     t.string   "label"
     t.string   "codename"
     t.string   "description"
-    t.string   "sign_with"
     t.integer  "repository_id"
+    t.string   "uuid"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
@@ -39,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
     t.string   "extension"
     t.string   "size"
     t.integer  "repository_id"
+    t.string   "uuid"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.string   "file"
@@ -46,19 +57,23 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
 
   add_index "packages", ["repository_id"], :name => "index_packages_on_repository_id"
 
-  create_table "references", :force => true do |t|
-    t.integer  "distribution_id"
-    t.integer  "package_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+  create_table "rails_admin_histories", :force => true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
-  add_index "references", ["distribution_id"], :name => "index_references_on_distribution_id"
-  add_index "references", ["package_id"], :name => "index_references_on_package_id"
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
   create_table "repositories", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
+    t.string   "uuid"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "type",       :null => false
@@ -66,6 +81,17 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
 
   add_index "repositories", ["type"], :name => "index_repositories_on_type"
   add_index "repositories", ["user_id"], :name => "index_repositories_on_user_id"
+
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
+  add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -85,7 +111,17 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
     t.string "name"
   end
 
+  create_table "user_roles", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "user_roles", ["user_id", "role_id"], :name => "index_user_roles_on_user_id_and_role_id"
+
   create_table "users", :force => true do |t|
+    t.string   "name",                   :default => "", :null => false
     t.string   "username",               :default => "", :null => false
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -102,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "authentication_token"
+    t.integer  "roles"
+    t.string   "uuid"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
   end
@@ -110,5 +148,6 @@ ActiveRecord::Schema.define(:version => 20121005051826) do
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end

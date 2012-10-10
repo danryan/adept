@@ -24,6 +24,16 @@ gem 'devise'
 gem 'strong_parameters'
 gem 'i18n-js', github: 'fnando/i18n-js', branch: 'rewrite'
 gem 'validators'
+gem 'authority'
+gem 'rolify'
+# gem 'rails_admin'
+# gem 'rails_admin_tag_list'
+# gem 'cancan'
+# gem 'cancan_strong_parameters', github: 'colinyoung/cancan_strong_parameters'
+
+# gem 'role_model'
+gem 'bitmask_attributes', github: 'joelmoss/bitmask_attributes'
+gem 'uuid'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
@@ -48,7 +58,7 @@ group :development do
   gem 'hpricot'
   gem 'ruby_parser'
   gem 'foreman'
-  gem 'bullet'
+  # gem 'bullet'
 end
 
 group :test, :development do
@@ -67,9 +77,9 @@ group :test, :development do
   gem 'tach'
   gem 'forgery'
   gem 'timecop'
-  gem 'ffaker'
+  gem 'faker'
   gem 'fuubar'
-  gem 'bullet'
+  # gem 'bullet'
 end
 
 group :test do

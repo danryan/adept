@@ -4,6 +4,9 @@ class CreateDistributionPackages < ActiveRecord::Migration
       t.references :distribution
       t.references :package
 
+      ## UUID
+      t.string :uuid
+      
       t.timestamps
     end
     add_index :distribution_packages, [ :distribution_id, :package_id ]

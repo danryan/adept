@@ -5,9 +5,12 @@ class CreateDistributions < ActiveRecord::Migration
       t.string :label
       t.string :codename
       t.string :description
-      t.string :sign_with
 
       t.references :repository
+     
+      ## UUID
+      t.string :uuid
+
       t.timestamps
     end
 
