@@ -50,6 +50,7 @@ gem 'jquery-ui-rails'
 gem 'select2-rails', '~> 3.2.1'
 gem 'underscore-rails'
 gem 'jquery-validation-rails', '~> 1.10.0'
+gem 'sugar-rails'
 
 group :development do
   gem 'pry-rails'

@@ -4,7 +4,7 @@ class RepositoriesController < ApplicationController
 
   before_filter :authenticate_user!
 
-  # authorize_actions_for Repository
+  authorize_actions_for Repository
 
   def index
     repositories = current_user.repositories.all
@@ -12,7 +12,7 @@ class RepositoriesController < ApplicationController
 
     @repository = RepositoryDecorator.decorate(current_user.repositories.build)
 
-    authorize_action_for Repository
+    # authorize_action_for Repository
     respond_with @repositories
   end
 

@@ -1,14 +1,23 @@
 class RepositoryAuthorizer < ApplicationAuthorizer
-  def self.creatable_by?(user)
-    user.user? || super(user)
-  end
 
   def self.readable_by?(user)
-    user.user?
+    user.has_role?(:user)
   end
 
+  def self.creatable_by?(user)
+    user.has_role?(:user)
+  end
+
+  def self.updatable_by?(user)
+    user.has_role?(:user)
+  end
+  
+  def self.deletable_by?(user)
+    user.has_role?(:user)
+  end
+  
   def readable_by?(user)
-    resource.user_id == user.id #|| super(user)
+    resource.user_id == user.id || super(user)
   end
 
   def readable_by?(user)

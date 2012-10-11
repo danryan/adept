@@ -13,9 +13,9 @@ describe RepositoryAuthorizer do
 
     it "should allow admins to perform all actions" do
       Repository.should be_creatable_by(admin)
-      resource.should be_readable_by(admin)
-      resource.should be_updatable_by(admin)
-      resource.should be_deletable_by(admin)
+      Repository.should be_readable_by(admin)
+      Repository.should be_updatable_by(admin)
+      Repository.should be_deletable_by(admin)
     end
 
     it "should allow any user to create a repository" do
