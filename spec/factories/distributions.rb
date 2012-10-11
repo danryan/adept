@@ -6,7 +6,6 @@ FactoryGirl.define do
     label "apt repo"
     architecture_list [ "amd64", "i386" ]
     description { "apt repo for #{codename}" }
-    sign_with "sysadmin@adept.io"
     component_list [ "main" ]
 
     factory :lucid do

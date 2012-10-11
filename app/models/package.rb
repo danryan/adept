@@ -1,10 +1,11 @@
 class Package < ActiveRecord::Base
-  include UniqueID
-  
+  include Identifiable
+  include Authorizable
+
   resourcify
-    
+
   belongs_to :repository
-  
+
   has_many :distribution_packages
   has_many :distributions, through: :distribution_packages
 
@@ -68,13 +69,13 @@ class Package < ActiveRecord::Base
   end
 
   # def source_or_package
-    # source || package
+  # source || package
   # end
 
   # %w( md5 sha1 sha256 ).each do |chk|
-    # define_method chk do
-      # checksums[chk]
-    # end
+  # define_method chk do
+  # checksums[chk]
+  # end
   # end
 
   def get_kind(extension)

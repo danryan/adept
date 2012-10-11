@@ -23,5 +23,6 @@
     #main.container
       = yield
 
-    = debug @repositories.inspect
+    = debug current_user.inspect
+    = debug params
     / # = render 'shared/data'

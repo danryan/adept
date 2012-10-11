@@ -13,7 +13,7 @@ class RepositoryDecorator < Draper::Base
   end
 
   def types
-    Repository::VALID_TYPES.map{|t| [t,t]}
+    Repository::VALID_TYPES.map{|t| [t.capitalize, t]}
   end
 
   private

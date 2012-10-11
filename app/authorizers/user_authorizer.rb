@@ -1,0 +1,3 @@
+class UserAuthorizer < ApplicationAuthorizer
+
+end

@@ -4,12 +4,10 @@ class DistributionsController < ApplicationController
 
   before_filter :authenticate_user!
   before_filter :repository
-  # load_and_authorize_resource :through => :repository, :find_by => :codename
-
-  # permit_params distribution: [ :description, :label, :origin,
-    # :component_list, :architecture_list ]
 
   def index
+    @distributions = DistributionDecorator.decorate(repository.distributions.all)
+
     respond_with repository, @distributions
   end
 

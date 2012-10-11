@@ -1,5 +1,6 @@
 class Distribution < ActiveRecord::Base
-  include UniqueID
+  include Identifiable
+  include Authorizable
 
   VALID_ARCHS = %w( amd64 i386 source )
 

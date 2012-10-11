@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
-  include Account
-  include UniqueID
-  
+  include Accountable
+  include Identifiable
+  include Authority::UserAbilities
+  include Authorizable
+
   rolify
 
   devise :database_authenticatable, :registerable, :confirmable,
@@ -14,9 +16,10 @@ class User < ActiveRecord::Base
   # bitmask :roles, as: [ :user, :admin ]
 
   has_many :repositories, dependent: :destroy
-  has_many :apt_repositories, class_name: "Apt"
-  has_many :yum_repositories, class_name: "Yum"
   
+  has_many :apt_repositories, class_name: 'Repository', conditions: { type: 'apt' }
+  has_many :yum_repositories, class_name: 'Repository', conditions: { type: 'yum' }
+
   has_many :packages, through: :repositories
   has_many :distributions, through: :repositories
   
