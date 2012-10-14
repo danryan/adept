@@ -1,3 +1,0 @@
-class DistributionAuthorizer < ApplicationAuthorizer
-
-end

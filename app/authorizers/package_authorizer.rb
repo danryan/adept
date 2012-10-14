@@ -1,3 +1,0 @@
-class PackageAuthorizer < ApplicationAuthorizer
-  
-end
