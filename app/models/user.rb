@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include Accountable
   include Identifiable
-  include Authority::UserAbilities
+  # include Authority::UserAbilities
   include Authorizable
 
   rolify

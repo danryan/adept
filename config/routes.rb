@@ -30,7 +30,7 @@ Adept::Application.routes.draw do
     post 'sign_up' => 'devise/registrations#create', as: :sign_up
   end
 
-  resources :repositories do
+  resources :repositories, shallow: true do
     resources :distributions
     resources :packages
   end

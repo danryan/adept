@@ -65,4 +65,4 @@ Authority.configure do |config|
   # Provide a logger object which responds to `.warn(message)`, unless your
   # security_violation_handler calls a different method.
   config.logger = Rails.logger
-end
+end if defined?(Authority)

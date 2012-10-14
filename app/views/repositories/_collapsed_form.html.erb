@@ -5,6 +5,7 @@
     <div class="form-inputs">
       <%= f.input :name, placeholder: 'Name', class: 'span3' %>
       <%= f.input :type, collection: @repository.types, class: 'span3', label: "Type" %>
+      <%= f.input :public %>
     </div>
     <div class='form-actions'>
       <%= link_to 'Cancel', '#new_repository_form', data: { toggle: 'collapse', 

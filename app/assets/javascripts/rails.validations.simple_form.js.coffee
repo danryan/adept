@@ -45,3 +45,21 @@ ClientSideValidations.formBuilders['SimpleForm::FormBuilder'] =
         wrapper_class_element.removeClass(settings.wrapper_error_class)
         errorElement = wrapper_tag_element.find("#{settings.error_tag}.#{settings.error_class}")
         errorElement.remove()
+        
+    foundation:
+      add: (element, settings, message) ->
+        console.log settings
+        if element.data('valid') != false
+          wrapper_class_element = element.closest(".#{settings.wrapper_class}")
+          wrapper_tag_element = element.closest(settings.wrapper_tag)
+          wrapper_class_element.addClass(settings.wrapper_error_class)
+          errorElement = $("<#{settings.error_tag}/>", { class: settings.error_class, text: message })
+          wrapper_tag_element.append(errorElement)
+        else
+          element.parent().find("#{settings.error_tag}.#{settings.error_class}").text(message)
+      remove: (element, settings) ->
+        wrapper_class_element = element.closest(".#{settings.wrapper_class}.#{settings.wrapper_error_class}")
+        wrapper_tag_element = element.closest(settings.wrapper_tag)
+        wrapper_class_element.removeClass(settings.wrapper_error_class)
+        errorElement = wrapper_tag_element.find("#{settings.error_tag}.#{settings.error_class}")
+        errorElement.remove()

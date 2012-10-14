@@ -3,7 +3,8 @@ class CreateRepositories < ActiveRecord::Migration
     create_table :repositories do |t|
       t.string :name
       t.references :user
-
+      t.boolean :public, default: false
+      
       ## UUID
       t.string :uuid
       

@@ -1,8 +1,15 @@
-%h1 
-  Your Repositories
-  %small
-    |
-    = link_to 'New Repository', '#', 'data-toggle' => 'collapse', 'data-target' => '#new_repository_form'
+= content_for :header do
+  %h1.panel Your Repositories
+
+= content_for :sidebar do
+  %ul.side-nav
+    %li= link_to "Repositories", repositories_path
+    %li= link_to "New Repository", new_repository_path
+    / %li= link_to "Distributions", distributions_path
+    / %li= link_to "Packages", packages_path
+
+%ul.nav.nav-pills.pull-right
+  %li= link_to 'New Repository', '#', data: { toggle: 'collapse', target: '#new_repository_form' }
 
 = render 'collapsed_form'
 
@@ -23,3 +30,4 @@
 
   %br
 
+  = paginate @repositories

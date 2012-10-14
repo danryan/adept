@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :repository do
-    name "test"
+    name { Faker::Lorem.characters(8) }
     type 'apt'
     
     factory :repository_with_distributions do

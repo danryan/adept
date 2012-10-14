@@ -34,7 +34,7 @@ group :backend do
   # guard :rspec, cli: "--color --drb -r rspec/instafail -f doc -f RSpec::Instafail", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
   guard :rspec, cli: "--color --drb -f doc", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
     watch('spec/spec_helper.rb') { "spec" }
-    watch('app/controllers/application_controller.rb') { "spec/controllers" }
+    # watch('app/controllers/application_controller.rb') { "spec/controllers" }
     watch('config/routes.rb') { "spec/routing" }
     watch(%r{^spec/support/(requests|controllers|mailers|models)_helpers\.rb}) do |m|
       "spec/#{m[1]}"

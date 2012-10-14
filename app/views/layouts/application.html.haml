@@ -1,28 +1,47 @@
 !!! 5
 
-%html(lang='en')
-  %head
-    %title Adept
-    %meta(charset='utf-8')
-    %meta(http-equiv='X-UA-Compatible' content='IE=edge,chrome=1')
-    %meta(name='viewport' content='initial-scale=1, maximum-scale=1, width=device-width')
-    = stylesheet_link_tag 'application', :media => 'all'
-    = javascript_include_tag 'application'
-    = csrf_meta_tags
+// paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+/ [if lt IE 7 ]> <html class=\"ie6\" lang=\"en\"> <![endif]
+/ [if IE 7 ]>    <html class=\"ie7\" lang=\"en\"> <![endif]
+/ [if IE 8 ]>    <html class=\"ie8\" lang=\"en\"> <![endif]
+/ [if IE 9 ]>    <html class=\"ie9\" lang=\"en\"> <![endif]
+/ [if (gt IE 9)|!(IE)]><!--> <html lang=\"en\"> <!--<![endif]
 
-  - controller_name = controller.controller_name
-  - action_name = controller.action_name
-  - resource_name = controller_name.classify
+- controller_name = controller.controller_name
+- action_name = controller.action_name
+- resource_name = controller_name.classify
+%html
+  %head
+    %meta(charset="utf-8")
+
+    / Uncomment to make IE8 render like IE7
+    / meta http-equiv="X-UA-Compatible" content="IE=7"
+    
+    / Set the viewport width to device width for mobile
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    %title= content_for?(:title) ? yield(:title) : "Untitled"
+
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "application"
+    = csrf_meta_tag
 
   %body(data-controller=controller_name data-action=action_name data-resource=resource_name)
     = render 'shared/header'
 
-    #flash.container
-      = flash_block
-
-    #main.container
-      = yield
-
-    = debug current_user.inspect
-    = debug params
-    / # = render 'shared/data'
+    .row
+      #flash
+        = flash_block
+    .row
+      %header
+        - if content_for?(:header)
+          = yield :header
+    .row
+      - if content_for?(:sidebar)
+        %aside.three.columns
+          = yield :sidebar
+        %article.nine.columns
+          = yield
+      - else
+        %article.twelve.columns
+          = yield

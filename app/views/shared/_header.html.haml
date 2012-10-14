@@ -1,15 +1,25 @@
-.navbar.navbar-fixed-top
-  .navbar-inner
-    .container
-      = link_to 'Adept', root_path, class: 'brand'
-      .nav-collapse.pull-right
-        %ul.nav
-          %li= link_to "Repositories", repositories_path
-          %li.divider-vertical
-          %li.dropdown
-            = link_to '#', id: 'settings-dropdown', class: 'dropdown-toggle', data: { toggle: 'dropdown' } do
-              %b.caret
-            %ul.dropdown-menu
-              = render 'users/menu/registration_items'
-              %li.divider
-              = render 'users/menu/login_items'
+%nav.top-bar.expanded
+  %ul
+    %li.name
+      %h1= link_to 'Adept', root_path
+    %li.toggle-topbar
+      %a{href: '#'}
+      
+  %section
+    %ul.left
+      %li= link_to 'Repositories', repositories_path
+
+  %section
+    %ul.right
+      %li.divider
+      %li= link_to 'Dashboard', root_path
+      %li.divider
+      %li= link_to 'Documentation', root_path
+      %li.divider
+      %li.has-dropdown
+        = link_to do
+          %i.settings-nav.icon-cog
+        %ul.dropdown
+          = render 'users/menu/registration_items'
+          %li.divider
+          = render 'users/menu/login_items'

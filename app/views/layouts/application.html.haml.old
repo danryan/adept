@@ -1,0 +1,37 @@
+!!! 5
+
+%html(lang='en')
+  %head
+    %title Adept
+    %meta(charset='utf-8')
+    %meta(http-equiv='X-UA-Compatible' content='IE=edge,chrome=1')
+    %meta(name='viewport' content='initial-scale=1, maximum-scale=1, width=device-width')
+    = stylesheet_link_tag 'application', :media => 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+
+  - controller_name = controller.controller_name
+  - action_name = controller.action_name
+  - resource_name = controller_name.classify
+
+  %body(data-controller=controller_name data-action=action_name data-resource=resource_name)
+    = render 'shared/header'
+
+    #flash.container
+      = flash_block
+
+    #main.container
+      - if content_for? :header
+        .well
+          = yield :header
+      .row
+        .span2
+          #sidebar
+            = yield :sidebar
+        .span10
+          #content
+            = yield
+
+    /= debug current_user.inspect
+    /= debug params
+    / # = render 'shared/data'

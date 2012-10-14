@@ -1,7 +1,7 @@
 class Repository < ActiveRecord::Base
   include Identifiable
   include Repoable
-  include Authorizable
+  # include Authorizable
 
   VALID_TYPES = %w[ apt yum ]
 
@@ -17,8 +17,8 @@ class Repository < ActiveRecord::Base
     format: { with: /^[A-Za-z\d_]+$/ },
     uniqueness: { scope: [ :user_id, :type ] }
 
-  # validates :type,
-  #   presence: true,
+  validates :type,
+    presence: true
   #   inclusion: { in: VALID_TYPES }
 
   def self.compressed_packages(packages)

@@ -13,12 +13,15 @@ module ControllerHelpers
 end
 
 module ControllerMacros
-  def login!
+  def stub_users
+    let(:user) { create(:user) }
+    let(:unauthorized_user) { create(:user) }
+  end
+  
+  def login!(options={})
     let(:user) { create(:user) }
 
-    before(:each) do
-      sign_in user
-    end
+    before(:each) { sign_in user }
 
     let(:repository) { create(:repository, user: user) }
     let(:current_user) { controller.current_user }

@@ -1,14 +1,19 @@
 require 'spec_helper'
 
 describe RepositoriesController do
-  login!
+  stub_users
+
+  let(:repository) { create(:repository, user: user) }
+  let(:new_repository) { build(:repository, user: user) }
+  let(:current_user) { controller.current_user }
+
+  before do
+    sign_in user
+  end
 
   def mock_repository(stubs={})
     @mock_repository ||= mock_model(Repository, stubs).as_null_object
   end
-
-  let(:repository) { create(:repository, user: user) }
-  let(:new_repository) { build(:repository, user: user) }
 
   describe "GET 'index'" do
     before do
@@ -29,13 +34,26 @@ describe RepositoriesController do
       get :show, id: repository.name
     end
 
-    it { should respond_with(:success) }
-    it { should render_template(:show) }
-    it { should assign_to(:repository).with(RepositoryDecorator.decorate(repository)) }
+    context 'authorized' do
+      it { should respond_with(:success) }
+      it { should render_template(:show) }
+      it { should assign_to(:repository).with(RepositoryDecorator.decorate(repository)) }
+    end
+
+    context 'unauthorized access' do
+      before do
+        current_user.stub_chain(:repositories, :find_by_name!).and_return(repository)
+        sign_in unauthorized_user
+        get :show, id: repository.name
+
+      end
+
+      it { should respond_with(:not_found) }
+    end
   end
 
   describe "GET 'new'" do
-    let(:repository) { Repository.new }
+    let(:repository) { RepositoryDecorator.decorate(Repository.new) }
 
     before do
       current_user.stub_chain(:repositories, :new).and_return(repository)
@@ -72,7 +90,7 @@ describe RepositoriesController do
       it { should respond_with :ok }
       it { should render_template :new }
       # it 'should set the flash to /could not be updated/' do
-        # flash[:alert].should =~ /could not be created/
+      # flash[:alert].should =~ /could not be created/
       # end
     end
 
@@ -118,7 +136,7 @@ describe RepositoriesController do
       it { should render_template :edit }
       it { should assign_to :repository }
       # it 'should set the flash to /could not be updated/' do
-        # flash[:alert].should =~ /could not be updated/
+      # flash[:alert].should =~ /could not be updated/
       # end
     end
   end

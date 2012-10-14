@@ -4,6 +4,7 @@ module ApplicationHelper
     flash.each do |type, message|
       type = :success if type == :notice
       type = :error   if type == :alert
+      type = ""       if type == :info
       output += flash_container(type, message)
     end
 
@@ -11,8 +12,8 @@ module ApplicationHelper
   end
 
   def flash_container(type, message)
-    raw(content_tag(:div, class: "alert alert-#{type.to_s}") do
-      content_tag(:a, raw("&times;"), class: 'close', data: {dismiss: 'alert'}) + message
+    raw(content_tag(:div, class: "alert-box #{type.to_s}") do
+      content_tag(:a, raw("&times;"), class: 'close') + message
     end)
   end
 

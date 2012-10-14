@@ -73,10 +73,11 @@ ActiveRecord::Schema.define(:version => 20121010205246) do
   create_table "repositories", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
+    t.boolean  "public",     :default => false
     t.string   "uuid"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "type",       :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "type",                          :null => false
   end
 
   add_index "repositories", ["type"], :name => "index_repositories_on_type"
