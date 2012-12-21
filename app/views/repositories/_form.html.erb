@@ -2,7 +2,7 @@
   <%= f.input :name, hint: "The name is used to create the URL for your repo." %>
   <%= f.input :type, label: 'Type', collection: repository.types,
       hint: "The type of repository you want to create." %>
-  <%= f.input :public, as: :radio, collection: [["Public", true], ["Private", false]], label: "Visibility", hint: "Private enforces authenticated access to your repo.\nPublic allows anyone to use it." %>
+  <%= f.input :public, as: :radio, collection: [["Public", true], ["Private", false]], label: "Visibility", hint: "Private enforces authenticated access to your repo.Public lets anyone use it." %>
   <div class="row">
     <div class="ten columns offset-by-two">
       <%= f.button :submit, class: 'button' %>

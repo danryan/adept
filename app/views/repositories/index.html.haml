@@ -1,22 +1,25 @@
 = content_for :header do
-  %h1.panel Your Repositories
+  %h1 Repositories
 
 = content_for :sidebar do
   %ul.side-nav
-    %li= link_to "Repositories", repositories_path
-    %li= link_to "New Repository", new_repository_path
+    %li= link_to "New Repository", new_repository_path, class: 'button'
     / %li= link_to "Distributions", distributions_path
     / %li= link_to "Packages", packages_path
 
 %ul.nav.nav-pills.pull-right
-  %li= link_to 'New Repository', '#', data: { toggle: 'collapse', target: '#new_repository_form' }
-
-= render 'collapsed_form'
 
 - if @repositories.empty?
   No repositories yet.
-  = link_to "Create your first one.", '#new_repository_form', 'data-toggle' => 'collapse'
+  = link_to "Create your first one.", new_repository_path
 - else
+  %dl.sub-nav
+    %dt Filter:
+    %dd APT
+    %dd Yum
+    %dd Public
+    %dd Private
+    
   %table.table.table-striped
     %tr
       %th Name
